@@ -1,208 +1,510 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>chandayang&#39;s blog</title>
-  <meta name="description" content="前端程序媛一枚" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="MobileOptimized" content="320" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" type="text/css" href="/css/component.css" />
-  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
-  <meta name="generator" content="chandayang's blog">
-  <script src="http://static.duoshuo.com/embed.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="I&apos;m coding">
+<meta property="og:type" content="website">
+<meta property="og:title" content="chandayang's blog">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="chandayang's blog">
+<meta property="og:description" content="I&apos;m coding">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="chandayang's blog">
+<meta name="twitter:description" content="I&apos;m coding">
+  
+    <link rel="alternative" href="/atom.xml" title="chandayang&#39;s blog" type="application/atom+xml">
   
   
+    <link rel="icon" href="/favicon.png">
   
-
-  
-
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
 </head>
+
 <body>
-<div class="container">
-    <div class="mp-pusher" id="mp-pusher">
-        <i id="scroll-up" class="fa fa-angle-up"></i>
-        <nav id="mp-menu" class="mp-menu">
-            <div class="mp-level">
-                <a data-pjax class="back-home" style="font-size: 20px" href="/"><h2 ><i class="fa fa-home"></i>
-                        Home</h2></a>
-                <ul class="first-level">
-                    <li>
-                        <a class="fa fa-archive" href="#"><i class="fa fa-angle-left">
-                            </i>&nbsp;&nbsp;Archive</a>
-                        <div class="mp-level page-list">
-                            <h2 ><i class="fa fa-archive"></i>
-                                Archive</h2>
-                            <a class="mp-back" href="#">back</a>
-                            <form id="search-form" action="">
-                                <input type="text" class="search search-archive" placeholder="Search.."/>
-                            </form>
-                            <ul>
-                                <div class="mp-scroll">
-                                
-                                <li class="search-archive-li mp-pjax">
-                                    <a href="/2016/03/08/js中的this/">js中的this</a>
-                                </li>
-                                
-                                <li class="search-archive-li mp-pjax">
-                                    <a href="/2016/03/07/闭包/">闭包</a>
-                                </li>
-                                
-                                <li class="search-archive-li mp-pjax">
-                                    <a href="/2016/02/27/hello-world/">Hello World</a>
-                                </li>
-                                
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-                    <li>
-                        <a class="fa fa-copy" href="#"><i class="fa fa-angle-left">
-                            </i>&nbsp;&nbsp;Categories</a>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="null" class="js-avatar">
+			
+		</a>
 
-                        <div class="mp-level page-list">
-                            <h2 ><i class="fa fa-copy"></i>
-                                Categories</h2>
-                            <a class="mp-back" href="#">back</a>
-                            <form id="search-form" action="">
-                                <input type="text" class="search search-category" placeholder="Search.."/>
-                            </form>
-                            <ul>
-                                <div class="mp-scroll">
-                                
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-                    <li>
-                        <a class="fa fa-tags" href="#"><i class="fa fa-angle-left">
-                            </i>&nbsp;&nbsp;Tags</a>
-                        <div class="mp-level page-list">
-                            <h2 ><i class="fa fa-tags"></i>
-                                Tags</h2>
-                            <a class="mp-back" href="#">back</a>
-                            <form id="search-form" action="">
-                                <input type="text" class="search search-tag" placeholder="Search.."/>
-                            </form>
-                            <ul>
-                                <div class="mp-scroll">
-                                
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-                    
-                    <li class="mp-pjax"><a class="fa fa-user" href="/about">&nbsp;&nbsp;&nbsp;About me</a></li>
-                    <li><a class="fa fa-github" href="#">&nbsp;&nbsp;&nbsp;Github</a></li>
+		<hgroup>
+		  <h1 class="header-author"><a href="/">chandayang</a></h1>
+		</hgroup>
 
-                </ul>
+		
+		<p class="header-subtitle">前端程序媛一枚</p>
+		
 
-            </div>
-        </nav>
-        <div id="pjax">
-            <div class="pjax-hidden" style="display: none">
-                
-                    <a  data-pjax href="/2016/03/08/js中的this/">js中的this</a>
-                
-                    <a  data-pjax href="/2016/03/07/闭包/">闭包</a>
-                
-                    <a  data-pjax href="/2016/02/27/hello-world/">Hello World</a>
-                
-                
-                
-                <a data-pjax class="fa fa-user" href="/about">&nbsp;&nbsp;&nbsp;About me</a>
-            </div>
-            <nav class="nexus">
-                <li  style="border-left: 1px solid #c6d0da;">
-                    <a id="trigger" href="#"><i class="fa fa-bars"></i></a>
-                </li>
-                <li ><a id="nexus-back" data-pjax href="/">chandayang&#39;s blog</a></li>
-                
-                <div id="nav-container">
-                    <div class="post-navbar" style="line-height: 63px;display:none">
-                        <li id="navbar-title"><a href="#">undefined</a></li>
-                        <li id="navbar-toc" style="border-left: none">
-                            <a style="padding-right: 15px">
-                                <span id="toc-content" >Introduction</span><i class="fa fa-chevron-down" ></i>
-                            </a>
-                            <div class="hidden-box">
-                                <ul id="toc"></ul>
-                            </div>
-                        </li>
-                    </div>
-                </div>
-                
-            </nav>
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>標籤</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>關於</li>
+						
+					</ul>
+				</div>
+			</div>
+		
 
-            <div class="scroller">
-            <div class="scroller-inner">
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+								<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
 
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我是谁，我从哪里来，我到哪里去？我就是我，是颜色不一样的吃货…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
 
-<!-- -->
-<!--<body class="home-template">-->
-<!---->
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">chandayang</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="null" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">chandayang</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">前端程序媛一枚</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
   
-<main class="content" role="main">
-
+    <article id="post-js中的this" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/08/js中的this/" class="article-date">
+  	<time datetime="2016-03-08T13:53:43.000Z" itemprop="datePublished">2016-03-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
     
-    <article class="post">
-
-        <header class="post-header">
-            <div class="tag-tile">
-                
-                <span class="fa fa-bookmark" style="float:right;color:#f39c12"></span>
-            </div>
-            <h1 class="post-title"><a data-pjax href="/2016/03/08/js中的this/">js中的this</a>
-            </h1>
-
-            <div class="post-meta">
-                Post on<span class="fa fa-clock-o"></span>
-                <time datetime="2016-03-08T13:53:43.000Z"
-                      itemprop="datePublished">2016-03-08</time>
-            </div>
-        </header>
-        <section class="post-excerpt">
-            <p>
-                
-                js中的this
-javascript中的this指向总是让人头昏脑涨，经过几天的梳理，我对this的认识有了一个较为深入一点的认识，虽然可能还不够全面。我认为确定this指向最关键的一定要认识到：this的指向在函数定义的时候是确定不了的，只有函数执行的时候才能确定this到底指向谁，实际上this的最终指向的是那个调用它的对象。我们从几个栗子来理解：eg1：     
-
-
-function a(){
-
-    var user = 
-                
-            </p>
-            
-        </section>
-    </article>
+      <input type="hidden" class="isFancy" />
     
-    <article class="post">
-
-        <header class="post-header">
-            <div class="tag-tile">
-                
-                <span class="fa fa-bookmark" style="float:right;color:#f39c12"></span>
-            </div>
-            <h1 class="post-title"><a data-pjax href="/2016/03/07/闭包/">闭包</a>
-            </h1>
-
-            <div class="post-meta">
-                Post on<span class="fa fa-clock-o"></span>
-                <time datetime="2016-03-07T08:33:50.000Z"
-                      itemprop="datePublished">2016-03-07</time>
-            </div>
-        </header>
-        <section class="post-excerpt">
-            <p>
-                
-                
-
     
+      <header class="article-header">
         
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/08/js中的this/">js中的this</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="js中的this"><a href="#js中的this" class="headerlink" title="js中的this"></a>js中的this</h2><hr>
+<p>javascript中的this指向总是让人头昏脑涨，经过几天的梳理，我对this的认识有了一个较为深入一点的认识，虽然可能还不够全面。我认为确定this指向最关键的一定要认识到：this的指向在函数定义的时候是确定不了的，只有函数执行的时候才能确定this到底指向谁，实际上this的最终指向的是那个调用它的对象。我们从几个栗子来理解：<br>eg1：     </p>
+<pre>
+
+<pre><code>function a(){
+
+    var user = &quot;chanda&quot;;
+
+    console.log(this.user); //undefined
+
+    console.log(this); //Window
+
+}
+
+a();
+</code></pre><p></p></pre><br>按照我们上面说的this最终指向的是调用它的对象，这里的函数a实际是被Window对象调用的，<br>证明如下;<p></p>
+<pre><code>function a(){
+
+    var user = &quot;chanda&quot;;
+
+    console.log(this.user); //undefined
+
+    console.log(this);　　//Window
+
+}
+
+window.a();
+</code></pre><p>再举个栗子<br>eg2:</p>
+<pre>
+
+<pre><code>   var o = {
+
+    user:&quot;chanda&quot;,
+
+    fn:function(){
+
+        console.log(this.user);  //chanda
+
+    }
+
+}
+
+o.fn();
+</code></pre><p></p></pre><br> 这里的this指向的是对象o，因为你调用这个fn是通过o.fn()执行的，那自然指向就是对象o，这个结论与开头一样：this的指向在函数创建的时候是决定不了的，在调用的时候才能决定，谁调用的就指向谁。<br> 再看栗子3<br>   eg3:  <p></p>
+<pre><code>  var o = {
+
+    user:&quot;chanda&quot;,
+
+    fn:function(){
+
+        console.log(this.user); //chanda
+
+    }
+
+}
+
+window.o.fn();
+</code></pre><p>这段代码和上面的那段代码几乎是一样的，但是这里的this为什么不是指向window，如果按照上面的理论，最终this指向的是调用它的对象，这里先说个而外话，window是js中的全局对象，我们创建的变量实际上是给window添加属性，所以这里可以用window点o对象。这里先不解释为什么上面的那段代码this为什么没有指向window，我们再来看一段代码。</p>
+<pre><code>  var o = {
+
+    a:10,
+
+    b:{
+
+        a:12,
+
+        fn:function(){
+
+            console.log(this.a); //12
+
+        }
+
+    }
+
+}
+
+o.b.fn();
+</code></pre><p>这里同样也是对象o点出来的，但是同样this并没有执行它，那你肯定会说我一开始说的那些不就都是错误的吗？其实也不是，只是一开始说的不准确，接下来我将补充一句话，我相信你就可以彻底的理解this的指向的问题。<br>    情况1：如果一个函数中有this，但是它没有被上一级的对象所调用，那么this指向的就是window，这里需要说明的是在js的严格版中this指向的不是window，但是我们这里不探讨严格版的问题，你想了解可以自行上网查找。<br>    情况2：如果一个函数中有this，这个函数有被上一级的对象所调用，那么this指向的就是上一级的对象。<br>    情况3：如果一个函数中有this，这个函数中包含多个对象，尽管这个函数是被最外层的对象所调用，this指向的也只是它上一级的对象，例子3可以证明</p>
+<pre><code>   var o = {
+
+    a:10,
+
+    b:{
+
+        // a:12,
+
+        fn:function(){
+
+            console.log(this.a); //undefined
+
+        }
+
+    }
+
+}
+o.b.fn();
+</code></pre><p>尽管对象b中没有属性a，这个this指向的也是对象b，因为this只会指向它的上一级对象，不管这个对象中有没有this要的东西。<br>    还有一种比较特殊的情况，栗子4：</p>
+<pre><code>  var o = {
+
+    a:10,
+
+    b:{
+
+        a:12,
+
+        fn:function(){
+
+            console.log(this.a); //undefined
+
+            console.log(this); //window
+
+        }
+
+    }
+
+}
+
+var j = o.b.fn;
+
+j();
+</code></pre><p>这里this指向的是window，是不是有些蒙了？其实是因为你没有理解一句话，这句话同样至关重要。<br>    this永远指向的是最后调用它的对象，也就是看它执行的时候是谁调用的，例子4中虽然函数fn是被对象b所引用，但是在将fn赋值给变量j的时候并没有执行所以最终指向的是window，这和例子3是不一样的，例子3是直接执行了fn。<br>    this讲来讲去其实就是那么一回事，只不过在不同的情况下指向的会有些不同，上面的总结每个地方都有些小错误，也不能说是错误，而是在不同环境下情况就会有不同，所以我也没有办法一次解释清楚，只能你慢慢地的去体会。<br>    构造函数版this：</p>
+<pre><code>   function Fn(){
+
+    this.user = &quot;chanda&quot;;
+
+}
+
+var a = new Fn();
+
+console.log(a.user); //chanda
+</code></pre><p> 这里之所以对象a可以点出函数Fn里面的user是因为new关键字可以改变this的指向，将这个this指向对象a，为什么我说a是对象，因为用了new关键字就是创建一个对象实例，理解这句话可以想想我们的例子3，我们这里用变量a创建了一个Fn的实例（相当于复制了一份Fn到对象a里面），此时仅仅只是创建，并没有执行，而调用这个函数Fn的是对象a，那么this指向的自然是对象a，那么为什么对象Fn中会有user，因为你已经复制了一份Fn函数到对象a中，用了new关键字就等同于复制了一份。<br> 当this碰到return时</p>
+<pre><code>  function fn()  
+
+{  
+
+    this.user = &apos;chanda&apos;;  
+
+    return {};  
+
+}
+
+var a = new fn;  
+
+console.log(a.user); //undefined
+</code></pre><p>  再举个栗子<br>        function fn()  </p>
+<pre><code>{  
+
+    this.user = &apos;chanda&apos;;  
+
+    return function(){};
+
+}
+
+var a = new fn;  
+
+console.log(a.user); //undefined
+
+    function fn()  
+
+{  
+
+    this.user = &apos;chanda&apos;;  
+
+    return 1;
+
+}
+
+var a = new fn;  
+
+console.log(a.user); //chanda
+
+   function fn()  
+
+{  
+
+    this.user = &apos;chanda&apos;;  
+
+    return undefined;
+
+}
+
+var a = new fn;  
+
+console.log(a.user); //chanda
+</code></pre><p>什么意思呢？如果返回值是一个对象，那么this指向的就是那个返回的对象，如果返回值不是一个对象那么this还是指向函数的实例。</p>
+<pre><code>   function fn() 
+   {  
+
+    this.user = &apos;chanda&apos;;  
+
+    return undefined;
+
+}
+
+var a = new fn;  
+
+console.log(a); //fn {user: &quot;chanda&quot;}
+</code></pre><p>还有一点就是虽然null也是对象，但是在这里this还是指向那个函数的实例，因为null比较特殊。</p>
+<pre><code>function fn()   {  
+
+    this.user = &apos;chanda&apos;;  
+
+    return null;
+
+}
+
+var a = new fn;  
+
+console.log(a.user); //chanda
+</code></pre><p>  知识点：1.在严格版中的默认的this不再是window，而是undefined。<br> 2.new操作符会改变函数this的指向问题</p>
+<pre><code>  function fn(){
+
+    this.num = 1;
+
+}
+
+var a = new fn();
+
+console.log(a.num); //1
+</code></pre><p>为什么this会指向a？首先new关键字会创建一个空的对象，然后会自动调用一个函数apply方法，将this指向这个空对象，这样的话函数内部的this就会被这个空的对象替代。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-闭包" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/07/闭包/" class="article-date">
+  	<time datetime="2016-03-07T08:33:50.000Z" itemprop="datePublished">2016-03-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/07/闭包/">闭包</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style>
     *{padding:0;margin:0;}
     body{
       
@@ -210,91 +512,402 @@ function a(){
       font-family: "Verdana";
       background-color:  #22c3aa;
       color: #333;
-       font-family: "Microsoft YaHei",sans-seri
-                
-            </p>
-            
-        </section>
-    </article>
-    
-    <article class="post">
-
-        <header class="post-header">
-            <div class="tag-tile">
-                
-                <span class="fa fa-bookmark" style="float:right;color:#f39c12"></span>
-            </div>
-            <h1 class="post-title"><a data-pjax href="/2016/02/27/hello-world/">Hello World</a>
-            </h1>
-
-            <div class="post-meta">
-                Post on<span class="fa fa-clock-o"></span>
-                <time datetime="2016-02-27T05:20:35.023Z"
-                      itemprop="datePublished">2016-02-27</time>
-            </div>
-        </header>
-        <section class="post-excerpt">
-            <p>
-                
-                Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick StartCreate a new p
-                
-            </p>
-            
-        </section>
-    </article>
-    
-    <nav class="pagination" role="pagination">
-        
-        <span class="page-number">Page 1 of 1</span>
-        
-    </nav>
-</main>
-
-
-  
-<footer class="site-footer">
-    
-    <div class="inner">
-        <section class="copyright"><a href="/"></a> &copy; chandayang's blog 2014</section>
-        <section class="poweredby">Published with <a target="_blank" href="http://hexo.io/">Hexo   </a> and Theme by <a target="_blank" href="https://github.com/yuche/hexo-theme-kael">Kael</a></section>
-    </div>
-</footer>
-</div>
-</div><!-- /scroller -->
-
-</div><!-- /pusher -->
-</div><!-- /container -->
-</div>
-
-<!-- Easter eggs -->
-
-<div class="egg animated">
-    <a id="close-button" href="#">X</a>
-    <div class="block">
-        <div class="loading">
-            <span class="ball1"></span>
-            <span class="ball2"></span>
-        </div>
-    </div>
-</div>
-  
-<script src="//cdn.staticfile.org/jquery/1.11.0/jquery.min.js"></script>
-<script>
-    if (!window.jQuery) {
-        var script = document.createElement('script');
-        script.src = "/js/jquery.min.js";
-        document.body.appendChild(script);
+       font-family: "Microsoft YaHei",sans-serif;
+       font-size: 1.1rem;
+       font-weight: 400;
+       overflow-x: hidden;
+       text-align: left;
+      line-height: 2.2rem;
     }
+    .wrap{
+      background-color: white;
+      margin:10px 20px 0 20px;  
+      text-indent:2em;
+      padding:5px 5px 5px 5px;  
+      position:relative;  
+      border-radius: 20px;
+    }
+    h2{
+      color:#F47171;
+      font-size:3rem;
+      
+    }
+    .space{
+      height:20px;
+    }
+    blockquote{
+      background-color:#F47171;
+      padding:0 0 0 20px;
+      height:40px;
+      width:300px;
+      border-radius: 3px;
+    }
+    .title{
+      background-color:  #71F4D8;
+      line-height: 40px;
+      height:40px;
+      font-size:14px;
+    }
+    pre{
+      text-align: left;
+      text-indent:0;
+    }
+    .closure{
+      text-indent: 0
+    }
+    .closure dl dt{
+      font-weight: bold;
+    }
+        </style>
+    </head>
+    <body>
+    <div class="wrap">
+       <h2>闭包的“恩怨情仇”</h2>
+       <div class="space"></div>
+      <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=2)" width="100%" color="#F47171" size="10">
+      <div class="space"></div>
+          <p class="preface">一直以来觉得“闭包”好麻烦，虽然很多时候无形之中都在用闭包，但是并没有很透彻的了解闭包到底是什么，也没有从根本上探究过“闭包”，作为一名“前端程序媛”，我认为这时十分危险的。所以，经过几天的学习，参考了一些博客、书籍，终于让我对闭包有了一个较为清晰的了解，这篇博客从函数的作用域讲起，然后直到闭包，自认为是众多资料中一个较为清晰的思路。
+          </p>
+        <div class="scope">     
+        <dl>
+          <dt><blockquote>
+            <h5 class="title">1.全局作用域</h5>
+            </blockquote>
+          </dt>
+          <dd>所有浏览器都支持 window 对象，它表示浏览器窗口，JavaScript 全局对象、函数以及变量均自动成为 window 对象的成员。所以，全局变量是 window 对象的属性，全局函数是 window 对象的方法，甚至 HTML DOM 的 document 也是 window 对象的属性之一。<br>
+          全局变量是JavaScript里生命周期（一个变量多长时间内保持一定的值）最长的变量，其将跨越整个程序，可以被程序中的任何函数方法访问。
+          在全局下声明的变量都会在window对象下，都在全局作用域中，我们可以通过window对象访问，也可以直接访问。          
+<pre>var name = "jeri";
+console.log(window.name); // 输出:jeri
+console.log(name); // 输出:jeri
+</pre>
+<pre>function fun() {
+name = "jeri";
+alert(name);
+}            
+console.log(name); // 输出:jeri 
+</pre>  
+          全局变量存在于整个函数的生命周期中，然而其在全局范围内很容易被篡改，我们在使 用全局变量时一定要小心，尽量不要使用全局变量。在函数内部声明变量没有使用var也会产生全局变量，会为我们造成一些混乱，比如变量覆盖等。所以，我们 在声明变量的任何时候最好都要带上var。
+          全局变量存在于程序的整个生命周期，但并不是通过其引用我们一定可以访问到全局变量。
+          </dd>
+          <blockquote>
+            <h5 class="title">2.词法作用域</h5>
+          </blockquote>
+          <dd>词法作用域：函数在定义它们的作用域里运行，而不是在执行它们的作用域里运行。也就是说词法作用域取决于源码，通过静态分析就能确定，因此词法作用域也叫做静态作用域。with和eval除外，所以只能说JS的作用域机制非常接近词法作用域（Lexicalscope）。词法作用域也可以理解为一个变量的可见性，及其文本表述的模拟值。
+<pre>
+ var name = "global"; 
+function fun() {
+var name = "jeri";
+return name;
+ }
+console.log(fun()); // 输出:jeri
+console.log(name); // 输出:global
+</pre>        
+          在通常情况下，变量的查询从最近接的绑定上下文开始，向外部逐渐扩展，直到查询到第一个绑定，一旦完成查找就结束搜索。就像上例，先查找离它最近的name="jeri"，查询完成后就结束了，将第一个获取的值作为变量的值。
+          </dd>
+          <blockquote>
+              <h5 class="title">3.动态作用域</h5>
+          </blockquote>
+          <dd>在编程实践中，最容易低估和过度滥用的概念就是动态作用域，因为很少有语言支持这种方式为绑定解析方案。
+动态作用域与词法作用域相对而言的，不同于词法作用域在定义时确定，动态作用域在执行时确定，其生存周期到代码片段执行为止。动态变量存在于动态作用域中，任何给定的绑定的值，在确定调用其函数之前，都是不可知的。
+在代码执行时，对应的作用域链常常是保持静态的。然而当遇到with语句、 call方法、apply方法和try-catch中的catch时，会改变作用域链的。以with为例，在遇到with语句时，会将传入的对象属性作为 局部变量来显示，使其便于访问，也就是说把一个新的对象添加到了作用域链的顶端，这样必然影响对局部标志符的解析。当with语句执行完毕后，会把作用域链恢复到原始状态。实例如下
+<pre>
+var name = "global";
+ // 使用with之前
+console.log(name); // 输出:global 
+with({name:"jeri"}){
+console.log(name); // 输出:jeri
+}
+// 使用with之后，作用域链恢复
+console.log(name); // 输出:global 
+</pre>  
+  <p>
+  在作用域链中有动态作用域时，this引用也会变得更加复杂，不再指向第一次创建时的上下文，而是由调用者确定。比如在使用apply或call方法时，传入它们的第一个参数就是被引用的对象。实例如下：  
+  </p>            
+<pre>
+function globalThis() {
+console.log(this);
+}             
+globalThis(); // 输出:Window {document: document,external: Object…}
+globalThis.call({name:"jeri"}); // 输出:Object {name: "jeri"}
+globalThis.apply({name:"jeri"},[]); // 输出:Object {name: "jeri"}
+</pre>
+          </dd>
+          <blockquote>
+            <h5 class="title">4.函数作用域</h5>
+          </blockquote>
+          <dd>
+          函数作用域，顾名思义就是在定义函数时候产生的作用域，这个作用域也可以称为局部作用域。和全局作用域相反，函数作用域一般只在函数的代码片段内可访问到，外部不能进行变量访问。在函数内部定义的变量存在于函数作用域中，其生命周期随着函数的执行结束而结束。实例如下：
+<pre>
+var name = "global";
+function fun() {
+var name = "jeri";
+console.log(name); // 输出:jeri
+with ({name:"with"}) {
+console.log(name); // 输出:with
+}
+console.log(name); // 输出:jeri
+}
+fun();
+// 不能访问函数作用域
+console.log(name); // 输出:global
+</pre>
+              
+            </dd></dl></div>
+          
+          <blockquote>
+            <h5 class="title">5.没有块级作用域</h5>
+          </blockquote>
+          <dd>
+            不同于其他编程语言，在JavaScript里并没有块级作用域，也就是说在for、if、while等语句内部的声明的变量与在外部声明是一样的，在这些语句外部也可以访问和修改这些变量的值。实例如下：
+<pre>
+function fun() {
+if(0 < 2) {
+var name = "jeri";
+}    
+console.log(name); // 输出:jeri
+name = "change";
+console.log(name); // 输出:change
+}
+fun();
+</pre>
+          </dd>
+          <blockquote>
+              <h5 class="title">6.作用域链</h5>
+          </blockquote>
+          <dd>JavaScript里一切皆为对象，包括函数。函数对象和其它对象一样，拥有可以通过代码访问的属性和一系列仅供JavaScript引擎访问的内部属性。其中一个内部属性是作用域，包含了函数被创建的作用域中对象的集合，称为函数的作用域链，它用来保证对执行环境有权访问的变量和函数的有序访问。
+          当一个函数创建后，它的作用域链会被创建此函数的作用域中可访问的数据对象填充。在全局作用域中创建的函数，其作用域链会自动成为全局作用域中的一员。而当函数执行时，其活动对象就会成为作用域链中的第一个对象（活 动对象：对象包含了函数的所有局部变量、命名参数、参数集合以及this）。在程序执行时，Javascript引擎会通过搜索上下文的作用域链来解析诸 如变量和函数名这样的标识符。其会从作用域链的最里面开始检索，按照由内到外的顺序，直到完成查找，一旦完成查找就结束搜索。如果没有查询到标识符声明，则报错。当函数执行结束，运行期上下文被销毁，活动对象也随之销毁。实例如下：
+<pre>
+var name = 'global';  
+function fun() {
+console.log(name); // output:global
+name = "change";
+// 函数内部可以修改全局变量
+console.log(name); // output:change
+// 先查询活动对象
+var age = "18";
+console.log(age); // output:18
+}
+fun();
+// 函数执行完毕，执行环境销毁
+console.log(age); // output:Uncaught ReferenceError: age is not defined             
+</pre>      
+          </dd>
+        
+          <blockquote>          
+            <h5 class="title">7.闭包</h5>
+          </blockquote>
+          <dl>
+            <dt>定义：
+              <dd>我所理解的闭包是指一个可以访问另一个函数作用域中的变量的函数</dd>
+            </dt>
+            <dt>闭包作用:
+              <dd>可以读取函数内部的变量；
+          让这些变量的值始终保持在内存中；
+          可以用于创建私有函数或方法。
+          保护命名空间
+          避免污染全局变量
+          </dd>
+            </dt>
+            <dt> 使用闭包的注意点:
+              <dd>1）  由于闭包会使得函数中的变量都被保存在内存中，内存消耗很大，所以不能滥用闭包，否则会造成网页的性能问题，在IE中可能导致内存泄露。解决方法是，在退出函数之前，将不使用的局部变量全部删除。
+           <br>
+          2）闭包会在父函数外部，改变父函数内部变量的值。所以，如果你把父函数当作对象（object）使用，把闭包当作它的公用方法（Public Method），把内部变量当作它的私有属性（private value），这时一定要小心，不要随便改变父函数内部变量的值。
+          </dd>
+            </dt>
+            <dt>
+                 闭包实例：
+                 <dd>
+<pre>
+var person=function() {
+var _name="default";
+return {
+getName:function() {
+return _name;
+},
+setName:function(newName) {
+_name=newName;
+}
+}
+}();
+alert(person._name);//undefined
+alert(person.getName());//default
+person.setName("dierbaby");
+alert(person.getName());//dierbaby
+
+
+function person() {
+var _name="default";
+this.getName=function() {
+return _name;
+};
+this.setName=function(newName) {
+_name=newName;
+};
+};
+var guokai=new person();
+alert(guokai._name);//undefined
+alert(guokai.getName());//default
+guokai.setName("guokai");
+alert(guokai.getName());//guokai
+
+
+for(var i=0; i<5;i++){ settimeout(function(){="" console.log(i)="" },1000);="" }="" 上面只是保存一个索引="" for(var="" i="0;" <="" 5;="" i++)="" {="" (function(j)="" settimeout(function()="" console.log(j);="" },="" 1000);="" })(i);="" 下面这个表示匿名函数立即执行，而且i是实参，j是形参="" pre="">                   
+
+                 </5;i++){></pre></dd>
+            </dt>
+          </dl>
+          <p></p>        
+        </div>
+    </body>
+</html>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/02/27/hello-world/" class="article-date">
+  	<time datetime="2016-02-27T05:20:35.023Z" itemprop="datePublished">2016-02-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/27/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+  
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 chandayang
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
 </script>
-<script type="text/javascript" src="/js/lib.js"></script>
-<script type="text/javascript" src="/js/main.js"></script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
 
 
 
 
 
 
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
 
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
 </body>
 </html>
