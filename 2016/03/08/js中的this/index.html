@@ -6,28 +6,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>js中的this | chandayang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="js中的this
-javascript中的this指向总是让人头昏脑涨，经过几天的梳理，我对this的认识有了一个较为深入一点的认识，虽然可能还不够全面。我认为确定this指向最关键的一定要认识到：this的指向在函数定义的时候是确定不了的，只有函数执行的时候才能确定this到底指向谁，实际上this的最终指向的是那个调用它的对象。我们从几个栗子来理解：eg1：     
-
-
-function a">
+  <meta name="description" content="javascript中的this指向总是让人头昏脑涨，经过几天的梳理，我对this的认识有了一个较为深入一点的认识，虽然可能还不够全面。我认为确定this指向最关键的一定要认识到：this的指向在函数定义的时候是确定不了的，只有函数执行的时候才能确定this到底指向谁，实际上this的最终指向的是那个调用它的对象。我们从几个栗子来理解：eg1：123456function a()&amp;#123;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="js中的this">
 <meta property="og:url" content="http://yoursite.com/2016/03/08/js中的this/index.html">
 <meta property="og:site_name" content="chandayang's blog">
-<meta property="og:description" content="js中的this
-javascript中的this指向总是让人头昏脑涨，经过几天的梳理，我对this的认识有了一个较为深入一点的认识，虽然可能还不够全面。我认为确定this指向最关键的一定要认识到：this的指向在函数定义的时候是确定不了的，只有函数执行的时候才能确定this到底指向谁，实际上this的最终指向的是那个调用它的对象。我们从几个栗子来理解：eg1：     
-
-
-function a">
-<meta property="og:updated_time" content="2016-03-08T14:33:51.436Z">
+<meta property="og:description" content="javascript中的this指向总是让人头昏脑涨，经过几天的梳理，我对this的认识有了一个较为深入一点的认识，虽然可能还不够全面。我认为确定this指向最关键的一定要认识到：this的指向在函数定义的时候是确定不了的，只有函数执行的时候才能确定this到底指向谁，实际上this的最终指向的是那个调用它的对象。我们从几个栗子来理解：eg1：123456function a()&amp;#123;">
+<meta property="og:updated_time" content="2016-03-12T13:02:31.184Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="js中的this">
-<meta name="twitter:description" content="js中的this
-javascript中的this指向总是让人头昏脑涨，经过几天的梳理，我对this的认识有了一个较为深入一点的认识，虽然可能还不够全面。我认为确定this指向最关键的一定要认识到：this的指向在函数定义的时候是确定不了的，只有函数执行的时候才能确定this到底指向谁，实际上this的最终指向的是那个调用它的对象。我们从几个栗子来理解：eg1：     
-
-
-function a">
+<meta name="twitter:description" content="javascript中的this指向总是让人头昏脑涨，经过几天的梳理，我对this的认识有了一个较为深入一点的认识，虽然可能还不够全面。我认为确定this指向最关键的一定要认识到：this的指向在函数定义的时候是确定不了的，只有函数执行的时候才能确定this到底指向谁，实际上this的最终指向的是那个调用它的对象。我们从几个栗子来理解：eg1：123456function a()&amp;#123;">
   
     <link rel="alternative" href="/atom.xml" title="chandayang&#39;s blog" type="application/atom+xml">
   
@@ -86,13 +74,13 @@ function a">
 				<div class="tips-box hide">
 					<div class="tips-arrow"></div>
 					<ul class="tips-inner">
-						<li>Menu</li>
-						<li>Tags</li>
+						<li>菜单</li>
+						<li>標籤</li>
 						
-						<li>Links</li>
+						<li>友情链接</li>
 						
 						
-						<li>About</li>
+						<li>關於</li>
 						
 					</ul>
 				</div>
@@ -246,226 +234,34 @@ function a">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="js中的this"><a href="#js中的this" class="headerlink" title="js中的this"></a>js中的this</h2><hr>
-<p>javascript中的this指向总是让人头昏脑涨，经过几天的梳理，我对this的认识有了一个较为深入一点的认识，虽然可能还不够全面。我认为确定this指向最关键的一定要认识到：this的指向在函数定义的时候是确定不了的，只有函数执行的时候才能确定this到底指向谁，实际上this的最终指向的是那个调用它的对象。我们从几个栗子来理解：<br>eg1：     </p>
-<pre>
-
-<pre><code>function a(){
-
-    var user = &quot;chanda&quot;;
-
-    console.log(this.user); //undefined
-
-    console.log(this); //Window
-
-}
-
-a();
-</code></pre><p></p></pre><br>按照我们上面说的this最终指向的是调用它的对象，这里的函数a实际是被Window对象调用的，<br>证明如下;<p></p>
-<pre><code>function a(){
-
-    var user = &quot;chanda&quot;;
-
-    console.log(this.user); //undefined
-
-    console.log(this);　　//Window
-
-}
-
-window.a();
-</code></pre><p>再举个栗子<br>eg2:</p>
-<pre>
-
-<pre><code>   var o = {
-
-    user:&quot;chanda&quot;,
-
-    fn:function(){
-
-        console.log(this.user);  //chanda
-
-    }
-
-}
-
-o.fn();
-</code></pre><p></p></pre><br> 这里的this指向的是对象o，因为你调用这个fn是通过o.fn()执行的，那自然指向就是对象o，这个结论与开头一样：this的指向在函数创建的时候是决定不了的，在调用的时候才能决定，谁调用的就指向谁。<br> 再看栗子3<br>   eg3:  <p></p>
-<pre><code>  var o = {
-
-    user:&quot;chanda&quot;,
-
-    fn:function(){
-
-        console.log(this.user); //chanda
-
-    }
-
-}
-
-window.o.fn();
-</code></pre><p>这段代码和上面的那段代码几乎是一样的，但是这里的this为什么不是指向window，如果按照上面的理论，最终this指向的是调用它的对象，这里先说个而外话，window是js中的全局对象，我们创建的变量实际上是给window添加属性，所以这里可以用window点o对象。这里先不解释为什么上面的那段代码this为什么没有指向window，我们再来看一段代码。</p>
-<pre><code>  var o = {
-
-    a:10,
-
-    b:{
-
-        a:12,
-
-        fn:function(){
-
-            console.log(this.a); //12
-
-        }
-
-    }
-
-}
-
-o.b.fn();
-</code></pre><p>这里同样也是对象o点出来的，但是同样this并没有执行它，那你肯定会说我一开始说的那些不就都是错误的吗？其实也不是，只是一开始说的不准确，接下来我将补充一句话，我相信你就可以彻底的理解this的指向的问题。<br>    情况1：如果一个函数中有this，但是它没有被上一级的对象所调用，那么this指向的就是window，这里需要说明的是在js的严格版中this指向的不是window，但是我们这里不探讨严格版的问题，你想了解可以自行上网查找。<br>    情况2：如果一个函数中有this，这个函数有被上一级的对象所调用，那么this指向的就是上一级的对象。<br>    情况3：如果一个函数中有this，这个函数中包含多个对象，尽管这个函数是被最外层的对象所调用，this指向的也只是它上一级的对象，例子3可以证明</p>
-<pre><code>   var o = {
-
-    a:10,
-
-    b:{
-
-        // a:12,
-
-        fn:function(){
-
-            console.log(this.a); //undefined
-
-        }
-
-    }
-
-}
-o.b.fn();
-</code></pre><p>尽管对象b中没有属性a，这个this指向的也是对象b，因为this只会指向它的上一级对象，不管这个对象中有没有this要的东西。<br>    还有一种比较特殊的情况，栗子4：</p>
-<pre><code>  var o = {
-
-    a:10,
-
-    b:{
-
-        a:12,
-
-        fn:function(){
-
-            console.log(this.a); //undefined
-
-            console.log(this); //window
-
-        }
-
-    }
-
-}
-
-var j = o.b.fn;
-
-j();
-</code></pre><p>这里this指向的是window，是不是有些蒙了？其实是因为你没有理解一句话，这句话同样至关重要。<br>    this永远指向的是最后调用它的对象，也就是看它执行的时候是谁调用的，例子4中虽然函数fn是被对象b所引用，但是在将fn赋值给变量j的时候并没有执行所以最终指向的是window，这和例子3是不一样的，例子3是直接执行了fn。<br>    this讲来讲去其实就是那么一回事，只不过在不同的情况下指向的会有些不同，上面的总结每个地方都有些小错误，也不能说是错误，而是在不同环境下情况就会有不同，所以我也没有办法一次解释清楚，只能你慢慢地的去体会。<br>    构造函数版this：</p>
-<pre><code>   function Fn(){
-
-    this.user = &quot;chanda&quot;;
-
-}
-
-var a = new Fn();
-
-console.log(a.user); //chanda
-</code></pre><p> 这里之所以对象a可以点出函数Fn里面的user是因为new关键字可以改变this的指向，将这个this指向对象a，为什么我说a是对象，因为用了new关键字就是创建一个对象实例，理解这句话可以想想我们的例子3，我们这里用变量a创建了一个Fn的实例（相当于复制了一份Fn到对象a里面），此时仅仅只是创建，并没有执行，而调用这个函数Fn的是对象a，那么this指向的自然是对象a，那么为什么对象Fn中会有user，因为你已经复制了一份Fn函数到对象a中，用了new关键字就等同于复制了一份。<br> 当this碰到return时</p>
-<pre><code>  function fn()  
-
-{  
-
-    this.user = &apos;chanda&apos;;  
-
-    return {};  
-
-}
-
-var a = new fn;  
-
-console.log(a.user); //undefined
-</code></pre><p>  再举个栗子<br>        function fn()  </p>
-<pre><code>{  
-
-    this.user = &apos;chanda&apos;;  
-
-    return function(){};
-
-}
-
-var a = new fn;  
-
-console.log(a.user); //undefined
-
-    function fn()  
-
-{  
-
-    this.user = &apos;chanda&apos;;  
-
-    return 1;
-
-}
-
-var a = new fn;  
-
-console.log(a.user); //chanda
-
-   function fn()  
-
-{  
-
-    this.user = &apos;chanda&apos;;  
-
-    return undefined;
-
-}
-
-var a = new fn;  
-
-console.log(a.user); //chanda
-</code></pre><p>什么意思呢？如果返回值是一个对象，那么this指向的就是那个返回的对象，如果返回值不是一个对象那么this还是指向函数的实例。</p>
-<pre><code>   function fn() 
-   {  
-
-    this.user = &apos;chanda&apos;;  
-
-    return undefined;
-
-}
-
-var a = new fn;  
-
-console.log(a); //fn {user: &quot;chanda&quot;}
-</code></pre><p>还有一点就是虽然null也是对象，但是在这里this还是指向那个函数的实例，因为null比较特殊。</p>
-<pre><code>function fn()   {  
-
-    this.user = &apos;chanda&apos;;  
-
-    return null;
-
-}
-
-var a = new fn;  
-
-console.log(a.user); //chanda
-</code></pre><p>  知识点：1.在严格版中的默认的this不再是window，而是undefined。<br> 2.new操作符会改变函数this的指向问题</p>
-<pre><code>  function fn(){
-
-    this.num = 1;
-
-}
-
-var a = new fn();
-
-console.log(a.num); //1
-</code></pre><p>为什么this会指向a？首先new关键字会创建一个空的对象，然后会自动调用一个函数apply方法，将this指向这个空对象，这样的话函数内部的this就会被这个空的对象替代。</p>
+        <p>javascript中的this指向总是让人头昏脑涨，经过几天的梳理，我对this的认识有了一个较为深入一点的认识，虽然可能还不够全面。我认为确定this指向最关键的一定要认识到：this的指向在函数定义的时候是确定不了的，只有函数执行的时候才能确定this到底指向谁，实际上this的最终指向的是那个调用它的对象。我们从几个栗子来理解：<br>eg1：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">       <span class="keyword">var</span> user = <span class="string">"chanda"</span>;</span><br><span class="line">       <span class="built_in">console</span>.log(<span class="keyword">this</span>.user); <span class="comment">//undefined</span></span><br><span class="line">       <span class="built_in">console</span>.log(<span class="keyword">this</span>); <span class="comment">//Window</span></span><br><span class="line">   &#125;</span><br><span class="line">   a();</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      <span class="keyword">var</span> user = <span class="string">"chanda"</span>;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="keyword">this</span>.user); <span class="comment">//undefined</span></span><br><span class="line">      <span class="built_in">console</span>.log(<span class="keyword">this</span>); <span class="comment">//Window</span></span><br><span class="line">  &#125;</span><br><span class="line">  a();</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">       <span class="keyword">var</span> user = <span class="string">"chanda"</span>;</span><br><span class="line">       <span class="built_in">console</span>.log(<span class="keyword">this</span>.user); <span class="comment">//undefined</span></span><br><span class="line">       <span class="built_in">console</span>.log(<span class="keyword">this</span>); <span class="comment">//Window</span></span><br><span class="line">   &#125;</span><br><span class="line">   a();</span><br></pre></td></tr></table></figure>
+<p>按照我们上面说的this最终指向的是调用它的对象，这里的函数a实际是被Window对象调用的，<br>证明如下;<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> user = <span class="string">"chanda"</span>;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.user); <span class="comment">//undefined</span></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>);　　<span class="comment">//Window</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">window</span>.a();</span><br></pre></td></tr></table></figure></p>
+<p>再举个栗子<br>eg2:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = &#123;</span><br><span class="line">        user:<span class="string">"chanda"</span>,</span><br><span class="line">        fn:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.user);  <span class="comment">//chanda</span></span><br><span class="line">        &#125;</span><br><span class="line">            &#125;</span><br><span class="line">    o.fn();</span><br></pre></td></tr></table></figure></p>
+<p> 这里的this指向的是对象o，因为你调用这个fn是通过o.fn()执行的，那自然指向就是对象o，这个结论与开头一样：this的指向在函数创建的时候是决定不了的，在调用的时候才能决定，谁调用的就指向谁。<br> 再看栗子3<br>   eg3:  </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = &#123;</span><br><span class="line">        user:<span class="string">"chanda"</span>,</span><br><span class="line">        fn:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.user); <span class="comment">//chanda</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">window</span>.o.fn();</span><br></pre></td></tr></table></figure>
+<p>这段代码和上面的那段代码几乎是一样的，但是这里的this为什么不是指向window，如果按照上面的理论，最终this指向的是调用它的对象，这里先说个而外话，window是js中的全局对象，我们创建的变量实际上是给window添加属性，所以这里可以用window点o对象。这里先不解释为什么上面的那段代码this为什么没有指向window，我们再来看一段代码。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = &#123;</span><br><span class="line">        a:<span class="number">10</span>,</span><br><span class="line">        b:&#123;</span><br><span class="line">            a:<span class="number">12</span>,</span><br><span class="line">            fn:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="keyword">this</span>.a); <span class="comment">//12</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    o.b.fn();</span><br></pre></td></tr></table></figure>
+<p>这里同样也是对象o点出来的，但是同样this并没有执行它，那你肯定会说我一开始说的那些不就都是错误的吗？其实也不是，只是一开始说的不准确，接下来我将补充一句话，我相信你就可以彻底的理解this的指向的问题。</p>
+<ul>
+<li>情况1：如果一个函数中有this，但是它没有被上一级的对象所调用，那么this指向的就是window，这里需要说明的是在js的严格版中this指向的不是window，但是我们这里不探讨严格版的问题，你想了解可以自行上网查找。</li>
+<li>情况2：如果一个函数中有this，这个函数有被上一级的对象所调用，那么this指向的就是上一级的对象。<br>情况3：如果一个函数中有this，这个函数中包含多个对象，尽管这个函数是被最外层的对象所调用，this指向的也只是它上一级的对象，例子3可以证明</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = &#123;</span><br><span class="line">       a:<span class="number">10</span>,</span><br><span class="line">       b:&#123;</span><br><span class="line">          <span class="comment">// a:12,</span></span><br><span class="line">           fn:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">               <span class="built_in">console</span>.log(<span class="keyword">this</span>.a); <span class="comment">//undefined</span></span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   o.b.fn();</span><br></pre></td></tr></table></figure>
+<p>尽管对象b中没有属性a，这个this指向的也是对象b，因为this只会指向它的上一级对象，不管这个对象中有没有this要的东西。<br>   还有一种比较特殊的情况，栗子4：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = &#123;</span><br><span class="line">       a:<span class="number">10</span>,</span><br><span class="line">       b:&#123;</span><br><span class="line">           a:<span class="number">12</span>,</span><br><span class="line">           fn:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">               <span class="built_in">console</span>.log(<span class="keyword">this</span>.a); <span class="comment">//undefined</span></span><br><span class="line">               <span class="built_in">console</span>.log(<span class="keyword">this</span>); <span class="comment">//window</span></span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">var</span> j = o.b.fn;</span><br><span class="line">   j();</span><br></pre></td></tr></table></figure></p>
+<p>   这里this指向的是window，是不是有些蒙了？其实是因为你没有理解一句话，这句话同样至关重要。this永远指向的是最后调用它的对象，也就是看它执行的时候是谁调用的，例子4中虽然函数fn是被对象b所引用，但是在将fn赋值给变量j的时候并没有执行所以最终指向的是window，这和例子3是不一样的，例子3是直接执行了fn。<br><code>构造函数版this</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.user = <span class="string">"chanda"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="keyword">new</span> Fn();</span><br><span class="line">    <span class="built_in">console</span>.log(a.user); <span class="comment">//chanda</span></span><br></pre></td></tr></table></figure>
+<p> 这里之所以对象a可以点出函数Fn里面的user是因为new关键字可以改变this的指向，将这个this指向对象a，为什么我说a是对象，因为用了new关键字就是创建一个对象实例，理解这句话可以想想我们的例子3，我们这里用变量a创建了一个Fn的实例（相当于复制了一份Fn到对象a里面），此时仅仅只是创建，并没有执行，而调用这个函数Fn的是对象a，那么this指向的自然是对象a，那么为什么对象Fn中会有user，因为你已经复制了一份Fn函数到对象a中，用了new关键字就等同于复制了一份。<br><code>当this碰到return时</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)  </span><br><span class="line">    </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.user = <span class="string">'chanda'</span>;  </span><br><span class="line">        <span class="keyword">return</span> &#123;&#125;;  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="keyword">new</span> fn;  </span><br><span class="line">    <span class="built_in">console</span>.log(a.user); <span class="comment">//undefined</span></span><br></pre></td></tr></table></figure></p>
+<p>  再举个栗子   </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)  </span><br><span class="line">    </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.user = <span class="string">'chanda'</span>;  </span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="keyword">new</span> fn;  </span><br><span class="line">    <span class="built_in">console</span>.log(a.user); <span class="comment">//undefined</span></span><br><span class="line">    </span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)  </span><br><span class="line">    </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.user = <span class="string">'chanda'</span>;  </span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="keyword">new</span> fn;  </span><br><span class="line">    <span class="built_in">console</span>.log(a.user); <span class="comment">//chanda</span></span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)  </span><br><span class="line">    </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.user = <span class="string">'chanda'</span>;  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">undefined</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="keyword">new</span> fn;  </span><br><span class="line">    <span class="built_in">console</span>.log(a.user); <span class="comment">//chanda</span></span><br></pre></td></tr></table></figure>
+<p>什么意思呢？如果返回值是一个对象，那么this指向的就是那个返回的对象，如果返回值不是一个对象那么this还是指向函数的实例。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span><br><span class="line">       </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.user = <span class="string">'chanda'</span>;  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">undefined</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="keyword">new</span> fn;  </span><br><span class="line">    <span class="built_in">console</span>.log(a); <span class="comment">//fn &#123;user: "chanda"&#125;</span></span><br></pre></td></tr></table></figure>
+<p>还有一点就是虽然null也是对象，但是在这里this还是指向那个函数的实例，因为null比较特殊。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)   </span>&#123;  </span><br><span class="line">       <span class="keyword">this</span>.user = <span class="string">'chanda'</span>;  </span><br><span class="line">       <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">var</span> a = <span class="keyword">new</span> fn;  </span><br><span class="line">   <span class="built_in">console</span>.log(a.user); <span class="comment">//chanda</span></span><br></pre></td></tr></table></figure>
+<p>  知识点：1.在严格版中的默认的this不再是window，而是undefined。<br> 2.new操作符会改变函数this的指向问题</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">       <span class="keyword">this</span>.num = <span class="number">1</span>;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">var</span> a = <span class="keyword">new</span> fn();</span><br><span class="line">   <span class="built_in">console</span>.log(a.num); <span class="comment">//1</span></span><br></pre></td></tr></table></figure>
+<p>为什么this会指向a？首先new关键字会创建一个空的对象，然后会自动调用一个函数apply方法，将this指向这个空对象，这样的话函数内部的this就会被这个空的对象替代。</p>
 
       
     </div>
@@ -479,14 +275,14 @@ console.log(a.num); //1
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          负margin
+          神奇的负margin
         
       </div>
     </a>
   
   
-    <a href="/2016/03/07/闭包/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">闭包</div>
+    <a href="/2016/03/07/作用域/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">作用域</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -499,7 +295,7 @@ console.log(a.num); //1
 <div class="share_jia">
 	<!-- JiaThis Button BEGIN -->
 	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<span class="jiathis_txt">分享到: &nbsp; </span>
 		<a class="jiathis_button_facebook"></a> 
     <a class="jiathis_button_twitter"></a>
     <a class="jiathis_button_plus"></a> 
