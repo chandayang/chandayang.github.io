@@ -202,6 +202,80 @@
 
       <div class="body-wrap">
   
+    <article id="post-js中的定位" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/13/js中的定位/" class="article-date">
+  	<time datetime="2016-03-13T08:58:19.000Z" itemprop="datePublished">2016-03-13</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/13/js中的定位/">js中的定位</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[TOC]</p>
+<h3 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h3><ul>
+<li>clientHeight和clientWidth用于描述元素内尺寸，是指元素内容+内边距 大小，不包括边框（IE下实际包括）、外边距、滚动条部分</li>
+<li>offsetHeight和offsetWidth用于描述元素外尺寸，是指 元素内容+内边距+边框，不包括外边距和滚动条部分</li>
+<li>clientTop和clientLeft返回内边距的边缘和边框的外边缘之间的水平和垂直距离，也就是左，上边框宽度</li>
+<li>offsetTop和offsetLeft表示该元素的左上角（边框外边缘）与已定位的父容器（offsetParent对象）左上角的距离</li>
+<li>offsetParent对象是指元素最近的定位（relative,absolute）祖先元素，递归上溯，如果没有祖先元素是定位的话，会返回null</li>
+</ul>
+<h3 id="视口大小"><a href="#视口大小" class="headerlink" title="视口大小"></a>视口大小</h3><p>客户区大小：元素内容及其内边距所占据的空间大小<br><img src="http://i260.photobucket.com/albums/ii7/ruanyf/blog/bg2009091402.gif" alt="enter image description here"><br>document元素的clientHeight和clientWidth属性，就代表了视口的大小。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getViewport</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">　　　　<span class="keyword">if</span> (<span class="built_in">document</span>.compatMode == <span class="string">"BackCompat"</span>)&#123;</span><br><span class="line">　　　　　　<span class="keyword">return</span> &#123;</span><br><span class="line">　　　　　　　　width: <span class="built_in">document</span>.body.clientWidth,</span><br><span class="line">　　　　　　　　height: <span class="built_in">document</span>.body.clientHeight</span><br><span class="line">　　　　　　&#125;</span><br><span class="line">　　　　&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">　　　　　　<span class="keyword">return</span> &#123;</span><br><span class="line">　　　　　　　　width: <span class="built_in">document</span>.documentElement.clientWidth,</span><br><span class="line">　　　　　　　　height: <span class="built_in">document</span>.documentElement.clientHeight</span><br><span class="line">　　　　　　&#125;</span><br><span class="line">　　　　&#125;</span><br><span class="line">　　&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的getViewport函数就可以返回浏览器窗口的高和宽。使用的时候，有三个地方需要注意：</p>
+<ul>
+<li>这个函数必须在页面加载完成后才能运行，否则document对象还没生成，浏览器会报错。；</li>
+<li>大多数情况下，都是document.documentElement.clientWidth返回正确值。但是，在IE6的quirks模式中，document.body.clientWidth返回正确的值，因此函数中加入了对文档模式的判断。</li>
+<li>clientWidth和clientHeight都是只读属性，不能对它们赋值<h3 id="包含滚动"><a href="#包含滚动" class="headerlink" title="包含滚动"></a>包含滚动</h3>滚动大小：包含滚动内容的元素的大小。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getPagearea</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">　　　　<span class="keyword">if</span> (<span class="built_in">document</span>.compatMode == <span class="string">"BackCompat"</span>)&#123;</span><br><span class="line">　　　　　　<span class="keyword">return</span> &#123;</span><br><span class="line">　　　　　　　　width: <span class="built_in">document</span>.body.scrollWidth,</span><br><span class="line">　　　　　　　　height: <span class="built_in">document</span>.body.scrollHeight</span><br><span class="line">　　　　　　&#125;</span><br><span class="line">　　　　&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">　　　　　　<span class="keyword">return</span> &#123;</span><br><span class="line">　　　　　　　　width: <span class="built_in">document</span>.documentElement.scrollWidth,</span><br><span class="line">　　　　　　　　height: <span class="built_in">document</span>.documentElement.scrollHeight</span><br><span class="line">　　　　　　&#125;</span><br><span class="line">　　　　&#125;</span><br><span class="line">　　&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>但这个函数有一个问题。如果网页内容能够在浏览器窗口中全部显示，不出现滚动条，那么网页的clientWidth和scrollWidth应该相等。但是实际上，不同浏览器有不同的处理，这两个值未必相等。所以，我们需要取它们之中较大的那个值，因此要对getPagearea()函数进行改写。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getPagearea</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">　　　　<span class="keyword">if</span> (<span class="built_in">document</span>.compatMode == <span class="string">"BackCompat"</span>)&#123;</span><br><span class="line">　　　　　　<span class="keyword">return</span> &#123;</span><br><span class="line">　　　　　　　　width: <span class="built_in">Math</span>.max(<span class="built_in">document</span>.body.scrollWidth,</span><br><span class="line">　　　　　　　　　　　　　　　　<span class="built_in">document</span>.body.clientWidth),</span><br><span class="line">　　　　　　　　height: <span class="built_in">Math</span>.max(<span class="built_in">document</span>.body.scrollHeight,</span><br><span class="line">　　　　　　　　　　　　　　　　<span class="built_in">document</span>.body.clientHeight)</span><br><span class="line">　　　　　　&#125;</span><br><span class="line">　　　　&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">　　　　　　<span class="keyword">return</span> &#123;</span><br><span class="line">　　　　　　width: <span class="built_in">Math</span>.max(<span class="built_in">document</span>.documentElement.scrollWidth,</span><br><span class="line">　　　　　　　　　　　　　　<span class="built_in">document</span>.documentElement.clientWidth),</span><br><span class="line">　　　　　height: <span class="built_in">Math</span>.max(<span class="built_in">document</span>.documentElement.scrollHeight,</span><br><span class="line">　　　　　　　　　　　　　　<span class="built_in">document</span>.documentElement.clientHeight)</span><br><span class="line">　　　　　　&#125;</span><br><span class="line">　　　　&#125;</span><br><span class="line">　　&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="绝对位置"><a href="#绝对位置" class="headerlink" title="绝对位置"></a>绝对位置</h3><p> 网页元素的绝对位置，指该元素的左上角相对于整张网页左上角的坐标。这个绝对位置要通过计算才能得到。首先，每个元素都有offsetTop和offsetLeft属性，表示该元素的左上角与父容器（offsetParent对象）左上角的距离。所以，只需要将这两个值进行累加，就可以得到该元素的绝对坐标。<br> <img src="http://i260.photobucket.com/albums/ii7/ruanyf/blog/bg2009091403.gif" alt="enter image description here"><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getElementLeft</span>(<span class="params">element</span>)</span>&#123;</span><br><span class="line">　　　　<span class="keyword">var</span> actualLeft = element.offsetLeft;</span><br><span class="line">　　　　<span class="keyword">var</span> current = element.offsetParent;</span><br><span class="line">　　　　<span class="keyword">while</span> (current !== <span class="literal">null</span>)&#123;</span><br><span class="line">　　　　　　actualLeft += current.offsetLeft;</span><br><span class="line">　　　　　　current = current.offsetParent;</span><br><span class="line">　　　　&#125;</span><br><span class="line">　　　　<span class="keyword">return</span> actualLeft;</span><br><span class="line">　　&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getElementTop</span>(<span class="params">element</span>)</span>&#123;</span><br><span class="line">　　　　<span class="keyword">var</span> actualTop = element.offsetTop;</span><br><span class="line">　　　　<span class="keyword">var</span> current = element.offsetParent;</span><br><span class="line">　　　　<span class="keyword">while</span> (current !== <span class="literal">null</span>)&#123;</span><br><span class="line">　　　　　　actualTop += current.offsetTop;</span><br><span class="line">　　　　　　current = current.offsetParent;</span><br><span class="line">　　　　&#125;</span><br><span class="line">　　　　<span class="keyword">return</span> actualTop;</span><br><span class="line">　　&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="相对位置"><a href="#相对位置" class="headerlink" title="相对位置"></a>相对位置</h3><p>网页元素的相对位置，指该元素左上角相对于浏览器窗口左上角的坐标。<br>有了绝对位置以后，获得相对位置就很容易了，只要将绝对坐标减去页面的滚动条滚动的距离就可以了。滚动条滚动的垂直距离，是document对象的scrollTop属性；滚动条滚动的水平距离是document对象的scrollLeft属性。<br><img src="http://i260.photobucket.com/albums/ii7/ruanyf/blog/bg2009091404.gif" alt="enter image description here"><br>但是有一种简单方法getBoundingClientRect()：它返回一个对象，其中包含了left、right、top、bottom四个属性，分别对应了该元素的左上角和右下角相对于浏览器窗口（viewport）左上角的距离。<br>所以，网页元素的相对位置就是<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="keyword">this</span>.getBoundingClientRect().left;</span><br><span class="line"><span class="keyword">var</span> y = <span class="keyword">this</span>.getBoundingClientRect().top;</span><br></pre></td></tr></table></figure></p>
+<p>再加上滚动距离，就可以得到绝对位置<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">varX=<span class="keyword">this</span>.getBoundingClientRect().left+<span class="built_in">Math</span>.max(<span class="built_in">document</span>.</span><br><span class="line">      documentElement.scrollLeft, <span class="built_in">document</span>.body.scrollLeft);</span><br><span class="line">varY=<span class="keyword">this</span>.getBoundingClientRect().top+<span class="built_in">Math</span>.max(<span class="built_in">document</span>.</span><br><span class="line">       documentElement.scrollTop,<span class="built_in">document</span>.body.scrollTop);</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>参考资料：<br><a href="http://www.ruanyifeng.com/blog/2009/09/find_element_s_position_using_javascript.html" target="_blank" rel="external">http://www.ruanyifeng.com/blog/2009/09/find_element_s_position_using_javascript.html</a><br><a href="http://www.cnblogs.com/dolphinX/archive/2012/11/19/2777756.html" target="_blank" rel="external">http://www.cnblogs.com/dolphinX/archive/2012/11/19/2777756.html</a><br><a href="http://www.cnblogs.com/myzhibie/p/4256164.html?utm_source=tuicool" target="_blank" rel="external">http://www.cnblogs.com/myzhibie/p/4256164.html?utm_source=tuicool</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-负margin" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
