@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>js对象 | chandayang&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一、工厂模式&amp;lt;!DOCTYPE html&amp;gt;  
+&amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt;  
+    &amp;lt;head&amp;gt;  
+        &amp;lt;meta charset=&amp;quot;utf-8&amp;quot;&amp;gt;  
+        &amp;lt;title&amp;gt;工厂模式&amp;lt;/title&amp;gt;  
+    &amp;lt;/head&amp;gt;  
+    &amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js对象">
+<meta property="og:url" content="http://yoursite.com/2016/04/01/js对象/index.html">
+<meta property="og:site_name" content="chandayang's blog">
+<meta property="og:description" content="一、工厂模式&amp;lt;!DOCTYPE html&amp;gt;  
+&amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt;  
+    &amp;lt;head&amp;gt;  
+        &amp;lt;meta charset=&amp;quot;utf-8&amp;quot;&amp;gt;  
+        &amp;lt;title&amp;gt;工厂模式&amp;lt;/title&amp;gt;  
+    &amp;lt;/head&amp;gt;  
+    &amp;">
+<meta property="og:updated_time" content="2016-10-04T05:42:18.198Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="js对象">
+<meta name="twitter:description" content="一、工厂模式&amp;lt;!DOCTYPE html&amp;gt;  
+&amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt;  
+    &amp;lt;head&amp;gt;  
+        &amp;lt;meta charset=&amp;quot;utf-8&amp;quot;&amp;gt;  
+        &amp;lt;title&amp;gt;工厂模式&amp;lt;/title&amp;gt;  
+    &amp;lt;/head&amp;gt;  
+    &amp;">
+  
+    <link rel="alternative" href="/atom.xml" title="chandayang&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="null" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">chandayang</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">前端程序媛一枚</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>標籤</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>關於</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+								<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/javascript/" style="font-size: 10px;">javascript</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我是谁，我从哪里来，我到哪里去？我就是我，是颜色不一样的吃货…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">chandayang</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="null" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">chandayang</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">前端程序媛一枚</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-js对象" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/04/01/js对象/" class="article-date">
+  	<time datetime="2016-04-01T05:14:18.000Z" itemprop="datePublished">2016-04-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      js对象
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一、工厂模式"><a href="#一、工厂模式" class="headerlink" title="一、工厂模式"></a>一、工厂模式</h1><pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;工厂模式&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+ function createPerson(name,age,job){  
+        var o=new Object();  
+        o.name=name;  
+        o.age=age;  
+        o.job=job;  
+        o.sayName=function(){  
+                console.log(this.name);  
+        };  
+        return o;  
+    }  
+    var person1=createPerson(&quot;liujie&quot;,13,&quot;student&quot;);  
+    var person2=createPerson(&quot;lisi&quot;,14,&quot;doctor&quot;);  
+    person1.sayName();  
+    person2.sayName();  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><p>可以无数次的调用这个函数，每次它都会返回一个包含3个属性和一个方法的对象。 工厂模式虽然解决了创建多个相似对象的问题，但却没有解决对象识别的问题即怎样知道一个对象的类型。</p>
+<h1 id="二、构造函数模式"><a href="#二、构造函数模式" class="headerlink" title="二、构造函数模式"></a>二、构造函数模式</h1><p> 构造函数模式与工厂模式区别：<br>    1、没有显示地创建对象<br>    2、直接将属性和方法赋给了this对象<br>    3、没有return语句</p>
+<p> 特别注意：构造函数始终都应该以一个大写字母开头，非构造函数应该以小写字母开头<br>构造函数本身也是函数，只不过用来创建对象而已</p>
+<pre><code> &lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;构造函数模式&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+    function Person(name,age,job){  
+        /*  
+        要创建Person的新实例，必须使用new操作符  
+        1、创建一个新对象  
+        2、将构造函数的作用域赋值给新对象(因此this就指向了这个新对象)  
+        3、执行这个构造函数中的代码，为这个新对象添加属性  
+        4、返回新对象  
+         */  
+        this.name=name;  
+        this.age=age;  
+        this.job=job;  
+        this.sayName=function(){  
+            console.log(this.name);  
+        };  
+    }  
+    var person1=new Person(&quot;liujie&quot;,13,&quot;student&quot;);  
+    var person2=new Person(&quot;lisi&quot;,15,&quot;doctor&quot;);  
+    person2.sayName();  
+    person1.sayName();  
+    //constructor属性指向构造函数  
+    console.log(person1.constructor==Person);//true  
+    console.log(person2.constructor==Person);//true  
+    //创建的所有对象既是Object的实例，也是Person的实例  
+    //之所以是Object的实例，是因为所有对象均继承自Object  
+    console.log(person1 instanceof Object);//true  
+    console.log(person1 instanceof Person);//true  
+    console.log(person2 instanceof Object);//true  
+    console.log(person2 instanceof Person);//true  
+
+    //构造函数问题：每个方法都要在每个实例上重新创建一遍。每个Person实例都有一个不同的Function实例  
+    console.log(person1.sayName==person2.sayName);//false  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+
+
+
+
+&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;构造函数模式2&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+    function Person(name,age,job){  
+        this.name=name;  
+        this.age=age;  
+        this.job=job;  
+        this.sayName=function(){  
+            console.log(this.name);  
+        };  
+    }  
+    //当作构造函数使用  
+    var person=new Person(&quot;liujie&quot;,14,&quot;student&quot;);  
+    person.sayName();//liujie  
+    //当作普通函数调用  
+    Person(&quot;lisi&quot;,16,&quot;doctor&quot;);  
+    window.sayName();//lis  
+    //在另一个对象的作用域中调用  
+    var o=new Object();  
+    Person.call(o,&quot;wangwu&quot;,15,&quot;master&quot;);//这里是在对象o的作用域中调用Person构造函数，调用后o就拥有了所有属性和sayName()方法  
+    o.sayName();//wangwu  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><h1 id="三、原型模式"><a href="#三、原型模式" class="headerlink" title="三、原型模式"></a>三、原型模式</h1><p>prototype就是原型对象<br>    使用原型对象的好处就是让所有实例共享它所包含的属性和方法<br>    每个函数都有一个prototype(原型)属性，这个属性是一个指针，指向一个对象，这个对象的用途是包含可以由特定类型的所有实例共享的属性和方法。</p>
+<pre><code>所有原型对象都会自动获得一个constructor属性，这个属性包含一个指向prototype属性所在函数的指针。
+这里Person.prototype.constructor指向Person
+
+当调用构造函数创建一个新实例后，该实例的内部将包含一个指针(内部属性)，指向构造函数的原型对象。换句话说，这个指针与构造函数没有关系。
+
+每当代码读取某个对象的某个属性时，都会执行一次搜索，目标是具有给定名字的属性。
+搜索首先从实例本身开始。如果实例中找到了具有给定名字的属性，则返回该属性的值；如果没有找到，则继续搜索指针指向的原型对象，在原型对象中查找具有指定名字的属性。
+
+
+
+&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;原型模式&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+    function Person(){  
+    }  
+    Person.prototype.name=&quot;liujie&quot;;  
+    Person.prototype.age=13;  
+    Person.prototype.job=&quot;student&quot;;  
+    Person.prototype.sayName=function(){  
+        console.log(this.name);  
+
+    };  
+    //这里person1和person2访问的是同一组属性和同一个sayName()方法  
+    var person1=new Person();  
+    person1.sayName();//liujie  
+    var person2=new Person();  
+    person2.sayName();//liujie  
+    console.log(person1.sayName==person2.sayName);//true  
+
+    console.log(Person.prototype.isPrototypeOf(person1));//true  
+    console.log(Person.prototype.isPrototypeOf(person2));//true  
+
+    //Object.getPrototypeOf()返回的对象就是原型对象  
+    console.log(Object.getPrototypeOf(person1)==Person.prototype);//true  
+    console.log(Object.getPrototypeOf(person2)==Person.prototype);//true  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+
+
+
+
+&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;原型模式2&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+        function Person(){  
+    }  
+    Person.prototype.name=&quot;liujie&quot;;  
+    Person.prototype.age=13;  
+    Person.prototype.job=&quot;student&quot;;  
+    Person.prototype.sayName=function(){  
+        console.log(this.name);  
+
+    };  
+    //这里person1和person2访问的是同一组属性和同一个sayName()方法  
+    var person1=new Person();  
+    person1.name=&quot;liujiejie&quot;;  
+    //这里说明了可以通过对象实例访问保存在原型中的值，但是不能通过对象实例重写原型中的值  
+    //如果对象实例中的属性与实例原型中的一个属性同名，实例中的属性会屏蔽原型中的那个属性  
+    //person1.name=null;//即使将这个属性设置为null,也只会在实例中设置这个属性，而不会恢复其指向原型的链接  
+    delete person1.name;//如果使用delete操作符则可以完全删除实例属性，从而让我们能够重新访问原型中的属性  
+    person1.sayName();//liujiejie  
+    var person2=new Person();  
+    person2.sayName();//liujie  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+
+
+
+
+&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;原型模式3&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+        function Person(){  
+    }  
+    Person.prototype.name=&quot;liujie&quot;;  
+    Person.prototype.age=13;  
+    Person.prototype.job=&quot;student&quot;;  
+    Person.prototype.sayName=function(){  
+        console.log(this.name);  
+
+    };  
+    //这里person1和person2访问的是同一组属性和同一个sayName()方法  
+    //使用hasOwnProperty()方法，当给定属性存在于实例中时，返回true  
+    var person1=new Person();  
+    var person2=new Person();  
+    console.log(person1.hasOwnProperty(&quot;name&quot;));//false  
+    person1.name=&quot;liujiejie&quot;;  
+    console.log(person1.name);//liujiejie   来自实例  
+    console.log(person1.hasOwnProperty(&quot;name&quot;));//true  
+    console.log(person2.name);//liujie  来自原型  
+    console.log(person2.hasOwnProperty(&quot;name&quot;));//false  
+    delete person1.name;  
+    console.log(person1.name);//liujie 来自原型  
+    console.log(person1.hasOwnProperty(&quot;name&quot;));  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><h1 id="四、原型的动态性"><a href="#四、原型的动态性" class="headerlink" title="四、原型的动态性"></a>四、原型的动态性</h1><pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;原型的动态性&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+        function Person(){  
+        }  
+        Person.prototype = {  
+            constructor: Person,  
+            name : &quot;Nicholas&quot;,  
+            age : 29,  
+            job : &quot;Software Engineer&quot;,  
+            sayName : function () {  
+                alert(this.name);  
+            }  
+        };  
+        var friend = new Person();//即使先创建了实例，后修改了原型也没有问题  
+        Person.prototype.sayHi = function(){//向原型中添加方法  
+            alert(&quot;hi&quot;);  
+        };  
+        friend.sayHi();   //&quot;hi&quot; – works! 先在实例中搜索sayHi方法，找不到的话再搜索原型  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+
+
+
+
+&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;原型的动态性2&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+        function Person(){  
+        }  
+
+        var friend = new Person();//调用构造函数创建实例，并向实例中添加一个指向最初原型的[[Prototype]]指针，而把原型重写修改后就等于切断了构造函数与最初原型之间的联系。  
+        Person.prototype = {  
+            //这里重写原型对象切断了现有的原型与任何之前已经存在的对象实例之间的联系，之前的实例引用的仍然是最初的原型  
+            constructor: Person,  
+            name : &quot;Nicholas&quot;,  
+            age : 29,  
+            job : &quot;Software Engineer&quot;,  
+            sayName : function () {  
+                alert(this.name);  
+            }  
+        };  
+        friend.sayName();   //error  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><h1 id="五、原型与in操作符"><a href="#五、原型与in操作符" class="headerlink" title="五、原型与in操作符"></a>五、原型与in操作符</h1><pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;原型与in操作符&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+    /*  
+    只要能够访问到给定属性，in操作符就返回true。不管属性存在于原型上还是实例上。  
+     */  
+        function Person(){  
+    }  
+    Person.prototype.name=&quot;liujie&quot;;  
+    Person.prototype.age=13;  
+    Person.prototype.job=&quot;student&quot;;  
+    Person.prototype.sayName=function(){  
+        console.log(this.name);  
+
+    };  
+    //这里person1和person2访问的是同一组属性和同一个sayName()方法  
+    //使用hasOwnProperty()方法，当给定属性存在于实例中时，返回true  
+    var person1=new Person();  
+    var person2=new Person();  
+    console.log(person1.hasOwnProperty(&quot;name&quot;));//false  
+    console.log(&quot;name&quot; in person1);//true  
+
+    person1.name=&quot;liujiejie&quot;;  
+    console.log(person1.name);//liujiejie   来自实例  
+    console.log(person1.hasOwnProperty(&quot;name&quot;));//true  
+    console.log(&quot;name&quot; in person1);//true  
+
+    console.log(person2.name);//liujie  来自原型  
+    console.log(person2.hasOwnProperty(&quot;name&quot;));//false  
+    console.log(&quot;name&quot; in person2);//true  
+
+    delete person1.name;  
+    console.log(person1.name);//liujie   来自原型  
+    console.log(person1.hasOwnProperty(&quot;name&quot;));//false  
+    console.log(&quot;name&quot; in person1);//true  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><p>在使用for-in循环时，返回的是所有能够通过对象访问的、可枚举的属性，其中既包括存在于实例中的属性，也包括存在于原型中的属性。屏蔽了原型中不可枚举属性的实例属性也会存在for-in循环中返回，因为根据规定，所有开发人员定义的属性都是可枚举的，但是在IE8及更早版本中例外。</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;  
+    var obj = {  
+        toString : function(){  
+            return &quot;myvalue&quot;;  
+        }  
+    }  
+    for(var prop in obj){  
+        if(prop == &quot;toString&quot;){  
+            alert(&quot;toString found&quot;);  
+        }  
+    }  
+    &lt;/script&gt;  
+</code></pre><p>要取得对象上所有可枚举的实例属性，可以使用ECMAScript5的Object.keys()方法。这个方法接收一个对象作为参数，返回一个包含所有可枚举属性的字符串数组</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;  
+    function Person(){}  
+    Person.prototype.name = &quot;lisi&quot;;  
+    Person.prototype.age = 23;  
+    Person.prototype.sayName = function(){  
+        alert(this.name+&quot;--&quot;+this.age);  
+    }  
+    var keys = Object.keys(Person.prototype);  
+    console.log(keys);//[&quot;name&quot;, &quot;age&quot;, &quot;sayName&quot;]  
+    var person1 = new Person();  
+    person1.name = &quot;wangwu&quot;;  
+    person1.age = 23;  
+    console.log(Object.keys(person1));//[&quot;name&quot;, &quot;age&quot;]  
+    &lt;/script&gt;  
+</code></pre><p>如果想要得到所有的实例属性，无论它是否可枚举，可以使用Object.getOwnPropertyNames()方法</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;  
+    function Person(){}  
+    Person.prototype.name = &quot;lisi&quot;;  
+    Person.prototype.age = 23;  
+    Person.prototype.sayName = function(){  
+        alert(this.name+&quot;--&quot;+this.age);  
+    }  
+    var keys2 = Object.getOwnPropertyNames(Person.prototype);  
+    console.log(keys2);//[&quot;constructor&quot;, &quot;name&quot;, &quot;age&quot;, &quot;sayName&quot;]  
+    &lt;/script&gt;  
+</code></pre><p>注意：这里的结果中包含了不可枚举的constructor属性。Object.getOwnPropertyNames()和Object.keys()方法都可以用来代替for-in循环</p>
+<h1 id="六、简单的原型语法"><a href="#六、简单的原型语法" class="headerlink" title="六、简单的原型语法"></a>六、简单的原型语法</h1><pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;更简单的原型语法&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+    /*  
+    这里将Person.prototype设置为等于一个对象字面量形式创建的新对象，最终结果相同  
+    但是有一个例外：constructor属性不再指向Person了  
+    因为，每创建一个函数，就会同时创建它的prototype对象，这个对象也会自动获得constructor属性  
+
+    而我们在这里本质上完全重写了默认的prototype对象，因此constructor属性也就变成了新对象的constructor属性(指向Object构造函数)，不再指向Person函数。  
+     */  
+        function Person(){  
+        }  
+        Person.prototype = {  
+            //constructor:Person,//显式地设置构造函数为Person  
+            //这样重设constructor属性会导致它的[[Enumerable]]特性被设置为true。默认情况下，原生的constructor属性是不可枚举的。因此，  
+            考虑使用Object.defineProperty()方法。  
+            name : &quot;Nicholas&quot;,  
+            age : 29,  
+            job: &quot;Software Engineer&quot;,  
+            sayName : function () {  
+                alert(this.name);  
+            }  
+        };  
+
+        var friend = new Person();  
+
+        alert(friend instanceof Object);  //true  
+        alert(friend instanceof Person);  //true  
+        alert(friend.constructor == Person);  //false  
+        alert(friend.constructor == Object);  //true  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre>
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/04/04/js继承学习/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          js继承学习
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/03/13/js中的定位/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">js中的定位</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="js对象" data-title="js对象" data-url="http://yoursite.com/2016/04/01/js对象/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 chandayang
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

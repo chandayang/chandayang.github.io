@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>ajax | chandayang&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Ajax：异步的JavaScript和xml
+Ajax 的核心是XMLHttpRequest对象，该对象为向服务器发送请求和解析服务器响应提供了流畅的接口。能够以异步方式从服务器取得更多信息，用户不需要刷新页面也能取得数据。
+同步和异步同步是指：发送方发出数据后，等接收方发回响应以后才发下一个数据包的通讯方式。异步是指：发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式。（简单点说">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ajax">
+<meta property="og:url" content="http://yoursite.com/2016/06/22/ajax/index.html">
+<meta property="og:site_name" content="chandayang's blog">
+<meta property="og:description" content="Ajax：异步的JavaScript和xml
+Ajax 的核心是XMLHttpRequest对象，该对象为向服务器发送请求和解析服务器响应提供了流畅的接口。能够以异步方式从服务器取得更多信息，用户不需要刷新页面也能取得数据。
+同步和异步同步是指：发送方发出数据后，等接收方发回响应以后才发下一个数据包的通讯方式。异步是指：发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式。（简单点说">
+<meta property="og:updated_time" content="2016-10-04T06:20:17.930Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ajax">
+<meta name="twitter:description" content="Ajax：异步的JavaScript和xml
+Ajax 的核心是XMLHttpRequest对象，该对象为向服务器发送请求和解析服务器响应提供了流畅的接口。能够以异步方式从服务器取得更多信息，用户不需要刷新页面也能取得数据。
+同步和异步同步是指：发送方发出数据后，等接收方发回响应以后才发下一个数据包的通讯方式。异步是指：发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式。（简单点说">
+  
+    <link rel="alternative" href="/atom.xml" title="chandayang&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="null" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">chandayang</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">前端程序媛一枚</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>標籤</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>關於</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+								<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/javascript/" style="font-size: 10px;">javascript</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我是谁，我从哪里来，我到哪里去？我就是我，是颜色不一样的吃货…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">chandayang</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="null" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">chandayang</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">前端程序媛一枚</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-ajax" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/06/22/ajax/" class="article-date">
+  	<time datetime="2016-06-22T06:18:48.000Z" itemprop="datePublished">2016-06-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ajax
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Ajax：异步的JavaScript和xml</p>
+<p>Ajax 的核心是XMLHttpRequest对象，该对象为向服务器发送请求和解析服务器响应提供了流畅的接口。能够以异步方式从服务器取得更多信息，用户不需要刷新页面也能取得数据。</p>
+<p>同步和异步<br>同步是指：发送方发出数据后，等接收方发回响应以后才发下一个数据包的通讯方式。<br>异步是指：发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式。<br>（简单点说：同步就是只能一件一件事的来做，而异步就是可以多件事同时进行）</p>
+<h1 id="一、创建ajax过程"><a href="#一、创建ajax过程" class="headerlink" title="一、创建ajax过程"></a>一、创建ajax过程</h1><h3 id="1-创建一个XMLHttpRequest对象"><a href="#1-创建一个XMLHttpRequest对象" class="headerlink" title="(1)创建一个XMLHttpRequest对象"></a>(1)创建一个XMLHttpRequest对象</h3><pre><code>function createXhr(){  
+            if(typeof XMLHttpRequest !=&quot;undefined&quot;){//主流浏览器(firefox、chrome、safari、opera、IE7以上)  
+                return new XMLHttpRequest();  
+            }else if(typeof ActiveXObject !=&quot;undefined&quot;){//IE浏览器创建  
+                return new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);  
+            }  
+        }  
+        var xhr=createXhr();  
+
+
+&lt;span style=&quot;white-space:pre&quot;&gt;&lt;/span&gt;
+        var xhr = null;  
+        //这里如果直接写XMLHttpRequest，如果浏览器不支持XMLHttpRequest，则会报错  
+        //window.XMLHttpRequest这样写，是将XMLHttpRequest当做window对象的属性来检查  
+        //如果不存在会返回undefined，不会出错  
+        if (window.XMLHttpRequest) {  
+            xhr = new XMLHttpRequest();  
+        } else {  
+            xhr = new ActiveXObject(&apos;Microsoft.XMLHTTP&apos;);  
+        }  
+</code></pre><h3 id="2-使用XMLHttpRequest对象的open方法创建一个新的HTTP请求"><a href="#2-使用XMLHttpRequest对象的open方法创建一个新的HTTP请求" class="headerlink" title="(2)使用XMLHttpRequest对象的open方法创建一个新的HTTP请求"></a>(2)使用XMLHttpRequest对象的open方法创建一个新的HTTP请求</h3><p>open方法接收三个参数：要发送请求的类型(get或者post)、请求的url、表示是否异步发送请求的布尔值<br>false表示同步请求，true表示异步请求<br>open方法并不会真正发送请求，而只是启动一个请求以备发送</p>
+<h3 id="3-设置响应HTTP请求状态变化的函数"><a href="#3-设置响应HTTP请求状态变化的函数" class="headerlink" title="(3)设置响应HTTP请求状态变化的函数."></a>(3)设置响应HTTP请求状态变化的函数.</h3><p>onreadystatechange()函数</p>
+<pre><code>xhr.onreadystatechange=function(){  
+            if(xhr.readyState==4){  
+                if(xhr.status&gt;=200&amp;&amp;xhr.status&lt;300||xhr.status==304){  
+                    console.log(xhr.responseText);  
+                }else{  
+                    console.log(&quot;请求失败：&quot;+xhr.status);  
+                }  
+            }  
+        }  
+</code></pre><h3 id="4-发送HTTP请求"><a href="#4-发送HTTP请求" class="headerlink" title="(4)发送HTTP请求."></a>(4)发送HTTP请求.</h3><p>send方法，该方法接收一个参数，及要作为请求主体发送的数据<br>调用send方法之后，请求就会被分派到服务器</p>
+<h3 id="5-获取异步调用返回的数据"><a href="#5-获取异步调用返回的数据" class="headerlink" title="(5)获取异步调用返回的数据."></a>(5)获取异步调用返回的数据.</h3><h3 id="6-使用JavaScript和DOM实现局部刷新"><a href="#6-使用JavaScript和DOM实现局部刷新" class="headerlink" title="(6)使用JavaScript和DOM实现局部刷新."></a>(6)使用JavaScript和DOM实现局部刷新.</h3><h1 id="二、get请求"><a href="#二、get请求" class="headerlink" title="二、get请求"></a>二、get请求</h1><pre><code>function createXHR(){//创建Ajax对象  
+        if(window.XMLHttpRequest){  
+            return new XMLHttpRequest();  
+        }else{  
+            return new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);  
+        }  
+    }  
+    var xhr=createXHR();  
+    xhr.onreadystatechange=function(){  
+        if(xhr.readyState==4){  
+            if((xhr.status&gt;=200&amp;&amp;xhr.status&lt;300)||xhr.status==304){  
+                console.log(xhr.responseText);  
+            }else{  
+                console.log(&quot;请求失败：&quot;+xhr.status);  
+            }  
+        }  
+    };  
+    xhr.open(&apos;get&apos;,&quot;example.txt&quot;,true);//true表示发送异步请求  
+    xhr.send(null);  
+</code></pre><h1 id="三、post请求"><a href="#三、post请求" class="headerlink" title="三、post请求"></a>三、post请求</h1><pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+&lt;head&gt;  
+    &lt;meta charset=&quot;UTF-8&quot;&gt;  
+    &lt;title&gt;Document&lt;/title&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+     function checkname(){  
+        //ajax方式用户名校验  
+        //1、获取用户名信息  
+        var nm=document.getElementById(&quot;username&quot;).value;  
+        //对传递的特殊字符串进行编码处理  tn&amp;age=34  
+        //同时对中文也会进行编码处理  
+        nm=encodeURIComponent(nm);  
+        //把用户名信息变为“请求字符串“  
+        var info=&quot;name=&quot;+nm+&quot;&amp;age=23&quot;;  
+        //2、ajax校验  
+        var xhr=new XMLHttpRequest();  
+        xhr.onreadystatechange=function(){  
+            if(xhr.readyState==4){  
+                alert(xhr.responseText);  
+            }  
+        }  
+        xhr.open(&apos;post&apos;,&apos;./05.php?addr=beijing&apos;);  
+        //post方式传递数据是模拟form表单传递数据  
+        //form表单的post格式数据是通过xml形式传递给服务器的  
+        xhr.setRequestHeader(&quot;content-type&quot;,&quot;application/x-www-form-urlencoded&quot;);  
+        xhr.send(info);  
+     }  
+    &lt;/script&gt;  
+&lt;/head&gt;  
+&lt;body&gt;  
+    &lt;h2&gt;ajax用户名的校验(post方式)&lt;/h2&gt;  
+   &lt;p&gt;用户名：&lt;input type=&quot;text&quot; id=&quot;username&quot; onblur=&quot;checkname()&quot;&gt;&lt;/p&gt;  
+   &lt;p&gt;手机号码：&lt;input type=&quot;text&quot; id=&quot;usertel&quot;&gt;&lt;/p&gt;  
+&lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><h1 id="四、GET和POST的区别，何时使用POST？"><a href="#四、GET和POST的区别，何时使用POST？" class="headerlink" title="四、GET和POST的区别，何时使用POST？"></a>四、GET和POST的区别，何时使用POST？</h1><p>get和post方式区别：</p>
+<ol>
+<li>GET请求会将参数跟在URL后进行传递，而POST请求则是作为HTTP消息的实体内容发送给服务器。在Ajax请求中，这种区别对用户是不可见的。</li>
+</ol>
+<p>2.GET方式对传输的数据大小有限制(通常不能大于2KB)，而使用POST方式传递的数据量要比GET方式大的多(理论上不受限制)</p>
+<p>3.GET方式请求的数据会被浏览器缓存起来，因此其他人就可以从浏览器的历史记录中读取到这些数据，例如账号和密码等。在某种情况下，GET方式会带来严重的安全性问题，而POST方式相对来说就比较安全。</p>
+<p>4.GET方式和POST方式传递的数据在服务器端的获取也不相同。在PHP中，GET方式的数据可以用$_GET[]获取，POST使用$_POST[]获取。两种方式都可以使用$_REQUEST[]来获取。</p>
+<p>GET：一般用于信息获取，使用URL传递参数，对所发送信息的数量也有限制，一般在2000个字符<br>POST：一般用于修改服务器上的资源，对所发送的信息没有限制。<br>GET方式需要使用Request.QueryString来取得变量的值，而POST方式通过Request.Form来获取变量的值，也就是说Get是通过地址栏来传值，而Post是通过提交表单来传值。</p>
+<p>然而，在以下情况中，请使用 POST 请求：<br>无法使用缓存文件（更新服务器上的文件或数据库）<br>向服务器发送大量数据（POST 没有数据量限制）<br>发送包含未知字符的用户输入时，POST 比 GET 更稳定也更可靠</p>
+<p>get请求需要注意的地方：</p>
+<p>1.缓存(将请求地址缓存起来，如果下一次请求地址不变，则下次请求的内容将读取缓存中的数据，而不会去请求服务器上的数据)<br>我们可以通过在url？后面连接一个随机数或者时间戳来解决这一问题<br>2.传递中文参数乱码问题，通过编码encodeURI来解决</p>
+<pre><code>&lt;body&gt;  
+&lt;input type=&quot;button&quot; name=&quot;&quot; value=&quot;提交数据&quot; id=&quot;btn&quot;&gt;  
+&lt;script type=&quot;text/javascript&quot;&gt;  
+var oBtn = document.getElementById(&quot;btn&quot;);  
+oBtn.onclick = function(){  
+    var xhr = new XMLHttpRequest();  
+    xhr.open(&apos;get&apos;,&apos;get_form.php?username=&apos;+encodeURI(&apos;李四&apos;)+&apos;&amp;age=123&amp;&apos;+new Date().getTime(),true);  
+    xhr.send();  
+    xhr.onreadystatechange = function(){  
+    if(xhr.readyState == 4){  
+        if(xhr.status == 200){  
+            alert(xhr.responseText);  
+        }  
+    }  
+}  
+}  
+&lt;/script&gt;  
+&lt;/body&gt;  
+</code></pre><p>get_form.php</p>
+<pre><code>&lt;?php  
+header(&quot;content-type:text/html;charset=utf-8&quot;);  
+$username = $_GET[&apos;username&apos;];  
+$age = $_GET[&apos;age&apos;];  
+echo &quot;欢迎哈哈哈,你的名字是:{$username},年龄是:{$age}&quot;;  
+ ?&gt;  
+</code></pre><p>post请求需要注意的地方：<br>1.post方式，数据放在send()里面作为参数传递<br>2.需要声明要发送的数据的类型<br>xhr.setRequestHeader(‘content-type’, ‘application/x-www-form-urlencoded’);<br>这里如果不设置Content-Type头部信息，那么发送给服务器的数据就不会出现在$_POST超级全局变量中。</p>
+<pre><code>&lt;body&gt;  
+&lt;input type=&quot;button&quot; name=&quot;&quot; value=&quot;提交数据&quot; id=&quot;btn&quot;&gt;  
+&lt;script type=&quot;text/javascript&quot;&gt;  
+var oBtn = document.getElementById(&quot;btn&quot;);  
+oBtn.onclick = function(){  
+    var xhr = new XMLHttpRequest();  
+    xhr.open(&apos;post&apos;,&apos;post_form.php&apos;,true);  
+    //post方式，数据放在send()里面作为参数传递  
+    xhr.setRequestHeader(&apos;content-type&apos;, &apos;application/x-www-form-urlencoded&apos;);//声明发送的数据类型  
+    xhr.send(&apos;username=李四&amp;age=300&apos;);  
+    //post方式没有缓存问题和编码问题  
+    xhr.onreadystatechange = function(){  
+    if(xhr.readyState == 4){  
+        if(xhr.status == 200){  
+            alert(xhr.responseText);  
+        }  
+    }  
+}  
+}  
+&lt;/script&gt;  
+&lt;/body&gt;  
+</code></pre><p>post_form.php</p>
+<pre><code>&lt;?php  
+header(&quot;content-type:text/html;charset=utf-8&quot;);  
+$username = $_POST[&apos;username&apos;];  
+$age = $_POST[&apos;age&apos;];  
+echo &quot;你的名字是:{$username},年龄是:{$age}&quot;;  
+ ?&gt;  
+</code></pre><h1 id="五、XMLHttpRequest对象"><a href="#五、XMLHttpRequest对象" class="headerlink" title="五、XMLHttpRequest对象"></a>五、XMLHttpRequest对象</h1><p>它的属性有：</p>
+<p>onreadystatechange  每次状态改变所触发事件的事件处理程序。<br>responseText     作为响应主体被返回的文本。<br>responseXML  将响应信息格式化为Xml Document对象并返回<br>status           响应的HTTP状态，比如常见的404（未找到）和200（已成功）<br>status Text      HTTP状态说明</p>
+<p>当XHR对象把一个HTTP请求发送到服务器的过程中会经历几个状态，直到请求被处理，然后才接收一个回应。readyState就是XHR请求的状态属性，它本身有5个属性值：</p>
+<p>0：未初始化。尚未调用open()方法</p>
+<p>1：启动。已经调用open()方法,但尚未调用send()方法</p>
+<p>2：发送。已经调用send()方法，但尚未接收到响应</p>
+<p>3：接收。已经接收到部分响应数据     </p>
+<p>4：完成。已经接收到全部响应数据，而且已经可以在客户端使用了</p>
+<p>只要readyState属性的值由一个值变成另一个值，都会触发一次onreadystatechange事件。通常，我们只对readyState值为4的阶段感兴趣，因为这时所有数据都已经就绪。</p>
+<p>不过，必须要在调用open()方法之前指定onreadystatechange事件处理程序才能确保跨浏览器兼容性<br>六、http状态码</p>
+<p>1字头：消息。这一类型的状态码，代表请求已被接受，需要继续处理。</p>
+<p>2字头：成功。这一类型的状态码，代表请求已成功被服务器接收、理解、并接受。</p>
+<p>3字头：重定向。这类状态码代表需要客户端采取进一步的操作才能完成请求。</p>
+<p>4字头：客户端错误。这类状态码代表了客户端看起来可能发生错误，妨碍了服务器的处理。</p>
+<p>5字头：服务器错误。这类状态码代表了服务器在处理请求的过程中有错误或者异常状态发生</p>
+<p>100 Continue</p>
+<p>  初始的请求已经接受，客户应当继续发送请求的其余部分</p>
+<p>101 Switching Protocols</p>
+<p>  服务器将遵从客户的请求转换到另外一种协议</p>
+<p>201 Created</p>
+<p>  服务器已经创建了文档，Location头给出了它的URL。</p>
+<p>202 Accepted</p>
+<p>  已经接受请求，但处理尚未完成。</p>
+<p>203 Non-Authoritative Information</p>
+<p>  文档已经正常地返回，但一些应答头可能不正确，因为使用的是文档的拷贝</p>
+<p>204 No Content</p>
+<p>  没有新文档，浏览器应该继续显示原来的文档。如果用户定期地刷新页面，而Servlet可以确定用户文档足够新，这个状态代码是很有用的</p>
+<p>205 Reset Content</p>
+<p>  没有新的内容，但浏览器应该重置它所显示的内容。用来强制浏览器清除表单输入内容</p>
+<p>206 Partial Content</p>
+<p>  客户发送了一个带有Range头的GET请求，服务器完成了它</p>
+<p>300 Multiple Choices</p>
+<p>  客户请求的文档可以在多个位置找到，这些位置已经在返回的文档内列出。如果服务器要提出优先选择，则应该在Location应答头指明。</p>
+<p>301 Moved Permanently</p>
+<p>  客户请求的文档在其他地方，新的URL在Location头中给出，浏览器应该自动地访问新的URL。</p>
+<p>302 Found</p>
+<p>  类似于301，但新的URL应该被视为临时性的替代，而不是永久性的。</p>
+<p>303 See Other</p>
+<p>  类似于301/302，不同之处在于，如果原来的请求是POST，Location头指定的重定向目标文档应该通过GET提取</p>
+<p>305 Use Proxy</p>
+<p>  客户请求的文档应该通过Location头所指明的代理服务器提取</p>
+<p>307 Temporary Redirect</p>
+<p>  和302（Found）相同。许多浏览器会错误地响应302应答进行重定向，即使原来的请求是 POST，即使它实际上只能在POST请求的应答是303时才能重定向。由于这个原因，HTTP 1.1新增了307，以便更加清除地区分几个状态代码： 当出现303应答时，浏览器可以跟随重定向的GET和POST请求；如果是307应答，则浏览器只能跟随对GET请求的重定向。</p>
+<p>400 Bad Request</p>
+<p>  请求出现语法错误。</p>
+<p>401 Unauthorized</p>
+<p>  客户试图未经授权访问受密码保护的页面。应答中会包含一个WWW-Authenticate头，浏览器据此显示用户名字/密码对话框，然后在填写合适的Authorization头后再次发出请求。</p>
+<p>403 Forbidden</p>
+<p>  资源不可用。</p>
+<p>405 Method Not Allowed</p>
+<p>  请求方法（GET、POST、HEAD、Delete、PUT、TRACE等）对指定的资源不适用。</p>
+<p>406 Not Acceptable</p>
+<p>  指定的资源已经找到，但它的MIME类型和客户在Accpet头中所指定的不兼容</p>
+<p>407 Proxy Authentication Required</p>
+<p>  类似于401，表示客户必须先经过代理服务器的授权。</p>
+<p>408 Request Timeout</p>
+<p>  在服务器许可的等待时间内，客户一直没有发出任何请求。客户可以在以后重复同一请求。</p>
+<p>409 Conflict</p>
+<p>  通常和PUT请求有关。由于请求和资源的当前状态相冲突，因此请求不能成功。</p>
+<p>410 Gone</p>
+<p> 所请求的文档已经不再可用，而且服务器不知道应该重定向到哪一个地址。它和404的不同在于，返回407表示文档永久地离开了指定的位置，而404表示由于未知的原因文档不可用。</p>
+<p>411 Length Required</p>
+<p>  服务器不能处理请求，除非客户发送一个Content-Length头。</p>
+<p>412 Precondition Failed</p>
+<p> 请求头中指定的一些前提条件失败</p>
+<p>413 Request Entity Too Large</p>
+<p>  目标文档的大小超过服务器当前愿意处理的大小。如果服务器认为自己能够稍后再处理该请求，则应该提供一个Retry-After头</p>
+<p>414 Request URI Too Long</p>
+<p>  URI太长</p>
+<p>416 Requested Range Not Satisfiable</p>
+<p>  服务器不能满足客户在请求中指定的Range头</p>
+<p>501 Not Implemented</p>
+<p>  服务器不支持实现请求所需要的功能。例如，客户发出了一个服务器不支持的PUT请求</p>
+<p>502 Bad Gateway</p>
+<p>  服务器作为网关或者代理时，为了完成请求访问下一个服务器，但该服务器返回了非法的应答</p>
+<p>503 Service Unavailable</p>
+<p>  服务器由于维护或者负载过重未能应答。例如，Servlet可能在数据库连接池已满的情况下返回503。服务器返回503时可以提供一个Retry-After头</p>
+<p>504 Gateway Timeout</p>
+<p>  由作为代理或网关的服务器使用，表示不能及时地从远程服务器获得应答</p>
+<p>505 HTTP Version Not Supported</p>
+<p>  服务器不支持请求中所指明的HTTP版本</p>
+<h1 id="七、HTTP头部信息"><a href="#七、HTTP头部信息" class="headerlink" title="七、HTTP头部信息"></a>七、HTTP头部信息</h1><p>Accept 表示浏览器能够处理的内容类型</p>
+<p>Accept-Encoding 表示浏览器能够处理的压缩编码</p>
+<p>Accept-Language 表示浏览器当前设置的语言</p>
+<p>Host 表示发出请求的页面所在的域</p>
+<p>Referer 表示发出请求页面的URI</p>
+<p>User-Agent 表示浏览器的用户代理字符串</p>
+<p>Connection  Keep-Alive   浏览器与服务器之间连接的类型</p>
+<h1 id="八、传统Ajax问题"><a href="#八、传统Ajax问题" class="headerlink" title="八、传统Ajax问题"></a>八、传统Ajax问题</h1><p>1、可以无刷新改变页面内容，但无法改变页面URL</p>
+<p>2、为了更好的可访问性，内容发生改变后，通常改变URL的hash</p>
+<p>3、hash的方式不能很好的处理浏览器的前进、后退等问题，进而浏览器引入了onhashchange的接口，不支持的浏览器只能定时去判断hash是否改变。但这种方式对搜索引擎很不友好，twitter和google约定了使用#!xxx（即hash第一个字符为!），搜索引擎进行支持。</p>
+<h1 id="九、Ajax模拟登陆"><a href="#九、Ajax模拟登陆" class="headerlink" title="九、Ajax模拟登陆"></a>九、Ajax模拟登陆</h1><pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html&gt;  
+&lt;head&gt;  
+    &lt;meta charset=&quot;utf-8&quot;&gt;  
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;  
+    &lt;title&gt;ajax登录&lt;/title&gt;  
+    &lt;style type=&quot;text/css&quot;&gt;  
+    *{  
+        margin: 0;  
+        padding: 0;  
+        list-style: none;  
+        text-decoration: none;  
+        outline: none;  
+    }  
+    a{  
+        display: inline-block;  
+        position: absolute;  
+        top: 10px;  
+        right: 30px;  
+    }  
+    .box{  
+        display: none;  
+        width: 300px;  
+        height: 300px;  
+        position: absolute;  
+        top:50%;  
+        left:50%;  
+        margin-top: -150px;  
+        margin-left: -150px;  
+        /*border:1px solid #ccc;*/  
+        padding: 10px;  
+        z-index: 9999;  
+        background: #fff;  
+    }  
+    .list{  
+        margin-top: 15px;  
+    }  
+    .list label{  
+        display: inline-block;  
+        text-align: right;   
+        width: 80px;  
+    }  
+    .input_list{  
+        display: inline-block;  
+        margin-left: 10px;  
+    }  
+    .input_list .sub{  
+        padding: 5px;  
+        width: 80px;  
+        cursor: pointer;  
+    }  
+    .mask{  
+        display: none;  
+        position: absolute;  
+        width: 100%;  
+        height: 100%;  
+        background: rgba(0,0,0,.5);  
+        z-index: 999;  
+    }  
+    &lt;/style&gt;  
+&lt;/head&gt;  
+&lt;body&gt;  
+&lt;a href=&quot;javascript:;&quot; id=&quot;link&quot;&gt;登录&lt;/a&gt;  
+&lt;div class=&quot;box&quot;&gt;  
+    &lt;form action=&quot;#&quot;&gt;  
+        &lt;div class=&quot;list&quot;&gt;  
+        &lt;label&gt;姓名:&lt;/label&gt;  
+        &lt;div class=&quot;input_list&quot;&gt;  
+            &lt;input type=&quot;text&quot; name=&quot;username&quot; id=&quot;username&quot; placeholder=&quot;请输入你的姓名&quot;&gt;  
+        &lt;/div&gt;  
+        &lt;/div&gt;  
+        &lt;div class=&quot;list&quot;&gt;  
+        &lt;label&gt;密码:&lt;/label&gt;  
+        &lt;div class=&quot;input_list&quot;&gt;  
+            &lt;input type=&quot;password&quot; name=&quot;pwd&quot; id=&quot;pwd&quot; placeholder=&quot;请输入你的密码&quot;&gt;  
+        &lt;/div&gt;  
+        &lt;/div&gt;  
+        &lt;div class=&quot;list&quot;&gt;  
+        &lt;label&gt;家庭住址:&lt;/label&gt;  
+        &lt;div class=&quot;input_list&quot;&gt;  
+            &lt;input type=&quot;text&quot; name=&quot;address&quot; id=&quot;address&quot; placeholder=&quot;请输入你的住址&quot;&gt;  
+        &lt;/div&gt;  
+        &lt;/div&gt;  
+        &lt;div class=&quot;list&quot;&gt;  
+            &lt;label&gt;&lt;/label&gt;  
+            &lt;div class=&quot;input_list&quot;&gt;  
+                &lt;input type=&quot;button&quot; class=&quot;sub&quot; value=&quot;提交&quot; id=&quot;subBtn&quot;&gt;  
+            &lt;/div&gt;  
+        &lt;/div&gt;  
+    &lt;/form&gt;  
+&lt;/div&gt;  
+&lt;div class=&quot;mask&quot;&gt;&lt;/div&gt;  
+&lt;script type=&quot;text/javascript&quot; src=&quot;jquery.js&quot;&gt;&lt;/script&gt;  
+&lt;script type=&quot;text/javascript&quot;&gt;  
+$(function(){  
+    $(&quot;#link&quot;).click(function(){  
+        $(&quot;.box&quot;).show();  
+        $(&quot;.mask&quot;).show();  
+    });  
+    $(&quot;#subBtn&quot;).click(function(){  
+        var url = &quot;http://localhost/mywork/ajax_login/test.php&quot;;  
+        var obj = {  
+        username : $(&quot;#username&quot;).val(),  
+        password : $(&quot;#pwd&quot;).val()  
+          };  
+        // console.log(obj);  
+        $(&quot;.box&quot;).hide();  
+        $(&quot;.mask&quot;).hide();  
+        $.post(url,obj,function(data){  
+            if(data == &quot;yes&quot;){  
+                alert(&quot;登录成功&quot;);  
+                $(&quot;#link&quot;).html(&quot;欢迎 &quot;+$(&apos;#username&apos;).val()+&quot; 登陆&quot;);  
+            }else{  
+                alert(&quot;登录失败&quot;);  
+            }  
+        });  
+    });  
+});  
+&lt;/script&gt;  
+&lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><p>test.php</p>
+<pre><code>&lt;?php  
+$username=$_POST[&apos;username&apos;];  
+$password=$_POST[&apos;password&apos;];  
+if($username == &apos;admin&apos; &amp;&amp; $password == &apos;123&apos;){  
+    echo &quot;yes&quot;;  
+}else{  
+    echo &quot;no&quot;;  
+}  
+?&gt;  
+</code></pre>
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/06/14/跨域总结/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">跨域总结</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="ajax" data-title="ajax" data-url="http://yoursite.com/2016/06/22/ajax/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 chandayang
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

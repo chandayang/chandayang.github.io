@@ -116,7 +116,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						
+						<a href="/tags/javascript/" style="font-size: 10px;">javascript</a>
 					</div>
 				</section>
 				
@@ -202,11 +202,11 @@
 
       <div class="body-wrap">
   
-    <article id="post-js继承学习" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-ajax" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/10/04/js继承学习/" class="article-date">
-  	<time datetime="2016-10-04T04:57:10.315Z" itemprop="datePublished">2016-10-04</time>
+      <a href="/2016/06/22/ajax/" class="article-date">
+  	<time datetime="2016-06-22T06:18:48.000Z" itemprop="datePublished">2016-06-22</time>
 </a>
     </div>
   
@@ -215,13 +215,1411 @@
       <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/22/ajax/">ajax</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Ajax：异步的JavaScript和xml</p>
+<p>Ajax 的核心是XMLHttpRequest对象，该对象为向服务器发送请求和解析服务器响应提供了流畅的接口。能够以异步方式从服务器取得更多信息，用户不需要刷新页面也能取得数据。</p>
+<p>同步和异步<br>同步是指：发送方发出数据后，等接收方发回响应以后才发下一个数据包的通讯方式。<br>异步是指：发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式。<br>（简单点说：同步就是只能一件一件事的来做，而异步就是可以多件事同时进行）</p>
+<h1 id="一、创建ajax过程"><a href="#一、创建ajax过程" class="headerlink" title="一、创建ajax过程"></a>一、创建ajax过程</h1><h3 id="1-创建一个XMLHttpRequest对象"><a href="#1-创建一个XMLHttpRequest对象" class="headerlink" title="(1)创建一个XMLHttpRequest对象"></a>(1)创建一个XMLHttpRequest对象</h3><pre><code>function createXhr(){  
+            if(typeof XMLHttpRequest !=&quot;undefined&quot;){//主流浏览器(firefox、chrome、safari、opera、IE7以上)  
+                return new XMLHttpRequest();  
+            }else if(typeof ActiveXObject !=&quot;undefined&quot;){//IE浏览器创建  
+                return new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);  
+            }  
+        }  
+        var xhr=createXhr();  
+
+
+&lt;span style=&quot;white-space:pre&quot;&gt;&lt;/span&gt;
+        var xhr = null;  
+        //这里如果直接写XMLHttpRequest，如果浏览器不支持XMLHttpRequest，则会报错  
+        //window.XMLHttpRequest这样写，是将XMLHttpRequest当做window对象的属性来检查  
+        //如果不存在会返回undefined，不会出错  
+        if (window.XMLHttpRequest) {  
+            xhr = new XMLHttpRequest();  
+        } else {  
+            xhr = new ActiveXObject(&apos;Microsoft.XMLHTTP&apos;);  
+        }  
+</code></pre><h3 id="2-使用XMLHttpRequest对象的open方法创建一个新的HTTP请求"><a href="#2-使用XMLHttpRequest对象的open方法创建一个新的HTTP请求" class="headerlink" title="(2)使用XMLHttpRequest对象的open方法创建一个新的HTTP请求"></a>(2)使用XMLHttpRequest对象的open方法创建一个新的HTTP请求</h3><p>open方法接收三个参数：要发送请求的类型(get或者post)、请求的url、表示是否异步发送请求的布尔值<br>false表示同步请求，true表示异步请求<br>open方法并不会真正发送请求，而只是启动一个请求以备发送</p>
+<h3 id="3-设置响应HTTP请求状态变化的函数"><a href="#3-设置响应HTTP请求状态变化的函数" class="headerlink" title="(3)设置响应HTTP请求状态变化的函数."></a>(3)设置响应HTTP请求状态变化的函数.</h3><p>onreadystatechange()函数</p>
+<pre><code>xhr.onreadystatechange=function(){  
+            if(xhr.readyState==4){  
+                if(xhr.status&gt;=200&amp;&amp;xhr.status&lt;300||xhr.status==304){  
+                    console.log(xhr.responseText);  
+                }else{  
+                    console.log(&quot;请求失败：&quot;+xhr.status);  
+                }  
+            }  
+        }  
+</code></pre><h3 id="4-发送HTTP请求"><a href="#4-发送HTTP请求" class="headerlink" title="(4)发送HTTP请求."></a>(4)发送HTTP请求.</h3><p>send方法，该方法接收一个参数，及要作为请求主体发送的数据<br>调用send方法之后，请求就会被分派到服务器</p>
+<h3 id="5-获取异步调用返回的数据"><a href="#5-获取异步调用返回的数据" class="headerlink" title="(5)获取异步调用返回的数据."></a>(5)获取异步调用返回的数据.</h3><h3 id="6-使用JavaScript和DOM实现局部刷新"><a href="#6-使用JavaScript和DOM实现局部刷新" class="headerlink" title="(6)使用JavaScript和DOM实现局部刷新."></a>(6)使用JavaScript和DOM实现局部刷新.</h3><h1 id="二、get请求"><a href="#二、get请求" class="headerlink" title="二、get请求"></a>二、get请求</h1><pre><code>function createXHR(){//创建Ajax对象  
+        if(window.XMLHttpRequest){  
+            return new XMLHttpRequest();  
+        }else{  
+            return new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);  
+        }  
+    }  
+    var xhr=createXHR();  
+    xhr.onreadystatechange=function(){  
+        if(xhr.readyState==4){  
+            if((xhr.status&gt;=200&amp;&amp;xhr.status&lt;300)||xhr.status==304){  
+                console.log(xhr.responseText);  
+            }else{  
+                console.log(&quot;请求失败：&quot;+xhr.status);  
+            }  
+        }  
+    };  
+    xhr.open(&apos;get&apos;,&quot;example.txt&quot;,true);//true表示发送异步请求  
+    xhr.send(null);  
+</code></pre><h1 id="三、post请求"><a href="#三、post请求" class="headerlink" title="三、post请求"></a>三、post请求</h1><pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+&lt;head&gt;  
+    &lt;meta charset=&quot;UTF-8&quot;&gt;  
+    &lt;title&gt;Document&lt;/title&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+     function checkname(){  
+        //ajax方式用户名校验  
+        //1、获取用户名信息  
+        var nm=document.getElementById(&quot;username&quot;).value;  
+        //对传递的特殊字符串进行编码处理  tn&amp;age=34  
+        //同时对中文也会进行编码处理  
+        nm=encodeURIComponent(nm);  
+        //把用户名信息变为“请求字符串“  
+        var info=&quot;name=&quot;+nm+&quot;&amp;age=23&quot;;  
+        //2、ajax校验  
+        var xhr=new XMLHttpRequest();  
+        xhr.onreadystatechange=function(){  
+            if(xhr.readyState==4){  
+                alert(xhr.responseText);  
+            }  
+        }  
+        xhr.open(&apos;post&apos;,&apos;./05.php?addr=beijing&apos;);  
+        //post方式传递数据是模拟form表单传递数据  
+        //form表单的post格式数据是通过xml形式传递给服务器的  
+        xhr.setRequestHeader(&quot;content-type&quot;,&quot;application/x-www-form-urlencoded&quot;);  
+        xhr.send(info);  
+     }  
+    &lt;/script&gt;  
+&lt;/head&gt;  
+&lt;body&gt;  
+    &lt;h2&gt;ajax用户名的校验(post方式)&lt;/h2&gt;  
+   &lt;p&gt;用户名：&lt;input type=&quot;text&quot; id=&quot;username&quot; onblur=&quot;checkname()&quot;&gt;&lt;/p&gt;  
+   &lt;p&gt;手机号码：&lt;input type=&quot;text&quot; id=&quot;usertel&quot;&gt;&lt;/p&gt;  
+&lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><h1 id="四、GET和POST的区别，何时使用POST？"><a href="#四、GET和POST的区别，何时使用POST？" class="headerlink" title="四、GET和POST的区别，何时使用POST？"></a>四、GET和POST的区别，何时使用POST？</h1><p>get和post方式区别：</p>
+<ol>
+<li>GET请求会将参数跟在URL后进行传递，而POST请求则是作为HTTP消息的实体内容发送给服务器。在Ajax请求中，这种区别对用户是不可见的。</li>
+</ol>
+<p>2.GET方式对传输的数据大小有限制(通常不能大于2KB)，而使用POST方式传递的数据量要比GET方式大的多(理论上不受限制)</p>
+<p>3.GET方式请求的数据会被浏览器缓存起来，因此其他人就可以从浏览器的历史记录中读取到这些数据，例如账号和密码等。在某种情况下，GET方式会带来严重的安全性问题，而POST方式相对来说就比较安全。</p>
+<p>4.GET方式和POST方式传递的数据在服务器端的获取也不相同。在PHP中，GET方式的数据可以用$_GET[]获取，POST使用$_POST[]获取。两种方式都可以使用$_REQUEST[]来获取。</p>
+<p>GET：一般用于信息获取，使用URL传递参数，对所发送信息的数量也有限制，一般在2000个字符<br>POST：一般用于修改服务器上的资源，对所发送的信息没有限制。<br>GET方式需要使用Request.QueryString来取得变量的值，而POST方式通过Request.Form来获取变量的值，也就是说Get是通过地址栏来传值，而Post是通过提交表单来传值。</p>
+<p>然而，在以下情况中，请使用 POST 请求：<br>无法使用缓存文件（更新服务器上的文件或数据库）<br>向服务器发送大量数据（POST 没有数据量限制）<br>发送包含未知字符的用户输入时，POST 比 GET 更稳定也更可靠</p>
+<p>get请求需要注意的地方：</p>
+<p>1.缓存(将请求地址缓存起来，如果下一次请求地址不变，则下次请求的内容将读取缓存中的数据，而不会去请求服务器上的数据)<br>我们可以通过在url？后面连接一个随机数或者时间戳来解决这一问题<br>2.传递中文参数乱码问题，通过编码encodeURI来解决</p>
+<pre><code>&lt;body&gt;  
+&lt;input type=&quot;button&quot; name=&quot;&quot; value=&quot;提交数据&quot; id=&quot;btn&quot;&gt;  
+&lt;script type=&quot;text/javascript&quot;&gt;  
+var oBtn = document.getElementById(&quot;btn&quot;);  
+oBtn.onclick = function(){  
+    var xhr = new XMLHttpRequest();  
+    xhr.open(&apos;get&apos;,&apos;get_form.php?username=&apos;+encodeURI(&apos;李四&apos;)+&apos;&amp;age=123&amp;&apos;+new Date().getTime(),true);  
+    xhr.send();  
+    xhr.onreadystatechange = function(){  
+    if(xhr.readyState == 4){  
+        if(xhr.status == 200){  
+            alert(xhr.responseText);  
+        }  
+    }  
+}  
+}  
+&lt;/script&gt;  
+&lt;/body&gt;  
+</code></pre><p>get_form.php</p>
+<pre><code>&lt;?php  
+header(&quot;content-type:text/html;charset=utf-8&quot;);  
+$username = $_GET[&apos;username&apos;];  
+$age = $_GET[&apos;age&apos;];  
+echo &quot;欢迎哈哈哈,你的名字是:{$username},年龄是:{$age}&quot;;  
+ ?&gt;  
+</code></pre><p>post请求需要注意的地方：<br>1.post方式，数据放在send()里面作为参数传递<br>2.需要声明要发送的数据的类型<br>xhr.setRequestHeader(‘content-type’, ‘application/x-www-form-urlencoded’);<br>这里如果不设置Content-Type头部信息，那么发送给服务器的数据就不会出现在$_POST超级全局变量中。</p>
+<pre><code>&lt;body&gt;  
+&lt;input type=&quot;button&quot; name=&quot;&quot; value=&quot;提交数据&quot; id=&quot;btn&quot;&gt;  
+&lt;script type=&quot;text/javascript&quot;&gt;  
+var oBtn = document.getElementById(&quot;btn&quot;);  
+oBtn.onclick = function(){  
+    var xhr = new XMLHttpRequest();  
+    xhr.open(&apos;post&apos;,&apos;post_form.php&apos;,true);  
+    //post方式，数据放在send()里面作为参数传递  
+    xhr.setRequestHeader(&apos;content-type&apos;, &apos;application/x-www-form-urlencoded&apos;);//声明发送的数据类型  
+    xhr.send(&apos;username=李四&amp;age=300&apos;);  
+    //post方式没有缓存问题和编码问题  
+    xhr.onreadystatechange = function(){  
+    if(xhr.readyState == 4){  
+        if(xhr.status == 200){  
+            alert(xhr.responseText);  
+        }  
+    }  
+}  
+}  
+&lt;/script&gt;  
+&lt;/body&gt;  
+</code></pre><p>post_form.php</p>
+<pre><code>&lt;?php  
+header(&quot;content-type:text/html;charset=utf-8&quot;);  
+$username = $_POST[&apos;username&apos;];  
+$age = $_POST[&apos;age&apos;];  
+echo &quot;你的名字是:{$username},年龄是:{$age}&quot;;  
+ ?&gt;  
+</code></pre><h1 id="五、XMLHttpRequest对象"><a href="#五、XMLHttpRequest对象" class="headerlink" title="五、XMLHttpRequest对象"></a>五、XMLHttpRequest对象</h1><p>它的属性有：</p>
+<p>onreadystatechange  每次状态改变所触发事件的事件处理程序。<br>responseText     作为响应主体被返回的文本。<br>responseXML  将响应信息格式化为Xml Document对象并返回<br>status           响应的HTTP状态，比如常见的404（未找到）和200（已成功）<br>status Text      HTTP状态说明</p>
+<p>当XHR对象把一个HTTP请求发送到服务器的过程中会经历几个状态，直到请求被处理，然后才接收一个回应。readyState就是XHR请求的状态属性，它本身有5个属性值：</p>
+<p>0：未初始化。尚未调用open()方法</p>
+<p>1：启动。已经调用open()方法,但尚未调用send()方法</p>
+<p>2：发送。已经调用send()方法，但尚未接收到响应</p>
+<p>3：接收。已经接收到部分响应数据     </p>
+<p>4：完成。已经接收到全部响应数据，而且已经可以在客户端使用了</p>
+<p>只要readyState属性的值由一个值变成另一个值，都会触发一次onreadystatechange事件。通常，我们只对readyState值为4的阶段感兴趣，因为这时所有数据都已经就绪。</p>
+<p>不过，必须要在调用open()方法之前指定onreadystatechange事件处理程序才能确保跨浏览器兼容性<br>六、http状态码</p>
+<p>1字头：消息。这一类型的状态码，代表请求已被接受，需要继续处理。</p>
+<p>2字头：成功。这一类型的状态码，代表请求已成功被服务器接收、理解、并接受。</p>
+<p>3字头：重定向。这类状态码代表需要客户端采取进一步的操作才能完成请求。</p>
+<p>4字头：客户端错误。这类状态码代表了客户端看起来可能发生错误，妨碍了服务器的处理。</p>
+<p>5字头：服务器错误。这类状态码代表了服务器在处理请求的过程中有错误或者异常状态发生</p>
+<p>100 Continue</p>
+<p>  初始的请求已经接受，客户应当继续发送请求的其余部分</p>
+<p>101 Switching Protocols</p>
+<p>  服务器将遵从客户的请求转换到另外一种协议</p>
+<p>201 Created</p>
+<p>  服务器已经创建了文档，Location头给出了它的URL。</p>
+<p>202 Accepted</p>
+<p>  已经接受请求，但处理尚未完成。</p>
+<p>203 Non-Authoritative Information</p>
+<p>  文档已经正常地返回，但一些应答头可能不正确，因为使用的是文档的拷贝</p>
+<p>204 No Content</p>
+<p>  没有新文档，浏览器应该继续显示原来的文档。如果用户定期地刷新页面，而Servlet可以确定用户文档足够新，这个状态代码是很有用的</p>
+<p>205 Reset Content</p>
+<p>  没有新的内容，但浏览器应该重置它所显示的内容。用来强制浏览器清除表单输入内容</p>
+<p>206 Partial Content</p>
+<p>  客户发送了一个带有Range头的GET请求，服务器完成了它</p>
+<p>300 Multiple Choices</p>
+<p>  客户请求的文档可以在多个位置找到，这些位置已经在返回的文档内列出。如果服务器要提出优先选择，则应该在Location应答头指明。</p>
+<p>301 Moved Permanently</p>
+<p>  客户请求的文档在其他地方，新的URL在Location头中给出，浏览器应该自动地访问新的URL。</p>
+<p>302 Found</p>
+<p>  类似于301，但新的URL应该被视为临时性的替代，而不是永久性的。</p>
+<p>303 See Other</p>
+<p>  类似于301/302，不同之处在于，如果原来的请求是POST，Location头指定的重定向目标文档应该通过GET提取</p>
+<p>305 Use Proxy</p>
+<p>  客户请求的文档应该通过Location头所指明的代理服务器提取</p>
+<p>307 Temporary Redirect</p>
+<p>  和302（Found）相同。许多浏览器会错误地响应302应答进行重定向，即使原来的请求是 POST，即使它实际上只能在POST请求的应答是303时才能重定向。由于这个原因，HTTP 1.1新增了307，以便更加清除地区分几个状态代码： 当出现303应答时，浏览器可以跟随重定向的GET和POST请求；如果是307应答，则浏览器只能跟随对GET请求的重定向。</p>
+<p>400 Bad Request</p>
+<p>  请求出现语法错误。</p>
+<p>401 Unauthorized</p>
+<p>  客户试图未经授权访问受密码保护的页面。应答中会包含一个WWW-Authenticate头，浏览器据此显示用户名字/密码对话框，然后在填写合适的Authorization头后再次发出请求。</p>
+<p>403 Forbidden</p>
+<p>  资源不可用。</p>
+<p>405 Method Not Allowed</p>
+<p>  请求方法（GET、POST、HEAD、Delete、PUT、TRACE等）对指定的资源不适用。</p>
+<p>406 Not Acceptable</p>
+<p>  指定的资源已经找到，但它的MIME类型和客户在Accpet头中所指定的不兼容</p>
+<p>407 Proxy Authentication Required</p>
+<p>  类似于401，表示客户必须先经过代理服务器的授权。</p>
+<p>408 Request Timeout</p>
+<p>  在服务器许可的等待时间内，客户一直没有发出任何请求。客户可以在以后重复同一请求。</p>
+<p>409 Conflict</p>
+<p>  通常和PUT请求有关。由于请求和资源的当前状态相冲突，因此请求不能成功。</p>
+<p>410 Gone</p>
+<p> 所请求的文档已经不再可用，而且服务器不知道应该重定向到哪一个地址。它和404的不同在于，返回407表示文档永久地离开了指定的位置，而404表示由于未知的原因文档不可用。</p>
+<p>411 Length Required</p>
+<p>  服务器不能处理请求，除非客户发送一个Content-Length头。</p>
+<p>412 Precondition Failed</p>
+<p> 请求头中指定的一些前提条件失败</p>
+<p>413 Request Entity Too Large</p>
+<p>  目标文档的大小超过服务器当前愿意处理的大小。如果服务器认为自己能够稍后再处理该请求，则应该提供一个Retry-After头</p>
+<p>414 Request URI Too Long</p>
+<p>  URI太长</p>
+<p>416 Requested Range Not Satisfiable</p>
+<p>  服务器不能满足客户在请求中指定的Range头</p>
+<p>501 Not Implemented</p>
+<p>  服务器不支持实现请求所需要的功能。例如，客户发出了一个服务器不支持的PUT请求</p>
+<p>502 Bad Gateway</p>
+<p>  服务器作为网关或者代理时，为了完成请求访问下一个服务器，但该服务器返回了非法的应答</p>
+<p>503 Service Unavailable</p>
+<p>  服务器由于维护或者负载过重未能应答。例如，Servlet可能在数据库连接池已满的情况下返回503。服务器返回503时可以提供一个Retry-After头</p>
+<p>504 Gateway Timeout</p>
+<p>  由作为代理或网关的服务器使用，表示不能及时地从远程服务器获得应答</p>
+<p>505 HTTP Version Not Supported</p>
+<p>  服务器不支持请求中所指明的HTTP版本</p>
+<h1 id="七、HTTP头部信息"><a href="#七、HTTP头部信息" class="headerlink" title="七、HTTP头部信息"></a>七、HTTP头部信息</h1><p>Accept 表示浏览器能够处理的内容类型</p>
+<p>Accept-Encoding 表示浏览器能够处理的压缩编码</p>
+<p>Accept-Language 表示浏览器当前设置的语言</p>
+<p>Host 表示发出请求的页面所在的域</p>
+<p>Referer 表示发出请求页面的URI</p>
+<p>User-Agent 表示浏览器的用户代理字符串</p>
+<p>Connection  Keep-Alive   浏览器与服务器之间连接的类型</p>
+<h1 id="八、传统Ajax问题"><a href="#八、传统Ajax问题" class="headerlink" title="八、传统Ajax问题"></a>八、传统Ajax问题</h1><p>1、可以无刷新改变页面内容，但无法改变页面URL</p>
+<p>2、为了更好的可访问性，内容发生改变后，通常改变URL的hash</p>
+<p>3、hash的方式不能很好的处理浏览器的前进、后退等问题，进而浏览器引入了onhashchange的接口，不支持的浏览器只能定时去判断hash是否改变。但这种方式对搜索引擎很不友好，twitter和google约定了使用#!xxx（即hash第一个字符为!），搜索引擎进行支持。</p>
+<h1 id="九、Ajax模拟登陆"><a href="#九、Ajax模拟登陆" class="headerlink" title="九、Ajax模拟登陆"></a>九、Ajax模拟登陆</h1><pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html&gt;  
+&lt;head&gt;  
+    &lt;meta charset=&quot;utf-8&quot;&gt;  
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;  
+    &lt;title&gt;ajax登录&lt;/title&gt;  
+    &lt;style type=&quot;text/css&quot;&gt;  
+    *{  
+        margin: 0;  
+        padding: 0;  
+        list-style: none;  
+        text-decoration: none;  
+        outline: none;  
+    }  
+    a{  
+        display: inline-block;  
+        position: absolute;  
+        top: 10px;  
+        right: 30px;  
+    }  
+    .box{  
+        display: none;  
+        width: 300px;  
+        height: 300px;  
+        position: absolute;  
+        top:50%;  
+        left:50%;  
+        margin-top: -150px;  
+        margin-left: -150px;  
+        /*border:1px solid #ccc;*/  
+        padding: 10px;  
+        z-index: 9999;  
+        background: #fff;  
+    }  
+    .list{  
+        margin-top: 15px;  
+    }  
+    .list label{  
+        display: inline-block;  
+        text-align: right;   
+        width: 80px;  
+    }  
+    .input_list{  
+        display: inline-block;  
+        margin-left: 10px;  
+    }  
+    .input_list .sub{  
+        padding: 5px;  
+        width: 80px;  
+        cursor: pointer;  
+    }  
+    .mask{  
+        display: none;  
+        position: absolute;  
+        width: 100%;  
+        height: 100%;  
+        background: rgba(0,0,0,.5);  
+        z-index: 999;  
+    }  
+    &lt;/style&gt;  
+&lt;/head&gt;  
+&lt;body&gt;  
+&lt;a href=&quot;javascript:;&quot; id=&quot;link&quot;&gt;登录&lt;/a&gt;  
+&lt;div class=&quot;box&quot;&gt;  
+    &lt;form action=&quot;#&quot;&gt;  
+        &lt;div class=&quot;list&quot;&gt;  
+        &lt;label&gt;姓名:&lt;/label&gt;  
+        &lt;div class=&quot;input_list&quot;&gt;  
+            &lt;input type=&quot;text&quot; name=&quot;username&quot; id=&quot;username&quot; placeholder=&quot;请输入你的姓名&quot;&gt;  
+        &lt;/div&gt;  
+        &lt;/div&gt;  
+        &lt;div class=&quot;list&quot;&gt;  
+        &lt;label&gt;密码:&lt;/label&gt;  
+        &lt;div class=&quot;input_list&quot;&gt;  
+            &lt;input type=&quot;password&quot; name=&quot;pwd&quot; id=&quot;pwd&quot; placeholder=&quot;请输入你的密码&quot;&gt;  
+        &lt;/div&gt;  
+        &lt;/div&gt;  
+        &lt;div class=&quot;list&quot;&gt;  
+        &lt;label&gt;家庭住址:&lt;/label&gt;  
+        &lt;div class=&quot;input_list&quot;&gt;  
+            &lt;input type=&quot;text&quot; name=&quot;address&quot; id=&quot;address&quot; placeholder=&quot;请输入你的住址&quot;&gt;  
+        &lt;/div&gt;  
+        &lt;/div&gt;  
+        &lt;div class=&quot;list&quot;&gt;  
+            &lt;label&gt;&lt;/label&gt;  
+            &lt;div class=&quot;input_list&quot;&gt;  
+                &lt;input type=&quot;button&quot; class=&quot;sub&quot; value=&quot;提交&quot; id=&quot;subBtn&quot;&gt;  
+            &lt;/div&gt;  
+        &lt;/div&gt;  
+    &lt;/form&gt;  
+&lt;/div&gt;  
+&lt;div class=&quot;mask&quot;&gt;&lt;/div&gt;  
+&lt;script type=&quot;text/javascript&quot; src=&quot;jquery.js&quot;&gt;&lt;/script&gt;  
+&lt;script type=&quot;text/javascript&quot;&gt;  
+$(function(){  
+    $(&quot;#link&quot;).click(function(){  
+        $(&quot;.box&quot;).show();  
+        $(&quot;.mask&quot;).show();  
+    });  
+    $(&quot;#subBtn&quot;).click(function(){  
+        var url = &quot;http://localhost/mywork/ajax_login/test.php&quot;;  
+        var obj = {  
+        username : $(&quot;#username&quot;).val(),  
+        password : $(&quot;#pwd&quot;).val()  
+          };  
+        // console.log(obj);  
+        $(&quot;.box&quot;).hide();  
+        $(&quot;.mask&quot;).hide();  
+        $.post(url,obj,function(data){  
+            if(data == &quot;yes&quot;){  
+                alert(&quot;登录成功&quot;);  
+                $(&quot;#link&quot;).html(&quot;欢迎 &quot;+$(&apos;#username&apos;).val()+&quot; 登陆&quot;);  
+            }else{  
+                alert(&quot;登录失败&quot;);  
+            }  
+        });  
+    });  
+});  
+&lt;/script&gt;  
+&lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><p>test.php</p>
+<pre><code>&lt;?php  
+$username=$_POST[&apos;username&apos;];  
+$password=$_POST[&apos;password&apos;];  
+if($username == &apos;admin&apos; &amp;&amp; $password == &apos;123&apos;){  
+    echo &quot;yes&quot;;  
+}else{  
+    echo &quot;no&quot;;  
+}  
+?&gt;  
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-跨域总结" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/06/14/跨域总结/" class="article-date">
+  	<time datetime="2016-06-14T05:53:34.000Z" itemprop="datePublished">2016-06-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/14/跨域总结/">跨域总结</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>javascript中，有一个很重要的安全性限制，被称为“Same-Origin Policy”（同源策略）。这一策略指定：JavaScript只能访问与包含它的文档在同一域下的内容。所谓同源是指，域名(host)，协议(protocol)，端口(port)相同。</p>
+<p>URL     说明  是否跨域<br><a href="http://www.abc.com/a.js" target="_blank" rel="external">http://www.abc.com/a.js</a><br><a href="http://www.abc.com/b.js" target="_blank" rel="external">http://www.abc.com/b.js</a>     同一域名下   否<br><a href="http://www.abc.com/test/a.js" target="_blank" rel="external">http://www.abc.com/test/a.js</a><br><a href="http://www.abc.com/lib/b.js" target="_blank" rel="external">http://www.abc.com/lib/b.js</a>     同一域名下不同文件夹  否<br><a href="http://www.abc.com:80/a.js" target="_blank" rel="external">http://www.abc.com:80/a.js</a><br><a href="http://www.abc.com/b.js" target="_blank" rel="external">http://www.abc.com/b.js</a>     同一域名，不同端口号  是<br><a href="http://www.abc.com/a.js" target="_blank" rel="external">http://www.abc.com/a.js</a><br><a href="https://www.abc.com/b.js" target="_blank" rel="external">https://www.abc.com/b.js</a>    同一域名，不同协议(http和https)   是<br><a href="http://www.abc.com/a.js" target="_blank" rel="external">http://www.abc.com/a.js</a><br><a href="http://127.0.0.1/b.js" target="_blank" rel="external">http://127.0.0.1/b.js</a>   域名与域名对应IP   是<br><a href="http://www.abc.com/a.js" target="_blank" rel="external">http://www.abc.com/a.js</a><br><a href="http://abc.com/b.js" target="_blank" rel="external">http://abc.com/b.js</a><br><a href="http://www.test.com/b.js" target="_blank" rel="external">http://www.test.com/b.js</a>    不同域名(host)  是</p>
+<h1 id="一-ajax设置Access-Control-Allow-Origin实现跨域访问"><a href="#一-ajax设置Access-Control-Allow-Origin实现跨域访问" class="headerlink" title="一.ajax设置Access-Control-Allow-Origin实现跨域访问"></a>一.ajax设置Access-Control-Allow-Origin实现跨域访问</h1><p>通过XHR实现Ajax通信的一个主要限制，来源与跨域安全策略。默认情况下，XHR对象只能访问与包含它的页面位于同一个域中的资源。</p>
+<p>CORS(Cross-Origin Resource Sharing,跨源资源共享)是W3C的一个标准，定义了在必须访问跨资源时，浏览器与服务器应该如何沟通。它允许浏览器向跨源服务器，发出XMLHttpRequest请求，从而克服了AJAX只能同源使用的限制。其背后的基本思想是：就是使用自定义的HTTP头部让浏览器与服务器进行沟通，从而决定请求或响应是应该成功，还是应该失败。</p>
+<p>对于简单的get或post发送的请求，它没有自定义的头部，而主体内容是text/plain。在发送请求时，需要给它附加一个额外的Origin头部，其中包含请求页面的源信息(协议、域名和端口号)，以便服务器根据这个头部信息来决定是否给予响应。</p>
+<p>CORS需要浏览器和服务器同时支持。目前，所有浏览器都支持该功能，IE浏览器不能低于IE10。<br>整个CORS通信过程，都是浏览器自动完成，不需要用户参与。对于开发者来说，CORS通信与同源的AJAX通信没有差别，代码完全一样。浏览器一旦发现AJAX请求跨源，就会自动添加一些附加的头信息(origin头)，有时还会多出一次附加的请求，但用户不会有感觉。<br>因此，实现CORS通信的关键是服务器。只要服务器实现了CORS接口，就可以跨源通信。</p>
+<p>例子：</p>
+<pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+      &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;title&gt;cors_post&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;div id=&quot;box&quot;&gt;&lt;/div&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+        function createXhr(){  
+            if(typeof XMLHttpRequest){  
+                return new XMLHttpRequest();  
+            }else if(typeof ActiveXObject){  
+                return new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);  
+            }  
+        }  
+        var xhr=createXhr();  
+        var data={  
+            name:&quot;liujie&quot;,  
+            age:&quot;23&quot;  
+        };  
+        xhr.onreadystatechange=function(){  
+            if(xhr.readyState==4){  
+                if(xhr.status==200){  
+                    //console.log(xhr.responseText);  
+                    document.getElementById(&quot;box&quot;).innerHTML=data.name+&apos;---&apos;+data.age;  
+                }  
+            }  
+        }  
+        xhr.open(&quot;post&quot;,&quot;http://www.abc.com/21code/cors/post.php&quot;,true);  
+        xhr.send(data);  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><p>请求页面post.php:</p>
+<pre><code>&lt;?php  
+header(&apos;content-type:application:json;charset=utf8&apos;);  
+// 指定允许其他域名访问  
+//header(&apos;Access-Control-Allow-Origin:http://www.example.com&apos;);  
+header(&apos;Access-Control-Allow-Origin:*&apos;);  
+// 响应类型  
+header(&apos;Access-Control-Allow-Methods:POST&apos;);  
+$res= array(  
+    &apos;name&apos; =&gt; isset($_POST[&apos;name&apos;])? $_POST[&apos;name&apos;] : &apos;&apos;,  
+    &apos;gender&apos; =&gt; isset($_POST[&apos;gender&apos;])? $_POST[&apos;gender&apos;] : &apos;&apos;  
+);  
+echo json_encode($res);  
+ ?&gt; 
+&lt;img src=&quot;http://img.blog.csdn.net/20160809155156139?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&quot; alt=&quot;&quot; /&gt;  
+</code></pre><p>通过<a href="http://www.example.com访问这个页面，Origin:http://www.example.com" target="_blank" rel="external">http://www.example.com访问这个页面，Origin:http://www.example.com</a></p>
+<p>如果服务器认为这个请求可以接收，就在Access-Control-Allow-Origin头部中回发相同的源信息（如果是公共资源，可以回发”*”）。</p>
+<p>比如：Access-Control-Allow-Origin：<a href="http://www.example.com" target="_blank" rel="external">http://www.example.com</a></p>
+<p>如果没有这个头部，或者有这个头部但源信息不匹配，浏览器就会驳回请求。<br>cors基本流程：<br>1.浏览器对于AJAX请求会自动在头信息之中，添加一个Origin字段，该字段用来说明，本次请求来自哪个源（协议 + 域名 + 端口）。服务器根据这个值，决定是否同意这次请求。<br>2.如果Origin指定的域名在许可范围内，服务器返回的响应，并在响应头的Access-Control-Allow-Origin头部中会发相同的源信息。<br>与CORS请求相关的字段：</p>
+<p>（1）Access-Control-Allow-Origin<br>该字段是必须的。它的值要么是请求时Origin字段的值，要么是一个*，表示接受任意域名的请求。</p>
+<p>（2）Access-Control-Allow-Methods<br>该字段必需，它的值是逗号分隔的一个字符串，表明服务器支持的所有跨域请求的方法。注意，返回的是所有支持的方法，而不单是浏览器请求的那个方法。这是为了避免多次”预检”请求。<br>（3）Access-Control-Allow-Headers<br>如果浏览器请求包括Access-Control-Request-Headers字段，则Access-Control-Allow-Headers字段是必需的。它也是一个逗号分隔的字符串，表明服务器支持的所有头信息字段，不限于浏览器在”预检”中请求的字段。<br>（4）Access-Control-Max-Age<br>该字段可选，用来指定本次预检请求的有效期，单位为秒。上面结果中，有效期是20天（1728000秒），即允许缓存该条回应1728000秒（即20天），在此期间，不用发出另一条预检请求。<br>（5）Access-Control-Allow-Credentials<br>该字段可选。它的值是一个布尔值，表示是否允许发送Cookie。默认情况下，Cookie不包括在CORS请求之中。设为true时，Cookie就会包含在请求中，一起发给服务器。这个值也只能设为true，如果服务器不要浏览器发送Cookie，删除该字段即可。</p>
+<p>（6）Access-Control-Expose-Headers<br>该字段可选。CORS请求时，XMLHttpRequest对象的getResponseHeader()方法只能拿到6个基本字段：Cache-Control、Content-Language、Content-Type、Expires、Last-Modified、Pragma。如果想拿到其他字段，就必须在Access-Control-Expose-Headers里面指定。例如：getResponseHeader(‘FooBar’)可以返回FooBar字段的值。<br>withCredentials 属性<br>CORS请求默认不发送Cookie和HTTP认证信息。如果要把Cookie发到服务器，一方面要服务器同意，指定Access-Control-Allow-Credentials字段。</p>
+<pre><code>Access-Control-Allow-Credentials: true  
+</code></pre><p>另一方面，开发者必须在AJAX请求中打开withCredentials属性。</p>
+<pre><code>var xhr = new XMLHttpRequest();  
+xhr.withCredentials = true;  
+</code></pre><p>否则，即使服务器同意发送Cookie，浏览器也不会发送。<br>但是，如果省略withCredentials设置，有的浏览器还是会一起发送Cookie。这时，可以显式关闭withCredentials。</p>
+<pre><code>xhr.withCredentials = false;  
+</code></pre><p>需要注意的是，如果要发送Cookie，Access-Control-Allow-Origin就不能设为星号，必须指定明确的、与请求网页一致的域名。同时，Cookie依然遵循同源政策，只有用服务器域名设置的Cookie才会上传，其他域名的Cookie并不会上传，且（跨源）原网页代码中的document.cookie也无法读取服务器域名下的Cookie。<br>与jsonp的区别：</p>
+<p>CORS与JSONP的使用目的相同，但是比JSONP更强大。</p>
+<p>JSONP只支持GET请求，CORS支持所有类型的HTTP请求。JSONP的优势在于支持老式浏览器，以及可以向不支持CORS的网站请求数据。</p>
+<h1 id="二、图像Ping"><a href="#二、图像Ping" class="headerlink" title="二、图像Ping"></a>二、图像Ping</h1><p>使用img标签，我们知道，一个网页可以从任何网页中加载图像，不用担心跨域不跨域。</p>
+<p>动态创建图像经常用于图像Ping。图像Ping是与服务器进行简单、单向的跨域通信的一种方式。请求的数据是通过查询字符串形式发送的，而响应可以是任意内容，但通常是像素图或204响应。通过图像Ping，浏览器得不到任何具体的数据，但通过侦听load和error事件，它能知道响应是什么时候接收到的。来看下面的例子。</p>
+<pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html&gt;  
+&lt;head&gt;  
+    &lt;title&gt;Image Ping Example&lt;/title&gt;  
+    &lt;meta charset=&quot;utf-8&quot;&gt;  
+&lt;/head&gt;  
+&lt;body&gt;  
+    &lt;script&gt;  
+        var img = new Image();  
+        img.onload = img.onerror = function(){  
+            alert(&quot;Done!&quot;);  
+        };  
+        img.src = &quot;http://www.example.com/ajax?name=test&quot;;  
+    &lt;/script&gt;  
+&lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><p>这里创建了一个Image的实例，然后将onload和onerror事件处理程序指定为同一个函数。这样无论是什么响应，只要请求完成，就能得到通知。请求从设置src属性那一刻开始，而这个例子在请求中发送了一个name参数。</p>
+<p>图像Ping最常用于跟踪用户点页面或动态广告曝光次数。图像Ping有两个主要的缺点，一是只能发送GET请求，二是无法访问服务器的响应文本。因此，图像Ping只能用于浏览器与服务器间的单向通信。</p>
+<h1 id="三、jsonp实现跨域"><a href="#三、jsonp实现跨域" class="headerlink" title="三、jsonp实现跨域"></a>三、jsonp实现跨域</h1><p>JSONP：json+padding（内填充），顾名思义，就是把JSON填充到一个盒子里</p>
+<p>原理是：动态插入script标签，通过script标签引入一个js文件，这个js文件载入成功后会执行我们在url参数中指定的函数，并且会把我们需要的json数据作为参数传入。</p>
+<p>首先在客户端注册一个callback, 然后把callback的名字传给服务器。此时，服务器先生成 json 数据。然后以 javascript 语法的方式，生成一个function , function 名字就是传递上来的参数 jsonp.最后将 json 数据直接以入参的方式，放置到 function 中，这样就生成了一段 js 语法的文档，返回给客户端。客户端浏览器，解析script标签，并执行返回的 javascript 文档，此时数据作为参数，传入到了客户端预先定义好的 callback 函数里.（动态执行回调函数）</p>
+<p>由于同源策略的限制，XmlHttpRequest只允许请求当前源（域名、协议、端口）的资源，为了实现跨域请求，可以通过script标签实现跨域请求，然后在服务端输出JSON数据并执行回调函数，从而解决了跨域的数据请求。</p>
+<p>jsonp允许在服务器端集成Script 标签返回至客户端，通过javascript回调函数的形式实现跨域访问。它可以绕过同源策略的方法，即通过使用JSON与script标签相结合的方法，从服务器直接返回可执行的javascript函数调用或者javascript对象。</p>
+<p>优点是兼容性好，简单易用，支持浏览器与服务器双向通信。缺点是只支持GET请求。</p>
+<p>1.在<a href="http://example.com/jsonp/目录下有个remote.js文件代码如下：" target="_blank" rel="external">http://example.com/jsonp/目录下有个remote.js文件代码如下：</a></p>
+<pre><code>alert(&quot;我是远程服务器上的文件&quot;);  
+</code></pre><p>在<a href="http://www.example.com/jsonp/目录下有个jsonp.html页面代码如下：" target="_blank" rel="external">http://www.example.com/jsonp/目录下有个jsonp.html页面代码如下：</a></p>
+<pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;jsonp01&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot; src=&quot;http://example.com/jsonp/remote.js&quot;&gt;&lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><p>访问jsonp.html页面将会弹出一个提示窗体，显示跨域调用成功。</p>
+<p>2.在jsonp02.html页面定义一个函数，然后在远程remote.js中传入数据进行调用</p>
+<p>jsonp02.html页面代码如下：</p>
+<pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;jsonp02&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+    //现在我们在jsonp02.html页面定义一个函数，然后在远程remote.js中传入数据进行调用。  
+     var localHandler = function(data){  
+        alert(&apos;我是本地函数，可以被跨域的remote.js文件调用，远程js带来的数据是：&apos; + data.result);  
+    };  
+    &lt;/script&gt;  
+    &lt;script type=&quot;text/javascript&quot; src=&quot;http://example.com/jsonp/remote.js&quot;&gt;&lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><p>remote.js文件代码如下：</p>
+<pre><code>localHandler({&quot;result&quot;:&quot;我是远程js带来的数据&quot;});  
+</code></pre><p>访问jsonp.html页面,成功弹出提示窗口，显示本地函数被跨域的远程js调用成功，并且还接收到了远程js带来的数据。</p>
+<p>3、动态生成script标签</p>
+<p>jsonp03.html页面的代码：</p>
+<pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;jsonp03&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+     // 得到学生信息查询结果后的回调函数  
+    var flightHandler = function(data){  
+        alert(&apos;你查询的学生信息结果是：姓名:&apos; + data.name+&apos;--&apos;+ &apos;年龄:&apos; + data.age);  
+    };  
+    // 提供jsonp服务的url地址（不管是什么类型的地址，最终生成的返回值都是一段javascript代码）  
+    var url = &quot;http://example.com/jsonp/remote.js?num=001&amp;callback=flightHandler&quot;;  
+    // 创建script标签，设置其属性  
+    var script = document.createElement(&apos;script&apos;);  
+    script.src=url;  
+    // 把script标签加入head，此时调用开始  
+    document.getElementsByTagName(&apos;head&apos;)[0].appendChild(script);  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><p>remote.js文件代码如下：</p>
+<pre><code>flightHandler({  
+    &quot;num&quot;: &quot;001&quot;,  
+    &quot;name&quot;: &quot;lisi&quot;,  
+    &quot;age&quot;: 25  
+});  
+</code></pre><p>调用的url中传递了一个num参数，告诉服务器我要查的是001的学生信息，而callback参数则告诉服务器，我的本地回调函数叫做flightHandler，所以请把查询结果传入这个函数中进行调用。我们看到，传递给flightHandler函数的是一个json，它描述了学生的基本信息。运行一下页面，成功弹出提示窗口，jsonp的执行全过程顺利完成！<br>jQuery对jsonp的实现</p>
+<p>原理是一样的，只不过我们不需要手动的插入script标签以及定义回掉函数。jQuery会自动生成一个全局函数来替换callback=?中的问号，之后获取到数据后又会自动销毁，实际上就是起一个临时代理函数的作用。</p>
+<p>jquery对jsonp的支持：<br>两种方式：getJSON()方法和ajax指定返回jsonp类型<br>使用getJSON()方法时，必须指定callback=?，表示使用使用jsonp的方式来发起请求</p>
+<p>$.getJSON方法会自动判断是否跨域，不跨域的话，就调用普通的ajax方法；跨域的话，则会以异步加载js文件的形式来调用jsonp的回调函数。</p>
+<p>getJSON()方法：Demo</p>
+<pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html&gt;  
+&lt;head&gt;  
+    &lt;meta charset=&quot;utf-8&quot;&gt;  
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;  
+    &lt;title&gt;jsonp&lt;/title&gt;  
+&lt;/head&gt;  
+&lt;body&gt;  
+&lt;input type=&quot;button&quot; value=&quot;jsonp跨域&quot; onclick=&quot;testJsonp()&quot;&gt;  
+&lt;script type=&quot;text/javascript&quot; src=&quot;jquery-2.1.4.min.js&quot;&gt;&lt;/script&gt;  
+&lt;script type=&quot;text/javascript&quot;&gt;  
+    function testJsonp(){  
+        $.getJSON(&apos;http://b.test.com/mywork/kuayu/jsonp/jsopn.php?callback=?&apos;,  
+            function(data){  
+            console.log(data);  
+        })  
+    }  
+&lt;/script&gt;  
+&lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><p>jsonp.php</p>
+<pre><code>&lt;?php  
+$jsonp = $_REQUEST[&quot;callback&quot;];  
+$str = &apos;{&quot;name&quot;:&quot;lisi&quot;,&quot;age&quot;:23}&apos;;  
+$str = $jsonp . &quot;(&quot; .$str.&quot;)&quot;;  
+echo $str;  
+?&gt;  
+</code></pre><p>ajax指定返回jsonp类型：Demo</p>
+<pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html&gt;  
+&lt;head&gt;  
+    &lt;meta charset=&quot;utf-8&quot;&gt;  
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;  
+    &lt;title&gt;jsonp&lt;/title&gt;  
+&lt;/head&gt;  
+&lt;body&gt;  
+&lt;input type=&quot;button&quot; value=&quot;jsonp跨域&quot; onclick=&quot;testJsonp()&quot;&gt;  
+&lt;script type=&quot;text/javascript&quot; src=&quot;jquery-2.1.4.min.js&quot;&gt;&lt;/script&gt;  
+&lt;script type=&quot;text/javascript&quot;&gt;  
+/*  
+这里jQuery将自动把URL里的回调函数，例如&quot;url?callback=?&quot;中的后一个&quot;?&quot;替换为正确的函数名，以执行回调函数  
+ */  
+    function testJsonp(){  
+        $.ajax(&apos;http://b.test.com/mywork/kuayu/jsonp/jsopn.php?callback=?&apos;,  
+            {dataType:&apos;jsonp&apos;,  
+        }).done(function(data){  
+            console.log(data);  
+        });  
+    }  
+&lt;/script&gt;  
+&lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><p>$.ajax()跨域原理分析<br>由于javascript的安全限制“同源策略”，所以我们无法使用XMLHttpRequest直接请求别的域名下的资源。不过拥有src属性和href属性的<code>&lt;script&gt;\&lt;img&gt;\&lt;iframe&gt;</code>和<code>&lt;link&gt;\&lt;a&gt;</code>标签不受同源策略影响。$.ajax()正是应用了动态创建<code>&lt;script&gt;</code>的方式来实现（即：生成<code>&lt;script&gt;</code>标签，<code>src</code>引入脚本，然后执行，最后移除<code>&lt;script&gt;</code>标签）。</p>
+<h1 id="四、通过修改document-domain来跨子域"><a href="#四、通过修改document-domain来跨子域" class="headerlink" title="四、通过修改document.domain来跨子域"></a>四、通过修改document.domain来跨子域</h1><p>将子域和主域的document.domain设为同一个主域.前提条件：这两个域名必须属于同一个基础域名!而且所用的协议，端口都要一致，否则无法利用document.domain进行跨域</p>
+<p>主域相同的使用document.domain</p>
+<p>假设有一个页面，它的地址是<a href="http://www.example.com/abc.html，在这个页面里面有一个iframe，它的src是http://example.com/ab.html" target="_blank" rel="external">http://www.example.com/abc.html，在这个页面里面有一个iframe，它的src是http://example.com/ab.html</a>, 很显然，这个页面与它里面的iframe框架是不同域的，所以我们是无法通过在页面中书写js代码来获取iframe中的东西。</p>
+<p>这时在页面 <a href="http://example.com/ab.html" target="_blank" rel="external">http://example.com/ab.html</a> 和<a href="http://www.example.com/abc.html中设置相同的document.domain，这样我们就可以通过js访问到iframe中的各种属性和对象了。" target="_blank" rel="external">http://www.example.com/abc.html中设置相同的document.domain，这样我们就可以通过js访问到iframe中的各种属性和对象了。</a></p>
+<p><a href="http://www.example.com/abc.html页面代码：" target="_blank" rel="external">http://www.example.com/abc.html页面代码：</a></p>
+<pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;通过修改document.domain来跨子域&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;iframe src=&quot;http://example.com/ab.html&quot; id=&quot;iframe&quot; onload=&quot;test()&quot;&gt;&lt;/iframe&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+    document.domain=&quot;example.com&quot;;//设置成主域  
+    function test(){  
+        var iframe=document.getElementById(&quot;iframe&quot;);  
+        var win=iframe.contentWindow;  
+        var doc=win.document;  
+        var name=win.name;  
+        alert(win);  
+        alert(doc);  
+       alert(name);  
+    }  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><p><a href="http://example.com/ab.html页面代码：" target="_blank" rel="external">http://example.com/ab.html页面代码：</a></p>
+<pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;通过修改document.domain来跨子域&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+    document.domain=&quot;example.com&quot;;//设置成主域  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><h1 id="五、使用window-name来进行跨域"><a href="#五、使用window-name来进行跨域" class="headerlink" title="五、使用window.name来进行跨域"></a>五、使用window.name来进行跨域</h1><p>window对象有个name属性，该属性有个特征：即在一个窗口(window)的生命周期内,窗口载入的所有的页面都是共享一个window.name的，每个页面对window.name都有读写的权限，window.name是持久存在一个窗口载入过的所有页面中的</p>
+<pre><code>http://www.example.com/mywork/kuayu/windowname/aaa.html页面代码：  
+
+&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;使用window.name来进行跨域&lt;/title&gt;  
+        &lt;script type=&quot;text/javascript&quot;&gt;  
+         function getData(){//iframe载入data.html页面后会执行此函数  
+        var iframe=document.getElementById(&quot;iframe&quot;);  
+        iframe.onload=function(){//这个时候aaa.html与iframe已经是处于同一源了，可以互相访问  
+            var data=iframe.contentWindow.name;//获取iframe里的window.name，也就是data.html页面给它设置的数据  
+            alert(data);//成功获取到了data.html里的数据  
+        };  
+        iframe.src=&quot;http://www.example.com/mywork/kuayu/windowname/a.html&quot;;//这里的a.html为随便的一个页面，只要与aaa.html同源就行，目的是让aaa.html能访问到iframe里的东西，设置成about:blank也行  
+    }  
+    &lt;/script&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;iframe style=&quot;display:none;&quot; src=&quot;http://example.com/mywork/kuayu/windowname/data.html&quot; id=&quot;iframe&quot; onload=&quot;getData()&quot;&gt;&lt;/iframe&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+
+http://example.com/mywork/kuayu/windowname/data.html页面代码：  
+
+&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;使用window.name来进行跨域&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+    window.name=&quot;我是页面aaa.html想要的数据&quot;;  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><p>整个跨域的流程是这样的：<br>先在<a href="http://example.com/mywork/kuayu/windowname/data.html中通过一些操作将数据存入window.name中了" target="_blank" rel="external">http://example.com/mywork/kuayu/windowname/data.html中通过一些操作将数据存入window.name中了</a><br>而<a href="http://www.example.com/mywork/kuayu/windowname/aaa.html想要获取到window.name的值就需要依靠iframe作为中间代理，首先把iframe的src设置成http://example.com/mywork/kuayu/windowname/data.html，这样就相当于要获取iframe的window.name，而要想获取到iframe中的window.name，就需要把iframe的src设置成当前域的一个页面地址&quot;http://www.example.com/mywork/kuayu/windowname/aa.html&quot;或者设置成about:blank也行，不然根据前面讲的同源策略，window.name.html是不能访问到iframe里的window.name属性的。" target="_blank" rel="external">http://www.example.com/mywork/kuayu/windowname/aaa.html想要获取到window.name的值就需要依靠iframe作为中间代理，首先把iframe的src设置成http://example.com/mywork/kuayu/windowname/data.html，这样就相当于要获取iframe的window.name，而要想获取到iframe中的window.name，就需要把iframe的src设置成当前域的一个页面地址&quot;http://www.example.com/mywork/kuayu/windowname/aa.html&quot;或者设置成about:blank也行，不然根据前面讲的同源策略，window.name.html是不能访问到iframe里的window.name属性的。</a> </p>
+<h1 id="六-跨文档消息传递"><a href="#六-跨文档消息传递" class="headerlink" title="六 跨文档消息传递"></a>六 跨文档消息传递</h1><p>跨文档消息传送(cross-document messaging)，简称XDM，指的是在来自不同域的页面间传递消息。<br>这个例子就是位于www.example.com域中的页面postmessage.html与位于一个内嵌框架中的www.abc.com域中的页面postmessage2.html通信。</p>
+<p>XDM的核心是postMessage()方法，利用这个方法向另外一个地方传递数据。这里另外一个地方指的是包含在当前页面中的<code>&lt;iframe&gt;</code>元素，或者由当前页面弹出的窗口。 postMessage()方法接收两个参数：一条消息和一个表示消息接收方来自哪个域的字符串。第二个参数对保障安全通信非常重要，可以防止浏览器把消息发送到不安全的地方。如果传给postMessage()方法的第二个参数是”*”，则表示可以把消息发送给来自任何域的文档。</p>
+<pre><code>接收到跨文档消息传送的消息时，会触发window对象的message事件，这个事件是以异步形式触发的
+要想接收从其他窗口发过来的消息，必须对窗口对象的message事件进行监听
+
+传给onmessage处理程序的事件对象包含以下三个方面的重要信息：
+data:作为postMessage()方法第一个参数传入的字符串数据，可以通过message事件的data属性获取消息的内容
+origin:发送消息的文档所在的域，可以通过message事件的origin属性获取消息的发送源
+source:发送消息的文档的window对象的代理，可以通过message事件的source属性可以获取消息发送源的窗口对象
+</code></pre><p>Demo</p>
+<p>postmessage.html页面</p>
+<pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+&lt;head&gt;  
+    &lt;meta charset=&quot;UTF-8&quot;&gt;  
+    &lt;title&gt;跨文档消息传递&lt;/title&gt;  
+&lt;/head&gt;  
+&lt;body&gt;  
+    &lt;div id=&quot;content&quot;&gt;&lt;/div&gt;  
+    &lt;div&gt;  
+        &lt;input type=&quot;text&quot; size=&quot;40&quot; id=&quot;msg&quot; placeholder=&quot;请输入内容&quot;&gt;  
+        &lt;input type=&quot;button&quot; id=&quot;btn&quot; value=&quot;Send to iframe&quot;&gt;  
+    &lt;/div&gt;  
+    &lt;iframe id=&quot;inner&quot; width=&quot;450&quot; height=&quot;300&quot; src=&quot;http://www.abc.com/HTML5/postMessage/postmessage2.html&quot;&gt;&lt;/iframe&gt;  
+    &lt;script type=&quot;text/javascript&quot; src=&quot;../EventUtil.js&quot;&gt;&lt;/script&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+    EventUtil.addHandler(window,&apos;message&apos;,function(event){  
+        var content=document.getElementById(&quot;content&quot;);  
+        content.innerHTML=&quot;iframe said:&quot;+event.data;  
+        //event.source.postMessage(&quot;1页面收到消息&quot;,&quot;http://www.abc.com&quot;);  
+    });  
+    EventUtil.addHandler(document.getElementById(&quot;btn&quot;),&quot;click&quot;,function(event){  
+        //msg中存放的是要发送给另一个页面的消息  
+        var msg=document.getElementById(&quot;msg&quot;).value;  
+        innerWindow=document.getElementById(&quot;inner&quot;).contentWindow;  
+
+        if(innerWindow.postMessage){  
+            //*表示可以把消息发送给来自任何域的文档  
+            innerWindow.postMessage(msg,&quot;http://www.abc.com/HTML5/postMessage/postmessage2.html&quot;);  
+        }else{  
+            alert(&quot;Your browser doesn&apos;t support Cross Document Messaging.&quot;);  
+        }  
+    });  
+    &lt;/script&gt;  
+&lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><p>postmessage2.html页面</p>
+<pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+&lt;head&gt;  
+    &lt;meta charset=&quot;UTF-8&quot;&gt;  
+    &lt;title&gt;跨文档消息传递&lt;/title&gt;  
+&lt;/head&gt;  
+&lt;body&gt;  
+&lt;div id=&quot;content&quot;&gt;&lt;/div&gt;  
+&lt;div&gt;  
+    &lt;input type=&quot;text&quot; id=&quot;msg&quot; size=&quot;40&quot; placeholder=&quot;请输入内容&quot;&gt;  
+    &lt;input type=&quot;button&quot; id=&quot;btn&quot; value=&quot;Send to parent&quot;&gt;  
+&lt;/div&gt;  
+&lt;script type=&quot;text/javascript&quot; src=&quot;../EventUtil.js&quot;&gt;&lt;/script&gt;  
+&lt;script type=&quot;text/javascript&quot;&gt;  
+EventUtil.addHandler(window,&apos;message&apos;,function(event){  
+    var content=document.getElementById(&quot;content&quot;);  
+    content.innerHTML=&quot;parent said:&quot;+event.data;  
+    //event.source.postMessage(&quot;2页面收到消息&quot;,&quot;http://www.example.com&quot;);  
+});  
+EventUtil.addHandler(document.getElementById(&quot;btn&quot;),&apos;click&apos;,function(event){  
+    var msg=document.getElementById(&quot;msg&quot;).value;  
+    /*跨文档消息传送的核心是postMessage()方法  
+    使用window对象的postMessage()方法向其他窗口发送消息  
+    这个方法接收两个参数：第一个参数为所发送的消息文本；第二个参数为接收消息的对象窗口的URL地址  
+    可以在URL地址字符串中使用通配符&quot;*&quot;指定全部地址，但是建议使用准确的URL地址  
+    */  
+   //console.log(parent);// Window  
+    if(parent.postMessage){  
+        parent.postMessage(msg,&quot;http://www.example.com/HTML5/postMessage/postmessage.html&quot;);/*使用通配符&quot;*&quot;指定全部地址*/  
+    }else{  
+        alert(&quot;Your browser doesn&apos;t support Cross Document Messaging.&quot;);  
+    }  
+});  
+&lt;/script&gt;  
+&lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><p>注： EventUtil是封装好的一个js文件，里面定义了给元素绑定事件的一些函数。   </p>
+<h1 id="七-Comet"><a href="#七-Comet" class="headerlink" title="七. Comet"></a>七. Comet</h1><p>Ajax是一种页面向服务器请求数据的技术，Comet是一种服务器向页面推送数据的技术。Comet能够让信息近乎实时的被推送到页面上，非常适合处理体育比赛和股票报价。</p>
+<p>有两种实现Comet的方式：长轮询和流。长轮询是传统轮询（即短轮询）的一个翻版，即浏览器定时向服务器发送请求，看看有没有数据更新。</p>
+<p>短轮询：浏览器定时向服务器发送请求，看看有没有数据更新</p>
+<p>短轮询是一种从服务器拉取数据的工作模式。设置一个定时器，定时询问服务器是否有信息，每次建立连接传输数据之后，链接会关闭</p>
+<p>短轮询模式：建立连接——数据传输——关闭连接…建立连接——数据传输——关闭连接</p>
+<p>长轮询把传统轮询颠倒了一下，页面发送一个到服务器的请求，然后服务器一直保持连接打开，直到有数据可发送。发送完数据后，浏览器关闭连接，随即又发起一个到服务器的新请求。这个过程在页面打开期间一直不断持续。</p>
+<p>长轮询：页面发送一个到服务器的请求，然后服务器一直保持连接打开，直到有数据可发送。发送完数据后，浏览器关闭连接，随即又发起一个到服务器的新请求。</p>
+<p>长轮询模式：建立连接——（保持连接直到有数据可发送）…数据传输——关闭连接(随即又向服务器建立一个连接)</p>
+<p>长轮询与短轮询的不同：主要在于client和server采取的关闭策略不同。短轮询在建立连接以后只进行一次数据传输就关闭连接，而长轮询在建立连接以后会进行多次数据数据传输直至关闭连接。</p>
+<p>无论是短轮询还是长轮询，浏览器都要在接收数据之前，先发起对服务器的连接。两者最大的区别在于服务器如何发送数据。短轮询是服务器立即发送响应，无论数据是否有效，而长轮询是等待发送响应。轮询的优势是所有浏览器都支持，因为使用XHR对象和setTimeout()就能实现，你要做的就是决定什么时候发送请求。</p>
+<p>HTTP流</p>
+<p>第二种流行的Comet方式是HTTP流。流不同于上述的两种轮询，它在页面的整个生命周期中只使用一个HTTP连接。具体来说就是浏览器向服务器发送一个请求，然后服务器保持连接打开，然后周期性的向浏览器发送数据。下面这段PHP脚本就是采用流实现的服务器中的常见方式：</p>
+<p>streaming.php:</p>
+<pre><code>&lt;?php  
+$i=0;  
+while(true){  
+echo &quot;Number is $i&quot;;//输出一些数据，然后立即刷新输出缓存  
+flush();  
+sleep(10);//等几秒  
+$i++;  
+}  
+?&gt;  
+</code></pre><p>通过侦听readystatechange事件及检测readyState的值是否为3，就可以利用XHR对象实现HTTP流。随着不断从服务器接收数据，readyState的值就会周期性地变为3，当readyState值变为3时，responseText属性中就会保存接收到的所有数据。此时，就需要比较此前接收到的数据，决定从什么位置开始取得最新的数据。</p>
+<p>只要readystatechange事件发生，而且readyState值为3，就对responseText进行分割以取得最新数据。这里的received变量用于记录已经处理了多少个字符，每次readyState值为3时都递增。然后，通过progress回调函数来处理传入的新数据。而当readyState值为4时，则执行finished回调函数，传入响应返回的全部内容。</p>
+<pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html&gt;  
+&lt;head&gt;  
+    &lt;title&gt;HTTP Streaming Example&lt;/title&gt;  
+    &lt;meta charset=&quot;utf-8&quot;&gt;  
+&lt;/head&gt;  
+&lt;body&gt;  
+    &lt;script&gt;  
+        function createStreamingClient(url, progress, finished){  
+            //三个参数分别是：要连接的URL、在接收到数据时调用的函数以及关闭连接时调用的函数  
+            var xhr = new XMLHttpRequest(),  
+                received = 0;  
+
+            xhr.open(&quot;get&quot;, url, true);  
+            xhr.onreadystatechange = function(){  
+                var result;  
+                if (xhr.readyState == 3){  
+                    //只取得最新数据并调整计数器  
+                    result = xhr.responseText.substring(received);  
+                    received += result.length;  
+
+                    //调用progress回调函数  
+                    progress(result);  
+
+                } else if (xhr.readyState == 4){  
+                    //finished函数是用来关闭连接的  
+                    finished(xhr.responseText);  
+                }  
+            };  
+            xhr.send(null);  
+            return xhr;  
+        }  
+
+        var client = createStreamingClient(&quot;streaming.php&quot;, function(data){  
+                        alert(&quot;Received: &quot; + data);  
+                     }, function(data){  
+                        alert(&quot;Done!&quot;);  
+                     });  
+
+    &lt;/script&gt;  
+&lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><h1 id="八-服务器发送事件"><a href="#八-服务器发送事件" class="headerlink" title="八.服务器发送事件"></a>八.服务器发送事件</h1><p>SSE（Server-Sent Events，服务器发送事件）是围绕只读Comet交互推出的API或者模式。SSE API用于创建到服务器的单向连接，服务器通过这个连接可以发送任意数量的数据。服务器响应的MIME类型必须是text/event-stream，而且是浏览器中的Javascript API能解析的格式输出。SSE支持短轮询、长轮询和HTTP流，而且能在断开连接时自动确定何时重新连接。</p>
+<p>1.SSE API<br>SSE是为javascript api与其他传递消息的javascript api很相似。要预定新的事件流，要创建新的EventSource对象，并传入一个入口点：<br>var source=new EventSource(“myevents.php”);</p>
+<p>注意：要传入的URL必须与创建对象的页面同源。EventSource的实例有一个readyState属性，值为0表示正连接到服务器，值为1表示打开了连接，值为2表示关闭连接。另外还有以下三个事件：<br>open：在建立连接时触发<br>message：在从服务器接收到新事件时触发<br>error：在无法建立连接时触发<br>服务器返回的数据以字符串的格式保存在event.data中。<br>默认情况下，EventSource对象会保存于服务器的活动连接。如果连接断开，还会重新连接。这就意味着SSE适合长轮询和HTTP流。如果想强制立即断开连接并且不再重新连接，可以调用close()方法。</p>
+<p>2.事件流<br>所谓的服务器事件会通过一个持久的HTTP响应发送，这个响应的MIME类型为text/event-stream。响应的格式是纯文本。<br>Demo<br>index.html<br>[html] view plain copy<br>在CODE上查看代码片派生到我的代码片</p>
+<pre><code>&lt;span style=&quot;font-size:14px;&quot;&gt;&lt;!DOCTYPE html&gt;  
+&lt;html&gt;  
+&lt;head&gt;  
+    &lt;meta charset=&quot;utf-8&quot;&gt;  
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;  
+    &lt;title&gt;SSE&lt;/title&gt;  
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;&quot;&gt;  
+&lt;/head&gt;  
+&lt;body&gt;  
+&lt;!-- 实现服务器数据推送，例如股票时时刷新等 --&gt;  
+    &lt;script type=&quot;text/javascript&quot; src=&quot;index.js&quot;&gt;&lt;/script&gt;  
+&lt;/body&gt;  
+&lt;/html&gt;&lt;/span&gt;  
+</code></pre><p>index.js</p>
+<pre><code>var source;  
+function init(argument){  
+    source = new EventSource(&apos;http://localhost/sse/data.php&apos;);  
+    source.onopen=function(){  
+        console.log(&apos;连接已建立&apos;,this.readyState);  
+    }  
+    source.onmessage=function(event){  
+        console.log(&apos;从服务器时时获取的数据&apos;,event.data);  
+    }  
+    source.onerror=function(){  
+
+    }  
+}  
+init();  
+</code></pre><p>data.php</p>
+<pre><code>&lt;?php  
+header(&quot;Content-Type:text/event-stream;charset=utf-8&quot;);  
+header(&quot;Access-Control-Allow-Origin:http://127.0.0.1/&quot;);  
+echo &quot;data:现在北京时间是&quot;.date(&apos;H:i:s&apos;).&quot;\r\n\r\n&quot;;  
+ ?&gt;  
+</code></pre><h1 id="九-Web-Sockets"><a href="#九-Web-Sockets" class="headerlink" title="九.Web Sockets"></a>九.Web Sockets</h1><p>web sockets使用了自定义的协议。未加密的协议是ws://;加密的协议是wss://。<br>要创建web sockets，先实例一个WebSocket对象并传入要连接的URL：<br>var sockets=new WebSockets(“ws://www.example.com/server.php”);<br>注意，必须给WebSockets构造函数传入绝对的URL。同源策略对它不适用，因此可以通过它打开到任何站点的连接。</p>
+<p>关闭WebSocket连接：<br>sockets.close();   //关闭<br>发送和接收数据：<br>sockets.send(“Hello word”);//可以发送字符串，json格式的字符串<br>sockets的事件有onmessage：当服务器向客户端发来消息时，WebSocket对象就会触发message事件，这个message事件与其他传递消息的协议类似，也是把返回的数据保存在event.data属性中。</p>
+<pre><code>Socket.onmessage=function(event){  
+var data=event.data;  
+//处理数据  
+ }  
+</code></pre><p>其他事件：<br>open：在成功建立连接时触发；<br>error：在发生错误时触发，连接不能持续；<br>close：在连接关闭时触发。close事件的event对象有三个额外的属性：wasClean,code,reason。其中，wasClean是一个布尔值，表示连接是否已经明确地关闭；code是服务器返回的数值状态码，而reason是一个字符串，包含服务器发回的消息。</p>
+<p>Web Socket协议不同于HTTP，所以现有的服务器不能用Web Socket通信。SSE倒是通过常规HTTP通信，因此现有服务器就可以满足需求。要是双向的通信，Web Sockets更好一些。在不能使用Web Sockets的情况下，组合XHR+SSE也能实现双向通信。</p>
+<p>WebSocket 协议是html5引入的一种新的协议，其目的在于实现了浏览器与服务器全双工通信。看了上面链接的同学肯定对过去怎么低效率高消耗（轮询或comet）的做此事已经有所了解了，而在websocket API，浏览器和服务器只需要要做一个握手的动作，然后，浏览器和服务器之间就形成了一条快速通道。两者之间就直接可以数据互相传送。同时这么做有两个好处：<br>1.通信传输字节减少：比起以前使用http传输数据，websocket传输的额外信息很少<br>2.服务器可以主动向客户端推送消息，而不用客户端去查询</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-XMLHTTPRequest2级" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/06/04/XMLHTTPRequest2级/" class="article-date">
+  	<time datetime="2016-06-04T06:30:26.000Z" itemprop="datePublished">2016-06-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/04/XMLHTTPRequest2级/">XMLHTTPRequest2级</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p></p><h2>新旧版本对比</h2><p></p>
+<p></p><h2>新旧版本对比</h2><br>老版本的XMLHttpRequest对象有以下几个缺点：<br><p></p>
+<pre><code>&lt;blockquote&gt;只支持文本数据的传送，无法读取和上传二进制文件。&lt;br/&gt;传送和接收数据时，没有进度信息，只能提示有没有完成。&lt;br/&gt;
+受到”同域限制”，只能向同一域名的服务器请求数据。&lt;br/&gt;&lt;/blockquote&gt;
+</code></pre><p>新版本的功能<br><br>新版本的XMLHttpRequest对象的一些新功能：<br></p>
+<blockquote>可以设置HTTP请求的时限。<br><br>    可以使用FormData对象管理表单数据。<br><br>    可以上传文件。<br><br>    可以请求不同域名下的数据（跨域资源共享，Cross-origin resource sharing，简称 CORS）。<br><br>    可以获取服务器端的二进制数据。<br><br>    可以获得数据传输的进度信息。<br><br></blockquote>
+
+<h1>FormData</h1> 
+
+<p>XMLHttpRequest 2级定义了FormData类型，这为序列化表单以及创建与表单格式相同的数据提供了便利。<br><br>新建FormData对象：</p>
+<pre><code>&lt;pre&gt;var formData = new FormData();&lt;/pre&gt;   
+</code></pre><p>为它添加表单项：</p>
+<pre>formData.append('name', 'lisi');
+formData.append('age', 12);</pre>
+
+<p>最后，直接传送这个FormData对象。这与提交网页表单的效果，完全一样。</p>
+<pre>xhr.send(formData);</pre>
+
+<p>Demo:</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+
+    &lt;head&gt;
+&lt;title&gt;FormData&lt;/title&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;p&gt;Fill in the form below:&lt;/p&gt;
+&lt;form id=&quot;user-info&quot;&gt;
+    &lt;label for=&quot;user-name&quot;&gt;姓名:&lt;/label&gt;
+    &lt;input type=&quot;text&quot; id=&quot;user-name&quot; name=&quot;user-name&quot; /&gt;&lt;br&gt;
+    &lt;label for=&quot;user-email&quot;&gt;Email:&lt;/label&gt;
+    &lt;input type=&quot;text&quot; id=&quot;user-email&quot; name=&quot;user-email&quot; /&gt;&lt;br&gt;
+    &lt;input type=&quot;button&quot; value=&quot;Submit&quot; onclick=&quot;submitData()&quot; /&gt;
+&lt;/form&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+    function createXHR(){
+                if(typeof XMLHttpRequest){
+                    return new XMLHttpRequest();
+                }else if(typeof ActiveXObject){
+                    return new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
+                }
+    }
+    function submitData(){
+        var xhr = createXHR();
+        xhr.onreadystatechange = function(event){
+            if (xhr.readyState == 4){
+                if (xhr.status == 200 ){
+                    console.log(xhr.responseText);
+                } else {
+                    alert(&quot;Request was unsuccessful: &quot; + xhr.status);
+                }
+            }
+        };
+
+        xhr.open(&quot;post&quot;, &quot;postexample.php&quot;, true);
+        var form = document.getElementById(&quot;user-info&quot;);
+        xhr.send(new FormData(form));
+    }
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>postexample.PHP</p>
+<pre><code>&lt;?php
+    header(&quot;Content-Type: text/plain&quot;);
+    echo &lt;&lt;&lt;EOF
+    Name: {$_POST[&apos;user-name&apos;]}
+    Email: {$_POST[&apos;user-email&apos;]}
+
+?&gt;
+</code></pre><p>使用FormData的方便之处在于：不必明确在xhr对象上设置请求头部，xhr对象能够识别传入的数据类型是FormData的实例，并配置适当的头部信息。</p>
+<p>FormData对象也可以用来获取网页表单的值：</p>
+<pre><code>var form = document.getElementById(&apos;myform&apos;);
+var formData = new FormData(form);
+formData.append(&apos;name&apos;, &apos;lisi&apos;); // 添加一个表单项
+xhr.open(&apos;POST&apos;, form.action);
+xhr.send(formData);
+</code></pre><p>新版本的XMLHttpRequest对象，增加了timeout属性，可以设置HTTP请求的时限，表示请求在等待响应多少毫秒之后就停止。在给timeout属性属性设置一个数值后，如果在规定的时间内浏览器还没有接收到响应，那么就会触发timeout事件，进而会调用ontimeout事件处理程序。</p>
+<p>Demo:</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Timeout事件&lt;/title&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+    function createXHR(){
+                if(typeof XMLHttpRequest){
+                    return new XMLHttpRequest();
+                }else if(typeof ActiveXObject){
+                    return new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
+                }
+    }
+    var xhr = createXHR();
+    xhr.onreadystatechange = function(event){
+        try {
+            if (xhr.readyState == 4){
+                if (xhr.status == 200){
+                    alert(xhr.responseText);
+                } else {
+                    alert(&quot;Request was unsuccessful: &quot; + xhr.status);
+                }
+            }
+        } catch (ex){
+            //assume handled by ontimeout
+        }
+    };
+    xhr.open(&quot;get&quot;, &quot;timeout.php&quot;, true);
+    xhr.timeout = 1000;//给xhr对象设置了timeout属性，表示请求在等待响应1000毫秒之后停止
+    xhr.ontimeout = function(){
+        alert(&quot;Request did not return in a second.&quot;);
+    };
+    xhr.send(null);
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>跨域资源共享（CORS）</p>
+<p>新版本的XMLHttpRequest对象，可以向不同域名的服务器发出HTTP请求。这叫做”跨域资源共享”（Cross-origin resource sharing，简称CORS）。<br>使用”跨域资源共享”的前提，是浏览器必须支持这个功能，而且服务器端必须同意这种”跨域”。如果能够满足上面的条件，则代码的写法与不跨域的请求完全一样。</p>
+<p>例如：</p>
+<p>xhr.open(‘post’, ‘<a href="http://localhost/test.php&#39;,true" target="_blank" rel="external">http://localhost/test.php&#39;,true</a>);</p>
+<p>进度事件</p>
+<p>新版本的XMLHttpRequest对象，传送数据的时候，有一个progress事件，用来返回进度信息。<br>它分成上传和下载两种情况：<br>1.下载的progress事件属于XMLHttpRequest对象<br>2.上传的progress事件属于XMLHttpRequest.upload对象<br>有以下6个进度事件：</p>
+<pre><code>loadstart:在接收到响应数据的第一个字节时触发
+progress:在接收响应期间持续不断地触发
+error:在请求发生错误时触发
+abort:在因为调用abort()方法而终止连续时触发
+load:在接收到完整的响应数据时触发
+loadend:在通信完成或者触发error、abort或load事件后触发
+
+每个请求都是从触发loadstart事件开始，接下来是一或多个progress事件，然后触发error、abort或load事件中的一个，最后以触发loadend事件结束。
+</code></pre><p>Demo:</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;XHR Progress Event Example&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id=&quot;status&quot;&gt;&lt;/div&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
+        function createXHR(){
+                    if(typeof XMLHttpRequest){
+                        return new XMLHttpRequest();
+                    }else if(typeof ActiveXObject){
+                        return new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
+                    }
+        }
+//主要浏览器接收到了服务器的响应，不管其状态如何，都会触发load事件。
+        window.onload = function(){
+            var xhr = createXHR();
+            xhr.onload = function(event){
+                if (xhr.status == 200){
+                    console.log(xhr.responseText);
+                } else {
+                    alert(&quot;Request was unsuccessful: &quot; + xhr.status);
+                }
+            };
+            xhr.onprogress = function(event){
+                var divStatus = document.getElementById(&quot;status&quot;);
+                if (event.lengthComputable){
+                    divStatus.innerHTML = &quot;Received &quot; + event.position + &quot; of &quot; + event.totalSize + &quot; bytes&quot;;
+                }
+            };
+            xhr.open(&quot;get&quot;, &quot;test.php&quot;, true);
+            xhr.send(null);
+        };
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>test.php</p>
+<pre><code>&lt;?php
+    header(&quot;Content-Type: text/plain&quot;);
+    header(&quot;Content-Length: 27&quot;);
+    echo &quot;Some data&quot;;
+    flush();
+    echo &quot;Some data&quot;;
+    flush();
+    echo &quot;Some data&quot;;
+    flush();
+?&gt;
+</code></pre><p>progress事件会在浏览器接收新数据期间周期性地触发。onprogress事件处理程序会接收到一个event对象，其target属性是XHR对象，包含三个额外的属性：</p>
+<pre><code>lengthComputable:表示进度信息是否可用的布尔值
+position:表示已经接收的字节数
+totalSize:表示根据Content-Length响应头部确定的预期字节数
+利用这些信息，我们可以为用户创建一个进度指示器
+</code></pre><p>ajax无刷新上传</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+    &lt;title&gt;ajax无刷新上传&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+    #div1{
+        width: 300px;
+        height: 30px;
+        border:1px solid #000;
+        position: relative;
+    }
+    #div2{
+        width: 0;
+        height: 30px;
+        background: #CCC;
+    }
+    #div3{
+        width: 300px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;input type=&quot;file&quot; id=&quot;myFile&quot; name=&quot;&quot; value=&quot;&quot; placeholder=&quot;&quot;&gt;
+&lt;input type=&quot;button&quot; id=&quot;btn&quot; name=&quot;&quot; value=&quot;上传&quot;&gt;
+&lt;div id=&quot;div1&quot;&gt;
+    &lt;div id=&quot;div2&quot;&gt;&lt;/div&gt;
+    &lt;div id=&quot;div3&quot;&gt;0%&lt;/div&gt;
+&lt;/div&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+var oBtn = document.getElementById(&quot;btn&quot;);//获取上传按钮
+var myFile = document.getElementById(&quot;myFile&quot;);
+var oDiv2 = document.getElementById(&quot;div2&quot;);
+var oDiv3 = document.getElementById(&quot;div3&quot;);
+oBtn.onclick = function(){
+    //alert(myFile.value);//获取到的是file控件的value值，这个内容是显示给你看的文字，不是我们选择的文件
+    //myFile.files 是file控件中选择的文件列表对象
+    //alert(myFile.files);//[object FileList]
+
+    //我们是要通过ajax把myFile.files[0]数据发送给后端
+    //for (var attr in myFile.files[0]) {
+    //console.log( attr + &apos; : &apos; + myFile.files[0][attr] );
+    // }
+    var xhr = new XMLHttpRequest();
+    //监听上传完成事件
+    //load事件在接收到完整的响应数据时触发
+    xhr.onload = function(){
+        alert(&quot;上传完成&quot;);
+    }
+    // 监听上传进度
+    var oUpload = xhr.upload;
+    oUpload.onprogress = function(e){
+            //e.total：待发送的总量
+            //e.loaded：已经发送的总量
+            //oUpload.onprogress：上传
+            //onprogress：下载
+            console.log(e.total + &apos;:&apos; + e.loaded);
+        var iScale = e.loaded / e.total;//获取已经上传的比例
+            //上传进度条
+            //根据上传的比例改变进度条div的宽度(初始宽度为0)
+            oDiv2.style.width = 300 * iScale + &apos;px&apos;;
+            //上传进度的百分比显示
+            oDiv3.innerHTML = 100 * iScale + &apos;%&apos;;
+    };
+    xhr.open(&apos;post&apos;,&apos;post_file.php&apos;,true);//post请求
+    var oFormData = new FormData();
+    //append方法接收两个参数：分别对象表单字段名称和表单字段值
+    oFormData.append(&apos;file&apos;,myFile.files[0]);
+    xhr.send(oFormData);
+};
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>post_file.php</p>
+<pre><code>&lt;?php
+header(&apos;Content-type:text/html; charset=&quot;utf-8&quot;&apos;);
+//uploads--用来存放上传成功的文件
+$upload_dir = &apos;uploads/&apos;;
+//strtolower把所有字符转换为小写
+//如果发送客户端发送的不是post请求，则给出相应的错误信息并退出
+if(strtolower($_SERVER[&apos;REQUEST_METHOD&apos;]) != &apos;post&apos;){
+    exit_status(array(&apos;code&apos;=&gt;1,&apos;msg&apos;=&gt;&apos;错误提交方式&apos;));
+}
+//检查键名是否存在于数组中
+//array_key_exists(key,array)，存在则返回true
+//$_FILES[&apos;myFile&apos;][&apos;error&apos;] 和该文件上传相关的错误代码
+if(array_key_exists(&apos;file&apos;,$_FILES) &amp;&amp; $_FILES[&apos;file&apos;][&apos;error&apos;] == 0 ){
+    $pic = $_FILES[&apos;file&apos;];
+    //move_uploaded_file() 函数将上传的文件移动到新位置
+    //第一个参数表示要移动的文件，第二个参数为文件的新位置
+    //若成功，则返回 true，否则返回 false
+    if(move_uploaded_file($pic[&apos;tmp_name&apos;], $upload_dir.$pic[&apos;name&apos;])){
+        exit_status(array(&apos;code&apos;=&gt;0,&apos;msg&apos;=&gt;&apos;上传成功&apos;,&apos;url&apos;=&gt;$upload_dir.$pic[&apos;name&apos;]));
+    }
+}
+echo $_FILES[&apos;file&apos;][&apos;error&apos;];
+exit_status(array(&apos;code&apos;=&gt;1,&apos;msg&apos;=&gt;&apos;出现了一些错误&apos;));
+//将关联数组转为json字符串，并退出
+function exit_status($str){
+    echo json_encode($str);
+    exit;
+}
+?&gt;
+
+
+    $_FILES[“file”][“name”] - 被上传文件的名称
+    $_FILES[“file”][“type”] - 被上传文件的类型
+    $_FILES[“file”][“size”] - 被上传文件的大小，以字节计
+    $_FILES[“file”][“tmp_name”] - 存储在服务器的文件的临时副本的名称
+    $_FILES[“file”][“error”] - 由文件上传导致的错误代码
+</code></pre><p>用promise实现ajax</p>
+<p>Demo：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+    &lt;title&gt;ajax的Promise实现&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+function ajax(method,url,data,bool){
+    var promise = new Promise(function(resolve,reject){
+        var xhr = new XMLHttpRequest();
+        xhr.open(method,url,bool);
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4){
+                if(xhr.status == 200){
+                    resolve(xhr.responseText);
+                }else{
+                    reject(new Error(xhr.statusText));
+                }
+            }
+        };
+        // xhr.responseType = &quot;json&quot;;
+        // xhr.setRequestHeader(&quot;Accept&quot;, &quot;application/json&quot;);
+        xhr.send(data);
+    });
+    return promise;
+}
+ajax(&quot;get&quot;,&quot;http://localhost/mywork/promise/post.json&quot;,null,false).then(function(data){
+    data = JSON.parse(data);//服务器返回的是一个json字符串
+    console.log(data.name+&quot;--&quot;+data.age);//lisi--12
+},function(error){
+    console.error(&quot;出错了:&quot;+error);//出错了:Error: Not Found
+});
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>post.json</p>
+<pre><code>{
+    &quot;name&quot;:&quot;lisi&quot;,
+    &quot;age&quot;:12
+  }
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-js继承学习" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/04/04/js继承学习/" class="article-date">
+  	<time datetime="2016-04-04T05:39:39.000Z" itemprop="datePublished">2016-04-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/04/04/js继承学习/">js继承学习</a>
+    </h1>
+  
+
+      </header>
+      
+    
     <div class="article-entry" itemprop="articleBody">
       
         <p>js里常用的如下两种继承方式：<br>原型链继承（对象间依靠原型链来实现继承）</p>
 <p>类式继承（在子类型构造函数的内部调用超类型的构造函数）</p>
-<p>由于js不像Java那样是真正面向对象的语言，js是基于对象的，它没有类的概念。所以，要想实现继承，可以用js的原型<br>prototype机制或者用apply和call方法去实现。<br>借用构造函数（类式继承）</p>
-<p>[html] view plain copy<br>在CODE上查看代码片派生到我的代码片</p>
-<pre><code>&lt;!DOCTYPE html&gt;  
+<p>由于js不像Java那样是真正面向对象的语言，js是基于对象的，它没有类的概念。所以，要想实现继承，可以用js的原型<br>prototype机制或者用apply和call方法去实现。</p>
+<h1 id="借用构造函数（类式继承）"><a href="#借用构造函数（类式继承）" class="headerlink" title="借用构造函数（类式继承）"></a>借用构造函数（类式继承）</h1><pre><code>&lt;!DOCTYPE html&gt;  
 &lt;html lang=&quot;en&quot;&gt;  
     &lt;head&gt;  
         &lt;meta charset=&quot;utf-8&quot;&gt;  
@@ -248,8 +1646,8 @@
         console.log(child.age);//lisi  
         console.log(child.colors);//[&quot;red&quot;, &quot;blue&quot;, &quot;green&quot;]  
         child.colors.push(&quot;yellow&quot;);  
-        console.log(child.colors);// [&quot;red&quot;, &quot;blue&quot;, &quot;green&quot;, &quot;yellow&quot;]  
-        console.log(obj.colors);// [&quot;red&quot;, &quot;blue&quot;, &quot;green&quot;]  
+         console.log(child.colors);// [&quot;red&quot;, &quot;blue&quot;, &quot;green&quot;, &quot;yellow&quot;]  
+            console.log(obj.colors);// [&quot;red&quot;, &quot;blue&quot;, &quot;green&quot;]  
         console.log(child2.colors);//[&quot;red&quot;, &quot;blue&quot;, &quot;green&quot;]  
         /*  
         借用构造函数虽然解决了刚才两种问题，但没有原型，则复用无从谈起，所以我们需要原型链+借用构造函数的模式，这种模式称为组合继承  
@@ -257,9 +1655,7 @@
     &lt;/script&gt;  
     &lt;/body&gt;  
 &lt;/html&gt;  
-</code></pre><p>原型链继承</p>
-<p>[html] view plain copy<br>在CODE上查看代码片派生到我的代码片</p>
-<pre><code>&lt;!DOCTYPE html&gt;  
+</code></pre><h1 id="原型链继承"><a href="#原型链继承" class="headerlink" title="原型链继承"></a>原型链继承</h1><pre><code>  &lt;!DOCTYPE html&gt;  
 &lt;html lang=&quot;en&quot;&gt;  
     &lt;head&gt;  
         &lt;meta charset=&quot;utf-8&quot;&gt;  
@@ -309,10 +1705,11 @@
 <p>这样赋值之后，需要重新指定：Child.prototype.constructor = Child;</p>
 <p>因为任何一个prototype对象都有一个constructor属性，指向它的构造函数。如果没有”Child.prototype=new Parent();”这一行，Child.prototype.constructor是指向Child的；加了这一行以后，Child.prototype.constructor指向Parent。所以为了确保Child.prototype.constructor是指向Child，需要重新指定Child.prototype.constructor = Child;</p>
 <p>更重要的是：每一个实例也有一个constructor属性，默认调用prototype对象的constructor属性。</p>
-<p>[javascript] view plain copy</p>
 <pre><code>console.log(child.constructor == Child.prototype.constructor);//true  
-</code></pre><p>[javascript] view plain copy</p>
-<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;  
+
+
+
+&lt;script type=&quot;text/javascript&quot;&gt;  
     function Parent(name){  
         this.name = name;  
     }  
@@ -325,14 +1722,14 @@
     console.log(child.constructor == Parent);//true  
     &lt;/script&gt;  
 </code></pre><p>但是，在运行”Child.prototype = new Parent();”这一行之后，Child.constructor也指向Parent！</p>
-<p>[javascript] view plain copy</p>
 <pre><code>&lt;pre name=&quot;code&quot; class=&quot;javascript&quot;&gt;console.log(child.constructor == Parent);//true  
 </code></pre><p>这显然会导致继承链的紊乱（child明明是用构造函数Child生成的），因此我们必须手动纠正，将Child.prototype对象的constructor值改为Child。这就是需要重新指定：Child.prototype.constructor = Child;的意义所在。</p>
-<p>这是很重要的一点，编程时务必要遵守。下文都遵循这一点，即如果替换了prototype对象，<br>　　<br>[javascript] view plain copy</p>
+<p>这是很重要的一点，编程时务必要遵守。下文都遵循这一点，即如果替换了prototype对象，
+　　</p>
 <pre><code>o.prototype = {};  
-</code></pre><p>那么，下一步必然是为新的prototype对象加上constructor属性，并将这个属性指回原来的构造函数。<br>[javascript] view plain copy</p>
+</code></pre><p>那么，下一步必然是为新的prototype对象加上constructor属性，并将这个属性指回原来的构造函数。</p>
 <pre><code>o.prototype.constructor = o;  
-</code></pre><p>直接继承prototype<br>[javascript] view plain copy</p>
+</code></pre><p>直接继承prototype</p>
 <pre><code>&lt;script type=&quot;text/javascript&quot;&gt;  
 //由于Parent对象中，不变的属性都可以直接写入Parent.prototype。所以，我们也可以让Child()跳过 Parent()，直接继承Parent.prototype。  
     function Parent(name){  
@@ -351,10 +1748,8 @@
     与前一种方法相比，这样做的优点是效率比较高（不用执行和建立Parent的实例了），比较省内存。缺点是 Child.prototype和Parent.prototype现在指向了同一个对象，那么任何对Child.prototype的修改，都会反映到Parent.prototype。 
      */  
 &lt;/script&gt;  
-</code></pre><p>原型式继承</p>
-<p>原型式继承，要求必须有一个对象可以作为另一个对象的基础。如果有这么一个对象的话，可以把它传递给obj函数，然后再根据具体要求对得到的对象加以修改即可。在这个例子中，可以作为另一个对象基础的是box对象，我们将其传入obj()函数，然后该函数就会返回一个新对象。这个新对象将box作为原型，所以它的原型中就包含一个基本类型值属性和一个引用类型值属性。也就说box.family不仅属于box所有，而且也会被a1和a2共享。这就相当于又创建了box对象的两个副本(即对box对象进行了浅复制)。</p>
+</code></pre><h1 id="原型式继承"><a href="#原型式继承" class="headerlink" title="原型式继承"></a>原型式继承</h1><p>原型式继承，要求必须有一个对象可以作为另一个对象的基础。如果有这么一个对象的话，可以把它传递给obj函数，然后再根据具体要求对得到的对象加以修改即可。在这个例子中，可以作为另一个对象基础的是box对象，我们将其传入obj()函数，然后该函数就会返回一个新对象。这个新对象将box作为原型，所以它的原型中就包含一个基本类型值属性和一个引用类型值属性。也就说box.family不仅属于box所有，而且也会被a1和a2共享。这就相当于又创建了box对象的两个副本(即对box对象进行了浅复制)。</p>
 <p>这种继承方式的缺点是：包含引用类型值的属性始终都会共享相应的值。</p>
-<p>[html] view plain copy<br>在CODE上查看代码片派生到我的代码片</p>
 <pre><code>&lt;!DOCTYPE html&gt;  
 &lt;html lang=&quot;en&quot;&gt;  
     &lt;head&gt;  
@@ -389,7 +1784,7 @@
     &lt;/script&gt;  
     &lt;/body&gt;  
 &lt;/html&gt;  
-</code></pre><p>Object.create()原型式继承<br>[javascript] view plain copy</p>
+</code></pre><p>Object.create()原型式继承</p>
 <pre><code>&lt;script type=&quot;text/javascript&quot;&gt;  
     //ECMAScript5新增了Object.create()方法规范化了原型式继承。这个方法接收两个参数：一个用作新对象原型的对象和可选参数--一个为新对象定义额外属性的对象。  
         var box = {  
@@ -418,8 +1813,7 @@
         console.log(a2.family);// [&quot;brother&quot;, &quot;sister&quot;, &quot;me&quot;, &quot;mother&quot;, &quot;child&quot;]  
         console.log(box.family);//[&quot;brother&quot;, &quot;sister&quot;, &quot;me&quot;, &quot;mother&quot;, &quot;child&quot;]  
     &lt;/script&gt;  
-</code></pre><p>组合继承<br> 组合式继承是比较常用的一种继承方法，其背后的思路是：使用原型链实现对原型属性和方法的继承，而通过借用构造函数来实现对实例属性的继承。这样，既通过在原型上定义方法实现了函数复用，又保证每个实例都有它自己的属性。</p>
-<p>[html] view plain copy<br>在CODE上查看代码片派生到我的代码片</p>
+</code></pre><h1 id="组合继承"><a href="#组合继承" class="headerlink" title="组合继承"></a>组合继承</h1><p> 组合式继承是比较常用的一种继承方法，其背后的思路是：使用原型链实现对原型属性和方法的继承，而通过借用构造函数来实现对实例属性的继承。这样，既通过在原型上定义方法实现了函数复用，又保证每个实例都有它自己的属性。</p>
 <pre><code>&lt;!DOCTYPE html&gt;  
 &lt;html lang=&quot;en&quot;&gt;  
     &lt;head&gt;  
@@ -447,10 +1841,8 @@
     &lt;/script&gt;  
     &lt;/body&gt;  
 &lt;/html&gt;  
-</code></pre><p>寄生式继承</p>
-<p>这种继承方式是把原型式+工厂模式结合起来，目的是为了封装创建的过程。</p>
+</code></pre><h1 id="寄生式继承"><a href="#寄生式继承" class="headerlink" title="寄生式继承"></a>寄生式继承</h1><p>这种继承方式是把原型式+工厂模式结合起来，目的是为了封装创建的过程。</p>
 <p>根据已有对象person，利用原型式继承返回一个新的对象，并根据要求对该对象进行增强。</p>
-<p>[html] view plain copy<br>在CODE上查看代码片派生到我的代码片</p>
 <pre><code>&lt;!DOCTYPE html&gt;  
 &lt;html lang=&quot;en&quot;&gt;  
     &lt;head&gt;  
@@ -485,7 +1877,6 @@
     &lt;/body&gt;  
 &lt;/html&gt;  
 </code></pre><p>组合式继承的小问题</p>
-<p>[html] view plain copy<br>在CODE上查看代码片派生到我的代码片</p>
 <pre><code>&lt;!DOCTYPE html&gt;  
 &lt;html lang=&quot;en&quot;&gt;  
     &lt;head&gt;  
@@ -516,8 +1907,7 @@
     &lt;/script&gt;  
     &lt;/body&gt;  
 &lt;/html&gt;  
-</code></pre><p>寄生组合式继承<br>这种方式的目的就在于：解决组合继承中父类构造函数调用两次造成的子类原型上创建多余的、不必要的属性的问题。<br>所谓寄生组合式继承，即通过借用构造函数来继承属性，通过原型链的混成形式来继承方法。<br> 基本思路是：不必为指定子类型的原型而调用超类型的构造函数，我们所需要的无非就是超类型原型的一个副本而已。我们可以使用寄生式继承来继承超类型的原型，然后再将结果指定给子类型的原型。这样就可以避免两次调用父类的构造函数，不会在子类原型上创建多余的、不必要的属性。</p>
-<p>[html] view plain copy<br>在CODE上查看代码片派生到我的代码片</p>
+</code></pre><h1 id="寄生组合式继承"><a href="#寄生组合式继承" class="headerlink" title="寄生组合式继承"></a>寄生组合式继承</h1><p>这种方式的目的就在于：解决组合继承中父类构造函数调用两次造成的子类原型上创建多余的、不必要的属性的问题。<br>所谓寄生组合式继承，即通过借用构造函数来继承属性，通过原型链的混成形式来继承方法。<br> 基本思路是：不必为指定子类型的原型而调用超类型的构造函数，我们所需要的无非就是超类型原型的一个副本而已。我们可以使用寄生式继承来继承超类型的原型，然后再将结果指定给子类型的原型。这样就可以避免两次调用父类的构造函数，不会在子类原型上创建多余的、不必要的属性。</p>
 <pre><code>&lt;!DOCTYPE html&gt;  
 &lt;html lang=&quot;en&quot;&gt;  
     &lt;head&gt;  
@@ -575,15 +1965,14 @@
     &lt;/script&gt;  
     &lt;/body&gt;  
 &lt;/html&gt;  
-</code></pre><p>js继承方式及其优缺点</p>
-<p>原型链继承的缺点</p>
+</code></pre><h2 id="js继承方式及其优缺点"><a href="#js继承方式及其优缺点" class="headerlink" title="js继承方式及其优缺点"></a>js继承方式及其优缺点</h2><p>原型链继承的缺点</p>
 <p>一是字面量重写原型会中断关系，使用引用类型的原型，并且子类型还无法给超类型传递参数。</p>
 <p>借用构造函数（类式继承）</p>
 <p>借用构造函数虽然解决了刚才两种问题，但没有原型，则复用无从谈起。所以我们需要原型链+借用构造函数的模式，这种模式称为组合继承</p>
 <p>组合式继承</p>
 <p>组合式继承是比较常用的一种继承方法，其背后的思路是：使用原型链实现对原型属性和方法的继承，而通过借用构造函数来实现对实例属性的继承。这样，既通过在原型上定义方法实现了函数复用，又保证每个实例都有它自己的属性。</p>
-<p>组合继承缺点：组合继承最大的问题：就是无论什么情况下，都会调用两次超类型构造函数。一次是在创建子类原型的时候，另一次是在子类型构造函数内部。子类型最终会包含超类型对象的全部实例属性，但我们不得不在调用子类型构造函数时重写这些属性。这样就会导致在子类原型上创建不必要的、多余的属性。<br>非构造函数的继承<br>浅拷贝继承<br>[javascript] view plain copy</p>
-<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;  
+<p>组合继承缺点：组合继承最大的问题：就是无论什么情况下，都会调用两次超类型构造函数。一次是在创建子类原型的时候，另一次是在子类型构造函数内部。子类型最终会包含超类型对象的全部实例属性，但我们不得不在调用子类型构造函数时重写这些属性。这样就会导致在子类原型上创建不必要的、多余的属性。<br>非构造函数的继承</p>
+<h2 id="浅拷贝继承"><a href="#浅拷贝继承" class="headerlink" title="浅拷贝继承"></a>浅拷贝继承</h2><pre><code>&lt;script type=&quot;text/javascript&quot;&gt;  
 //把父对象的属性，全部拷贝给子对象，也能实现继承  
 var Parent = {  
     name:&quot;lisi&quot;,  
@@ -605,8 +1994,7 @@ console.log(Parent.friends);//[&quot;wangwu&quot;, &quot;zhaoliu&quot;, &quot;zh
 //缺点：这样的拷贝有一个问题。那就是，如果父对象的属性等于数组或另一个对象，那么实际上，子对象获得的只是一个内存地址，而不是真正拷贝，因此存在父对象被篡改的可能。上例中父对象的friends属性就被修改了。  
 //所以，extendCopy()只是拷贝基本类型的数据，我们把这种拷贝叫做&quot;浅拷贝&quot;。这是早期jQuery实现继承的方式。  
 &lt;/script&gt;  
-</code></pre><p>深拷贝继承<br>[javascript] view plain copy</p>
-<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;  
+</code></pre><h2 id="深拷贝继承"><a href="#深拷贝继承" class="headerlink" title="深拷贝继承"></a>深拷贝继承</h2><pre><code>&lt;script type=&quot;text/javascript&quot;&gt;  
 //所谓&quot;深拷贝&quot;，就是能够实现真正意义上的数组和对象的拷贝。它的实现并不难，只要递归调用&quot;浅拷贝&quot;就行了。  
 var Parent = {  
     name:&quot;lisi&quot;,  
@@ -631,14 +2019,17 @@ console.log(Child.friends);//[&quot;wangwu&quot;, &quot;zhaoliu&quot;, &quot;zha
 console.log(Parent.friends);//[&quot;wangwu&quot;, &quot;zhaoliu&quot;]  
 //jQuery库使用的就是这种继承方法  
 &lt;/script&gt;  
-</code></pre><p>参考博文<br>Javascript 面向对象编程（一）：封装<br>Javascript面向对象编程（二）：构造函数的继承<br>Javascript面向对象编程（三）：非构造函数的继承</p>
-
+</code></pre>
       
     </div>
     
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+	</div>
+
       
 
       
@@ -658,52 +2049,11 @@ console.log(Parent.friends);//[&quot;wangwu&quot;, &quot;zhaoliu&quot;]
 
 
   
-    <article id="post-新建文本文档" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-js对象" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/10/04/新建文本文档/" class="article-date">
-  	<time datetime="2016-10-04T04:51:08.929Z" itemprop="datePublished">2016-10-04</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-get与post" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/04/07/get与post/" class="article-date">
-  	<time datetime="2016-04-07T08:42:36.000Z" itemprop="datePublished">2016-04-07</time>
+      <a href="/2016/04/01/js对象/" class="article-date">
+  	<time datetime="2016-04-01T05:14:18.000Z" itemprop="datePublished">2016-04-01</time>
 </a>
     </div>
   
@@ -716,7 +2066,7 @@ console.log(Parent.friends);//[&quot;wangwu&quot;, &quot;zhaoliu&quot;]
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/04/07/get与post/">get与post</a>
+      <a class="article-title" href="/2016/04/01/js对象/">js对象</a>
     </h1>
   
 
@@ -725,13 +2075,413 @@ console.log(Parent.friends);//[&quot;wangwu&quot;, &quot;zhaoliu&quot;]
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h1 id="一、工厂模式"><a href="#一、工厂模式" class="headerlink" title="一、工厂模式"></a>一、工厂模式</h1><pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;工厂模式&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+ function createPerson(name,age,job){  
+        var o=new Object();  
+        o.name=name;  
+        o.age=age;  
+        o.job=job;  
+        o.sayName=function(){  
+                console.log(this.name);  
+        };  
+        return o;  
+    }  
+    var person1=createPerson(&quot;liujie&quot;,13,&quot;student&quot;);  
+    var person2=createPerson(&quot;lisi&quot;,14,&quot;doctor&quot;);  
+    person1.sayName();  
+    person2.sayName();  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><p>可以无数次的调用这个函数，每次它都会返回一个包含3个属性和一个方法的对象。 工厂模式虽然解决了创建多个相似对象的问题，但却没有解决对象识别的问题即怎样知道一个对象的类型。</p>
+<h1 id="二、构造函数模式"><a href="#二、构造函数模式" class="headerlink" title="二、构造函数模式"></a>二、构造函数模式</h1><p> 构造函数模式与工厂模式区别：<br>    1、没有显示地创建对象<br>    2、直接将属性和方法赋给了this对象<br>    3、没有return语句</p>
+<p> 特别注意：构造函数始终都应该以一个大写字母开头，非构造函数应该以小写字母开头<br>构造函数本身也是函数，只不过用来创建对象而已</p>
+<pre><code> &lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;构造函数模式&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+    function Person(name,age,job){  
+        /*  
+        要创建Person的新实例，必须使用new操作符  
+        1、创建一个新对象  
+        2、将构造函数的作用域赋值给新对象(因此this就指向了这个新对象)  
+        3、执行这个构造函数中的代码，为这个新对象添加属性  
+        4、返回新对象  
+         */  
+        this.name=name;  
+        this.age=age;  
+        this.job=job;  
+        this.sayName=function(){  
+            console.log(this.name);  
+        };  
+    }  
+    var person1=new Person(&quot;liujie&quot;,13,&quot;student&quot;);  
+    var person2=new Person(&quot;lisi&quot;,15,&quot;doctor&quot;);  
+    person2.sayName();  
+    person1.sayName();  
+    //constructor属性指向构造函数  
+    console.log(person1.constructor==Person);//true  
+    console.log(person2.constructor==Person);//true  
+    //创建的所有对象既是Object的实例，也是Person的实例  
+    //之所以是Object的实例，是因为所有对象均继承自Object  
+    console.log(person1 instanceof Object);//true  
+    console.log(person1 instanceof Person);//true  
+    console.log(person2 instanceof Object);//true  
+    console.log(person2 instanceof Person);//true  
+
+    //构造函数问题：每个方法都要在每个实例上重新创建一遍。每个Person实例都有一个不同的Function实例  
+    console.log(person1.sayName==person2.sayName);//false  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+
+
+
+
+&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;构造函数模式2&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+    function Person(name,age,job){  
+        this.name=name;  
+        this.age=age;  
+        this.job=job;  
+        this.sayName=function(){  
+            console.log(this.name);  
+        };  
+    }  
+    //当作构造函数使用  
+    var person=new Person(&quot;liujie&quot;,14,&quot;student&quot;);  
+    person.sayName();//liujie  
+    //当作普通函数调用  
+    Person(&quot;lisi&quot;,16,&quot;doctor&quot;);  
+    window.sayName();//lis  
+    //在另一个对象的作用域中调用  
+    var o=new Object();  
+    Person.call(o,&quot;wangwu&quot;,15,&quot;master&quot;);//这里是在对象o的作用域中调用Person构造函数，调用后o就拥有了所有属性和sayName()方法  
+    o.sayName();//wangwu  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><h1 id="三、原型模式"><a href="#三、原型模式" class="headerlink" title="三、原型模式"></a>三、原型模式</h1><p>prototype就是原型对象<br>    使用原型对象的好处就是让所有实例共享它所包含的属性和方法<br>    每个函数都有一个prototype(原型)属性，这个属性是一个指针，指向一个对象，这个对象的用途是包含可以由特定类型的所有实例共享的属性和方法。</p>
+<pre><code>所有原型对象都会自动获得一个constructor属性，这个属性包含一个指向prototype属性所在函数的指针。
+这里Person.prototype.constructor指向Person
+
+当调用构造函数创建一个新实例后，该实例的内部将包含一个指针(内部属性)，指向构造函数的原型对象。换句话说，这个指针与构造函数没有关系。
+
+每当代码读取某个对象的某个属性时，都会执行一次搜索，目标是具有给定名字的属性。
+搜索首先从实例本身开始。如果实例中找到了具有给定名字的属性，则返回该属性的值；如果没有找到，则继续搜索指针指向的原型对象，在原型对象中查找具有指定名字的属性。
+
+
+
+&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;原型模式&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+    function Person(){  
+    }  
+    Person.prototype.name=&quot;liujie&quot;;  
+    Person.prototype.age=13;  
+    Person.prototype.job=&quot;student&quot;;  
+    Person.prototype.sayName=function(){  
+        console.log(this.name);  
+
+    };  
+    //这里person1和person2访问的是同一组属性和同一个sayName()方法  
+    var person1=new Person();  
+    person1.sayName();//liujie  
+    var person2=new Person();  
+    person2.sayName();//liujie  
+    console.log(person1.sayName==person2.sayName);//true  
+
+    console.log(Person.prototype.isPrototypeOf(person1));//true  
+    console.log(Person.prototype.isPrototypeOf(person2));//true  
+
+    //Object.getPrototypeOf()返回的对象就是原型对象  
+    console.log(Object.getPrototypeOf(person1)==Person.prototype);//true  
+    console.log(Object.getPrototypeOf(person2)==Person.prototype);//true  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+
+
+
+
+&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;原型模式2&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+        function Person(){  
+    }  
+    Person.prototype.name=&quot;liujie&quot;;  
+    Person.prototype.age=13;  
+    Person.prototype.job=&quot;student&quot;;  
+    Person.prototype.sayName=function(){  
+        console.log(this.name);  
+
+    };  
+    //这里person1和person2访问的是同一组属性和同一个sayName()方法  
+    var person1=new Person();  
+    person1.name=&quot;liujiejie&quot;;  
+    //这里说明了可以通过对象实例访问保存在原型中的值，但是不能通过对象实例重写原型中的值  
+    //如果对象实例中的属性与实例原型中的一个属性同名，实例中的属性会屏蔽原型中的那个属性  
+    //person1.name=null;//即使将这个属性设置为null,也只会在实例中设置这个属性，而不会恢复其指向原型的链接  
+    delete person1.name;//如果使用delete操作符则可以完全删除实例属性，从而让我们能够重新访问原型中的属性  
+    person1.sayName();//liujiejie  
+    var person2=new Person();  
+    person2.sayName();//liujie  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+
+
+
+
+&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;原型模式3&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+        function Person(){  
+    }  
+    Person.prototype.name=&quot;liujie&quot;;  
+    Person.prototype.age=13;  
+    Person.prototype.job=&quot;student&quot;;  
+    Person.prototype.sayName=function(){  
+        console.log(this.name);  
+
+    };  
+    //这里person1和person2访问的是同一组属性和同一个sayName()方法  
+    //使用hasOwnProperty()方法，当给定属性存在于实例中时，返回true  
+    var person1=new Person();  
+    var person2=new Person();  
+    console.log(person1.hasOwnProperty(&quot;name&quot;));//false  
+    person1.name=&quot;liujiejie&quot;;  
+    console.log(person1.name);//liujiejie   来自实例  
+    console.log(person1.hasOwnProperty(&quot;name&quot;));//true  
+    console.log(person2.name);//liujie  来自原型  
+    console.log(person2.hasOwnProperty(&quot;name&quot;));//false  
+    delete person1.name;  
+    console.log(person1.name);//liujie 来自原型  
+    console.log(person1.hasOwnProperty(&quot;name&quot;));  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><h1 id="四、原型的动态性"><a href="#四、原型的动态性" class="headerlink" title="四、原型的动态性"></a>四、原型的动态性</h1><pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;原型的动态性&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+        function Person(){  
+        }  
+        Person.prototype = {  
+            constructor: Person,  
+            name : &quot;Nicholas&quot;,  
+            age : 29,  
+            job : &quot;Software Engineer&quot;,  
+            sayName : function () {  
+                alert(this.name);  
+            }  
+        };  
+        var friend = new Person();//即使先创建了实例，后修改了原型也没有问题  
+        Person.prototype.sayHi = function(){//向原型中添加方法  
+            alert(&quot;hi&quot;);  
+        };  
+        friend.sayHi();   //&quot;hi&quot; – works! 先在实例中搜索sayHi方法，找不到的话再搜索原型  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+
+
+
+
+&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;原型的动态性2&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+        function Person(){  
+        }  
+
+        var friend = new Person();//调用构造函数创建实例，并向实例中添加一个指向最初原型的[[Prototype]]指针，而把原型重写修改后就等于切断了构造函数与最初原型之间的联系。  
+        Person.prototype = {  
+            //这里重写原型对象切断了现有的原型与任何之前已经存在的对象实例之间的联系，之前的实例引用的仍然是最初的原型  
+            constructor: Person,  
+            name : &quot;Nicholas&quot;,  
+            age : 29,  
+            job : &quot;Software Engineer&quot;,  
+            sayName : function () {  
+                alert(this.name);  
+            }  
+        };  
+        friend.sayName();   //error  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><h1 id="五、原型与in操作符"><a href="#五、原型与in操作符" class="headerlink" title="五、原型与in操作符"></a>五、原型与in操作符</h1><pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;原型与in操作符&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+    /*  
+    只要能够访问到给定属性，in操作符就返回true。不管属性存在于原型上还是实例上。  
+     */  
+        function Person(){  
+    }  
+    Person.prototype.name=&quot;liujie&quot;;  
+    Person.prototype.age=13;  
+    Person.prototype.job=&quot;student&quot;;  
+    Person.prototype.sayName=function(){  
+        console.log(this.name);  
+
+    };  
+    //这里person1和person2访问的是同一组属性和同一个sayName()方法  
+    //使用hasOwnProperty()方法，当给定属性存在于实例中时，返回true  
+    var person1=new Person();  
+    var person2=new Person();  
+    console.log(person1.hasOwnProperty(&quot;name&quot;));//false  
+    console.log(&quot;name&quot; in person1);//true  
+
+    person1.name=&quot;liujiejie&quot;;  
+    console.log(person1.name);//liujiejie   来自实例  
+    console.log(person1.hasOwnProperty(&quot;name&quot;));//true  
+    console.log(&quot;name&quot; in person1);//true  
+
+    console.log(person2.name);//liujie  来自原型  
+    console.log(person2.hasOwnProperty(&quot;name&quot;));//false  
+    console.log(&quot;name&quot; in person2);//true  
+
+    delete person1.name;  
+    console.log(person1.name);//liujie   来自原型  
+    console.log(person1.hasOwnProperty(&quot;name&quot;));//false  
+    console.log(&quot;name&quot; in person1);//true  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><p>在使用for-in循环时，返回的是所有能够通过对象访问的、可枚举的属性，其中既包括存在于实例中的属性，也包括存在于原型中的属性。屏蔽了原型中不可枚举属性的实例属性也会存在for-in循环中返回，因为根据规定，所有开发人员定义的属性都是可枚举的，但是在IE8及更早版本中例外。</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;  
+    var obj = {  
+        toString : function(){  
+            return &quot;myvalue&quot;;  
+        }  
+    }  
+    for(var prop in obj){  
+        if(prop == &quot;toString&quot;){  
+            alert(&quot;toString found&quot;);  
+        }  
+    }  
+    &lt;/script&gt;  
+</code></pre><p>要取得对象上所有可枚举的实例属性，可以使用ECMAScript5的Object.keys()方法。这个方法接收一个对象作为参数，返回一个包含所有可枚举属性的字符串数组</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;  
+    function Person(){}  
+    Person.prototype.name = &quot;lisi&quot;;  
+    Person.prototype.age = 23;  
+    Person.prototype.sayName = function(){  
+        alert(this.name+&quot;--&quot;+this.age);  
+    }  
+    var keys = Object.keys(Person.prototype);  
+    console.log(keys);//[&quot;name&quot;, &quot;age&quot;, &quot;sayName&quot;]  
+    var person1 = new Person();  
+    person1.name = &quot;wangwu&quot;;  
+    person1.age = 23;  
+    console.log(Object.keys(person1));//[&quot;name&quot;, &quot;age&quot;]  
+    &lt;/script&gt;  
+</code></pre><p>如果想要得到所有的实例属性，无论它是否可枚举，可以使用Object.getOwnPropertyNames()方法</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;  
+    function Person(){}  
+    Person.prototype.name = &quot;lisi&quot;;  
+    Person.prototype.age = 23;  
+    Person.prototype.sayName = function(){  
+        alert(this.name+&quot;--&quot;+this.age);  
+    }  
+    var keys2 = Object.getOwnPropertyNames(Person.prototype);  
+    console.log(keys2);//[&quot;constructor&quot;, &quot;name&quot;, &quot;age&quot;, &quot;sayName&quot;]  
+    &lt;/script&gt;  
+</code></pre><p>注意：这里的结果中包含了不可枚举的constructor属性。Object.getOwnPropertyNames()和Object.keys()方法都可以用来代替for-in循环</p>
+<h1 id="六、简单的原型语法"><a href="#六、简单的原型语法" class="headerlink" title="六、简单的原型语法"></a>六、简单的原型语法</h1><pre><code>&lt;!DOCTYPE html&gt;  
+&lt;html lang=&quot;en&quot;&gt;  
+    &lt;head&gt;  
+        &lt;meta charset=&quot;utf-8&quot;&gt;  
+        &lt;title&gt;更简单的原型语法&lt;/title&gt;  
+    &lt;/head&gt;  
+    &lt;body&gt;  
+    &lt;script type=&quot;text/javascript&quot;&gt;  
+    /*  
+    这里将Person.prototype设置为等于一个对象字面量形式创建的新对象，最终结果相同  
+    但是有一个例外：constructor属性不再指向Person了  
+    因为，每创建一个函数，就会同时创建它的prototype对象，这个对象也会自动获得constructor属性  
+
+    而我们在这里本质上完全重写了默认的prototype对象，因此constructor属性也就变成了新对象的constructor属性(指向Object构造函数)，不再指向Person函数。  
+     */  
+        function Person(){  
+        }  
+        Person.prototype = {  
+            //constructor:Person,//显式地设置构造函数为Person  
+            //这样重设constructor属性会导致它的[[Enumerable]]特性被设置为true。默认情况下，原生的constructor属性是不可枚举的。因此，  
+            考虑使用Object.defineProperty()方法。  
+            name : &quot;Nicholas&quot;,  
+            age : 29,  
+            job: &quot;Software Engineer&quot;,  
+            sayName : function () {  
+                alert(this.name);  
+            }  
+        };  
+
+        var friend = new Person();  
+
+        alert(friend instanceof Object);  //true  
+        alert(friend instanceof Person);  //true  
+        alert(friend.constructor == Person);  //false  
+        alert(friend.constructor == Object);  //true  
+    &lt;/script&gt;  
+    &lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre>
       
     </div>
     
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+	</div>
+
       
 
       
