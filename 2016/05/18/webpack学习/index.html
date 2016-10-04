@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>webpack学习 | chandayang&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Webpack 是什么
+webpack是一款模块加载器兼打包工具，它能把各种资源，例如JS（含JSX）、coffee、样式（含less/sass）、图片等都作为模块来使用和处理。简单说就是模块加载器，通过使用Webpack，能够像Node.js一样处理依赖关系，然后解析出模块之间的依赖，将代码打包。为什么需要打包？
+像sass，JSX等代码虽然极大的提高了开发效率，但是本身并不被浏览器所识别，需要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack学习">
+<meta property="og:url" content="http://yoursite.com/2016/05/18/webpack学习/index.html">
+<meta property="og:site_name" content="chandayang's blog">
+<meta property="og:description" content="Webpack 是什么
+webpack是一款模块加载器兼打包工具，它能把各种资源，例如JS（含JSX）、coffee、样式（含less/sass）、图片等都作为模块来使用和处理。简单说就是模块加载器，通过使用Webpack，能够像Node.js一样处理依赖关系，然后解析出模块之间的依赖，将代码打包。为什么需要打包？
+像sass，JSX等代码虽然极大的提高了开发效率，但是本身并不被浏览器所识别，需要">
+<meta property="og:updated_time" content="2016-10-04T07:22:05.942Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webpack学习">
+<meta name="twitter:description" content="Webpack 是什么
+webpack是一款模块加载器兼打包工具，它能把各种资源，例如JS（含JSX）、coffee、样式（含less/sass）、图片等都作为模块来使用和处理。简单说就是模块加载器，通过使用Webpack，能够像Node.js一样处理依赖关系，然后解析出模块之间的依赖，将代码打包。为什么需要打包？
+像sass，JSX等代码虽然极大的提高了开发效率，但是本身并不被浏览器所识别，需要">
+  
+    <link rel="alternative" href="/atom.xml" title="chandayang&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="null" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">chandayang</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">前端程序媛一枚</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>標籤</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>關於</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+								<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/css布局/" style="font-size: 10px;">css布局</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/前端工具/" style="font-size: 10px;">前端工具</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我是谁，我从哪里来，我到哪里去？我就是我，是颜色不一样的吃货…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">chandayang</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="null" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">chandayang</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">前端程序媛一枚</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-webpack学习" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/05/18/webpack学习/" class="article-date">
+  	<time datetime="2016-05-18T07:11:44.000Z" itemprop="datePublished">2016-05-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      webpack学习
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端工具/">前端工具</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Webpack 是什么</p>
+<p>webpack是一款模块加载器兼打包工具，它能把各种资源，例如JS（含JSX）、coffee、样式（含less/sass）、图片等都作为模块来使用和处理。<br>简单说就是模块加载器，通过使用Webpack，能够像Node.js一样处理依赖关系，然后解析出模块之间的依赖，将代码打包。<br>为什么需要打包？</p>
+<pre><code>像sass，JSX等代码虽然极大的提高了开发效率，但是本身并不被浏览器所识别，需要我们对其进行编译和打包，变成浏览器识别的代码
+模块化(让我们可以把复杂的代码细化为小的文件)
+优化加载速度(压缩和合并代码来提高加载速度，压缩可以减少文件体积，代码合并可以减少http请求)
+使用新的开发模式
+</code></pre><p>webpack主要特性如下：</p>
+<pre><code>同时支持CommonJS和AMD模块（对于新项目，推荐直接使用CommonJS）；
+串联式模块加载器以及插件机制，让其具有更好的灵活性和扩展性，例如提供对CoffeeScript、ES6的支持；
+可以基于配置或者智能分析打包成多个文件，实现公共模块或者按需加载；
+支持对CSS，图片等资源进行打包，从而无需借助Grunt或Gulp(browserify只能打包JS文件)；
+开发时在内存中完成打包，性能更快，完全可以支持开发过程的实时打包需求；
+对source map有很好的支持。
+</code></pre><p>Source map(使调试更容易)</p>
+<p>Source map就是一个信息文件，里面储存着位置信息。也就是说，转换后的代码的每一个位置，所对应的转换前的位置。有了它，出错的时候，除错工具将直接显示原始代码，而不是转换后的代码，这将给开发者带来了很大方便。</p>
+<p>安装 Webpack</p>
+<p>首先得安装Node.js</p>
+<pre><code>全局环境下安装，在任意目录，输入以下命令
+
+    //这是为了能够在全局环境中使用webpack命令
+    //非全局安装需使用node_modules/.bin/webpack
+    $ npm install webpack -g
+
+仅在项目在中安装，切换到项目根目录，输入以下命令
+
+    $ npm install webpack --save-dev
+
+检查是否安装成功，显示如下：
+
+    $ webpack -v
+</code></pre><p>安装成功示例<br>更快捷的执行打包任务</p>
+<pre><code>{
+ &quot;name&quot;: &quot;demo&quot;,
+ &quot;version&quot;: &quot;1.0.0&quot;,
+&quot;description&quot;: &quot;&quot;,
+&quot;scripts&quot;: {
+    &quot;start&quot;: &quot;webpack-dev-server --progress --colors --hot --inline -d&quot;,
+    &quot;build&quot;: &quot;webpack --progress --colors --minify&quot;
+},
+&quot;license&quot;: &quot;ISC&quot;,
+&quot;dependencies&quot;: {
+},
+&quot;devDependencies&quot;: {
+ }
+}
+</code></pre><p>执行类似于node_modules/.bin/webpack这样的命令不仅繁琐还容易出错，不过值得庆幸的是npm可以引导任务执行，对其进行配置后可以使用简单的npm start或者npm run build命令来代替这些繁琐的命令。在package.json中对npm的脚本部分进行相关设置即可，设置方法如上面的配置所示。</p>
+<p><strong>注意：</strong>npm的start是一个特殊的脚本名称，它的特殊性在于：在命令行中使用npm start就可以执行相关命令，如果对应的此脚本名称不是start，想要在命令行中运行时，需要这样用npm run {script name}如上面例子中的npm run build。</p>
+<p><strong>特别说明：</strong>package.json中的脚本部分已经默认在命令前添加了node_modules/.bin路径，所以无论是全局还是局部安装的Webpack，你都不需要写前面那指明详细的路径了。<br>配置</p>
+<p>每个项目下都必须配置有一个 webpack.config.js ，它的作用如同常规的 gulpfile.js/Gruntfile.js ，就是一个配置项，告诉 webpack 它需要做什么。<br>webpack.config.js配置详解<br>这里给出我自己的配置：</p>
+<pre><code>var webpack = require(&apos;webpack&apos;);
+var commonsPlugin = new webpack.optimize.CommonsChunkPlugin(&apos;common.js&apos;);
+module.exports = {
+ noParse:[/jquery/]，//表示跳过jquery,不对其进行编译,这样可以提高打包的速度
+ plugins:[
+ commonsPlugin，
+ //配置了NoErrorsPlugin插件，用来跳过编译时出错的代码并记录，使编译后运行时的包不会发生错误
+ new webpack.NoErrorsPlugin()
+ ],
+ entry: {
+     index:&apos;./src/js/startup.js&apos;
+ },
+//入口文件输出配置
+ output:{
+     //path: 打包好的资源存放的位置
+     path:&apos;./js&apos;,
+     //filename: 打包后的文件名
+     filename: &apos;[name].bundle.js&apos;
+ },
+ // externals: {     //排除构建文件外
+//        &apos;react&apos;: &apos;React&apos;
+//    },
+ module: {
+     //加载器配置
+     //module.loaders 是最关键的一块配置。它告知 webpack 每一种文件都需要使用什么加载器来处理
+    loaders:[
+     {
+       //用于匹配加载器支持的文件格式的正则表达式
+        test: /\.css$/,
+        //多个加载器通过&quot;!&quot;连接,加载器是从右向左开始使用的
+        //loader指定了要使用的加载器类型
+        loader: &apos;style-loader!css-loader&apos;
+    },
+     {
+     //配置信息的参数“?limit=8192”表示将所有小于8kb的图片都转为base64形式 （其实应该说超过8kb的才使用 url-loader 来映射到文件，否则转为data url形式）
+          test: /\.(png|jpg)$/,
+          //加载器支持通过查询字符串的方式接收参数
+           loader: &apos;url-loader?limit=8192&apos;
+     },
+     {
+     //presets:指定哪些代码转换器将启用babel
+         test: /\.js$/, 
+         loader: &apos;babel-loader&apos;,
+//exclude:/node_modules/,排除node_modules这个文件夹中的代码
+ //include:/(admin|consumer)//表示只针对这两个文件夹中的代码进行打包
+//include/exclude:手动添加必须处理的文件（文件夹）或屏蔽不需要处理的文件（文件夹）
+         exclude:/node_modules/,
+         query:{
+         presets:[&apos;es2015&apos;,&apos;react&apos;]
+         }
+     },
+     {
+         test: /\.jsx$/, 
+         //?表示加载器支持通过查询字符串的方式接收参数
+        //!表示多个加载器之间通过&quot;!&quot;连接
+         loader: &apos;babel-loader!jsx-loader?harmony&apos;
+     }
+     ]
+ },
+</code></pre><p>//文件解析配置</p>
+<p>//会依次寻找不带后缀的文件，.js后缀文件以及.jsx后缀文件。先找到哪个是哪个</p>
+<pre><code>resolve: { 
+extensions: [&apos;&apos;, &apos;.js&apos;, &apos;.jsx&apos;],//当requrie的模块找不到时，添加这些后缀
+root:&apos;E:/myev/src&apos;,//绝对路径
+alias: {//别名配置
+
+    }
+ }
+}
+</code></pre><p> }</p>
+<p>这里对Webpack的打包行为做了配置，主要分为几个部分：</p>
+<pre><code>plugins 是插件项(是一个数组)：这里我们使用了一个 CommonsChunkPlugin 的插件，它用于提取多个入口文件的公共脚本部分，然后生成一个 common.js 来方便多页面之间进行复用。对于用到的插件，只需要将插件new出来放到数组中即可。
+entry：指定打包的入口文件，每有一个键值对，就是一个入口文件
+output：配置打包结果，path定义了输出的文件夹(即打包好的文件要放到哪里)，filename则定义了打包结果文件的名称，filename里面的[name]会由entry中的键（这里是index）替换。publicPath:如果要使用webpack-dev-server(webpack配置服务器，端口号是8080)就需要配置(标明我们要从哪个地方获取打包好的文件)
+externals：当我们想在项目中require一些其他的类库或者API，而又不想让这些类库的源码被构建到运行时文件中，这在实际开发中很有必要。此时我们就可以通过配置externals参数来解决这个问题。
+resolve：定义了解析模块路径时的配置，常用的就是extensions，可以用来指定模块的后缀，这样在引入模块时就不需要写后缀了，会自动补全。比如 Hello.jsx 这样的文件就可以直接用 require(./Hello) 引用。 resolve 配置，配置查找模块的路径和扩展名和别名（方便书写）。可以用 alias 指定从非npm引入的库，如
+</code></pre><p>jQuery:path.resolve(__dirname,’./bower_components/jquery/dist/jquery.js’) ，<br>这样在 import 时可以替换引用路径。</p>
+<ul>
+<li>module：定义了对模块的处理逻辑，这里可以用loaders定义了一系列的加载器，以及一些正则。当需要加载的文件匹配test的正则时，就会调用后面的loader对文件进行处理，这正是webpack强大的原因。比如这里定义了凡是.js结尾的文件都是用babel-loader做处理，而.jsx结尾的文件会先经过babel-loader处理，然后经过jsx-loader处理。当然这些loader也需要通过npm install安装，“-loader”其实是可以省略不写的，多个loader之间用“!”连接起来。</li>
+</ul>
+<p>Webpack还有很多其他的配置，具体可以参照它的配置文档<br>对应各种不同文件类型的资源, Webpack 有对应的模块 loader。比如 CoffeeScript 用的是 coffee-loader, 其他还有很多。请参考相关文档<br>在 Webpack 当中, 所有的资源都被当作是模块, js, css, 图片等等。因此, Webpack 当中 js 可以引用 css, css 中可以嵌入图片 dataUrl。</p>
+<p>Webpack的加载器支持参数，jsx-loader就可以添加?harmony参数使其支持ES6语法。为了让Webpack识别什么样的资源应该用什么加载器去载入，需要在配置文件进行配置：通过正则表达式对文件名进行匹配。</p>
+<p>加载器之间的级联是通过感叹号来连接，例如对于LESS资源，写法为style-loader!css-loader!less-loader。从右向左开始使用，less-&gt;转为css字符串-&gt;使用style将代码放到页面style标签中。<br>css-loader——将样式打包成字符串<br>style-load——将样式字符串添加到页面的style标签中<br>对于小型的图片资源，也可以将其进行统一打包，由url-loader实现，代码中url-loader?limit=8192含义就是对于所有小于8192字节的图片资源也进行打包。这在一定程度上可以替代Css Sprites方案，用于减少对于小图片资源的HTTP请求数量。<br>执行打包</p>
+<p>如果通过npm install -g webpack方式安装webpack的话，可以通过命令行直接执行打包命令，比如：<br>$ webpack –config webpack.config.js<br>这样就会读取当前目录下的webpack.config.js作为配置文件执行打包操作</p>
+<p>常用webpack命令：<br>在开发环境构建一次<br>webpack<br>构建并生成源代码映射文件<br>webpack -d<br>在生成环境构建，压缩、混淆代码，并移除无用代码<br>webpack -p<br>快速增量构建，可以和其他选项一起使用<br>webpack –watch<br>progress 显示打包过程中的进度，colors打包信息带有颜色显示<br>webpack –progress –colors<br>理解文件路径</p>
+<p>require(‘lodash’) // 从模块目录查找<br>require(‘./file’) // 按相对路径查找<br>CSS 及图片的引用</p>
+<p>require(‘./bootstrap.css’);<br>require(‘./myapp.less’);</p>
+<p>var img = document.createElement(‘img’);<br>img.src = require(‘./glyph.png’);</p>
+<p>一个模块需要用它的文件路径来加载，看一下下面的这个结构：</p>
+<p>–app<br>——modules<br>———–MyModule.js<br>——main.js (entry point，入口文件)<br>——utils.js</p>
+<p>打开 main.js 然后可以通过下面两种方式引入 app/modules/MyModule.js</p>
+<p>app/main.js</p>
+<p>// ES6<br>import MyModule from ‘./modules/MyModule.js’;</p>
+<p>// CommonJS<br>var MyModule = require(‘./modules/MyModule.js’);</p>
+<p>最开始的 ./ 是 “相对当前文件路径”<br>让我们打开 MyModule.js 然后引入 app/utils：</p>
+<p>app/modules/MyModule.js</p>
+<p>// ES6 相对路径<br>import utils from ‘./../utils.js’;</p>
+<p>// ES6 绝对路径<br>import utils from ‘/utils.js’;</p>
+<p>// CommonJS 相对路径<br>var utils = require(‘./../utils.js’);</p>
+<p>// CommonJS 绝对路径<br>var utils = require(‘/utils.js’);</p>
+<p>相对路径是相对当前目录。绝对路径是相对入口文件，这个案例中是 main.js。<br>CommonChunks插件</p>
+<p>Common Chunks 插件的作用：提取代码中的公共模块，然后将公共模块打包到一个独立的文件中去，以便在其它的入口和模块中使用。<br>我们在配置项中添加CommonChunksLoader的配置，使用它来提取公共模块。</p>
+<pre><code>var webpack = require(&apos;webpack&apos;);
+var config = {
+entry:{
+    main1:&apos;./main1&apos;,
+    main2:&apos;./main2&apos;
+},
+output:{
+    filename:&apos;bundle.[name].js&apos;
+},
+plugins: [
+    new  webpack.optimize.CommonsChunkPlugin(&apos;common.js&apos;, [&apos;main1&apos;, &apos;main2&apos;])
+]
+ };
+module.exports = config;
+</code></pre><p>在配置文件中添加了webpack的引用（同时也要在项目目录下安装webpack），然后添加了plugins选项，引用了webpack.optimize.CommonsChunkPlugin来提取公共模块，参数common.js表示公共模块的文件名，后面的数组元素与entry一一对应，表示要提取这些模块中的公共模块。<br>重新使用webpack打包后，看到生成的文件中多了一个common.js</p>
+<p>这个common.js正是公共部分a和b两个模块。而生成的bundle.main1.js中只包含了c模块，bundle.main2.js中则没有包含任何其它模块。</p>
+<p>最后要在HTML文件中引入公共部分common.js。</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+&lt;title&gt;CommonsChunkPlugin&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;common.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;bundle.main1.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>运行结果：<br>这里写图片描述<br>其他插件功能</p>
+<p>OccurenceOrderPlugin：给经常使用的模块分配最小长度的id，这样可以减少文件大小。</p>
+<p>HotModuleReplacementPlugin：是热替换，热替换和dev-server的hot有什么区别？不用刷新页面，可用于生产环境。</p>
+<p>NoErrorsPlugin：在打包时不会因为错误而中断</p>
+<p>ProvidePlugin: 定义一些在import时能自动引入的变量，如定义了 $: ‘jquery’ 后，可以在文件中直接使用$，webpack可以自动帮你加上 var $ = require(‘jquery’)。</p>
+<p>DllPlugin: 将一些模块预编译，类似windows里的dll，可以在项目中直接使用，无需再构建。注意要在output中指定 library ，并在DllPlugin中指定与其一致的 name ，在有多个入口时可以使用 [name] 和 [hash] 来区分，因为这个参数是要赋值到global上的，所以这里使用 [hash] 不容易出现变量名冲突的情况。</p>
+<p>DllReferencePlugin: 引用之前打包好的dll文件，注意下context参数，这个应该根据manifest.json文件中的引用情况来赋值，如果引用的都是npm安装的库，这里就填项目根目录就好了。</p>
+<p>DefinePlugin: 可以定义编译时的全局变量，有很多库（React, Vue等）会根据 NODE_ENV 这个变量来判断当前环境。为了尽可能减少包大小，在生产环境中要定义其为 JSON.stringify(“production”)</p>
+<p>optimize.UglifyJsPlugin: 配置压缩代码。</p>
+<p>optimize.DedupePlugin: 可以减少重复文件数。</p>
+<p>ExtractTextPlugin: 可以将所有css文件打包到一个css文件中。</p>
+<p>Webpack-dev-server</p>
+<p>Webpack有一个非常好用的功能叫做热替换（Hot-replace），尤其是结合React Hot Loader插件，开发过程中都不需要刷新浏览器，任何前端代码的更改都会实时的在浏览器中表现出来。<br>需要安装Webpack-dev-server,一个轻量的node.js express服务器。</p>
+<pre><code>npm install webpack-dev-server --save-dev
+</code></pre><p>webpack-dev-server有两种模式支持自动刷新——iframe模式和inline模式。<br>注意：<br>iframe模式下：页面是嵌套在一个iframe下的**，在代码发生改变的时候，这个iframe会重新加载；<br>使用iframe模式无需额外的配置，只需在浏览器输入<br>    <a href="http://localhost:8080/webpack-dev-server/index.html" target="_blank" rel="external">http://localhost:8080/webpack-dev-server/index.html</a><br>在inline模式下：一个小型的webpack-dev-server客户端会作为入口文件打包，这个客户端会在后端代码改变的时候刷新页面。<br>使用inline模式有两种方式：命令行方式和Node.js API。<br>命令行方式比较简单，只需加入–line选项即可。例如：</p>
+<pre><code>webpack-dev-server --inline
+</code></pre><p>使用–inline选项会自动把webpack-dev-server客户端加到webpack的入口文件配置中。<br>其他相关参数介绍：</p>
+<pre><code>webpack-dev-server --progress --colors --hot --inline -p -d;
+</code></pre><p>–progress 显示打包进度</p>
+<p>–colors配置打包输出颜色显示</p>
+<p>–hot热加载，代码修改完后自动刷新</p>
+<p>–inline 是刷新后的代码自动注入到打包后的文件中(当源文件改变时会自动刷新页面)</p>
+<p>-d 是debug模式，输入一个source-map，并且可以看到每一个打包的文件</p>
+<p>-p 是对代码进行压缩</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/06/04/XMLHTTPRequest2级/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          XMLHTTPRequest2级
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/05/08/js设计模式/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">js中的设计模式</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="webpack学习" data-title="webpack学习" data-url="http://yoursite.com/2016/05/18/webpack学习/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 chandayang
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

@@ -32,7 +32,7 @@
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
 			
-			<img lazy-src="null" class="js-avatar">
+			<img lazy-src="null" class="js-avatar" src='images/IMG_0832.JPG'>
 			
 		</a>
 
@@ -116,7 +116,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/javascript/" style="font-size: 10px;">javascript</a>
+						<a href="/tags/css布局/" style="font-size: 10px;">css布局</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/前端工具/" style="font-size: 10px;">前端工具</a>
 					</div>
 				</section>
 				
@@ -1590,6 +1590,641 @@ ajax(&quot;get&quot;,&quot;http://localhost/mywork/promise/post.json&quot;,null,
 
 
   
+    <article id="post-webpack学习" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/05/18/webpack学习/" class="article-date">
+  	<time datetime="2016-05-18T07:11:44.000Z" itemprop="datePublished">2016-05-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/18/webpack学习/">webpack学习</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Webpack 是什么</p>
+<p>webpack是一款模块加载器兼打包工具，它能把各种资源，例如JS（含JSX）、coffee、样式（含less/sass）、图片等都作为模块来使用和处理。<br>简单说就是模块加载器，通过使用Webpack，能够像Node.js一样处理依赖关系，然后解析出模块之间的依赖，将代码打包。<br>为什么需要打包？</p>
+<pre><code>像sass，JSX等代码虽然极大的提高了开发效率，但是本身并不被浏览器所识别，需要我们对其进行编译和打包，变成浏览器识别的代码
+模块化(让我们可以把复杂的代码细化为小的文件)
+优化加载速度(压缩和合并代码来提高加载速度，压缩可以减少文件体积，代码合并可以减少http请求)
+使用新的开发模式
+</code></pre><p>webpack主要特性如下：</p>
+<pre><code>同时支持CommonJS和AMD模块（对于新项目，推荐直接使用CommonJS）；
+串联式模块加载器以及插件机制，让其具有更好的灵活性和扩展性，例如提供对CoffeeScript、ES6的支持；
+可以基于配置或者智能分析打包成多个文件，实现公共模块或者按需加载；
+支持对CSS，图片等资源进行打包，从而无需借助Grunt或Gulp(browserify只能打包JS文件)；
+开发时在内存中完成打包，性能更快，完全可以支持开发过程的实时打包需求；
+对source map有很好的支持。
+</code></pre><p>Source map(使调试更容易)</p>
+<p>Source map就是一个信息文件，里面储存着位置信息。也就是说，转换后的代码的每一个位置，所对应的转换前的位置。有了它，出错的时候，除错工具将直接显示原始代码，而不是转换后的代码，这将给开发者带来了很大方便。</p>
+<p>安装 Webpack</p>
+<p>首先得安装Node.js</p>
+<pre><code>全局环境下安装，在任意目录，输入以下命令
+
+    //这是为了能够在全局环境中使用webpack命令
+    //非全局安装需使用node_modules/.bin/webpack
+    $ npm install webpack -g
+
+仅在项目在中安装，切换到项目根目录，输入以下命令
+
+    $ npm install webpack --save-dev
+
+检查是否安装成功，显示如下：
+
+    $ webpack -v
+</code></pre><p>安装成功示例<br>更快捷的执行打包任务</p>
+<pre><code>{
+ &quot;name&quot;: &quot;demo&quot;,
+ &quot;version&quot;: &quot;1.0.0&quot;,
+&quot;description&quot;: &quot;&quot;,
+&quot;scripts&quot;: {
+    &quot;start&quot;: &quot;webpack-dev-server --progress --colors --hot --inline -d&quot;,
+    &quot;build&quot;: &quot;webpack --progress --colors --minify&quot;
+},
+&quot;license&quot;: &quot;ISC&quot;,
+&quot;dependencies&quot;: {
+},
+&quot;devDependencies&quot;: {
+ }
+}
+</code></pre><p>执行类似于node_modules/.bin/webpack这样的命令不仅繁琐还容易出错，不过值得庆幸的是npm可以引导任务执行，对其进行配置后可以使用简单的npm start或者npm run build命令来代替这些繁琐的命令。在package.json中对npm的脚本部分进行相关设置即可，设置方法如上面的配置所示。</p>
+<p><strong>注意：</strong>npm的start是一个特殊的脚本名称，它的特殊性在于：在命令行中使用npm start就可以执行相关命令，如果对应的此脚本名称不是start，想要在命令行中运行时，需要这样用npm run {script name}如上面例子中的npm run build。</p>
+<p><strong>特别说明：</strong>package.json中的脚本部分已经默认在命令前添加了node_modules/.bin路径，所以无论是全局还是局部安装的Webpack，你都不需要写前面那指明详细的路径了。<br>配置</p>
+<p>每个项目下都必须配置有一个 webpack.config.js ，它的作用如同常规的 gulpfile.js/Gruntfile.js ，就是一个配置项，告诉 webpack 它需要做什么。<br>webpack.config.js配置详解<br>这里给出我自己的配置：</p>
+<pre><code>var webpack = require(&apos;webpack&apos;);
+var commonsPlugin = new webpack.optimize.CommonsChunkPlugin(&apos;common.js&apos;);
+module.exports = {
+ noParse:[/jquery/]，//表示跳过jquery,不对其进行编译,这样可以提高打包的速度
+ plugins:[
+ commonsPlugin，
+ //配置了NoErrorsPlugin插件，用来跳过编译时出错的代码并记录，使编译后运行时的包不会发生错误
+ new webpack.NoErrorsPlugin()
+ ],
+ entry: {
+     index:&apos;./src/js/startup.js&apos;
+ },
+//入口文件输出配置
+ output:{
+     //path: 打包好的资源存放的位置
+     path:&apos;./js&apos;,
+     //filename: 打包后的文件名
+     filename: &apos;[name].bundle.js&apos;
+ },
+ // externals: {     //排除构建文件外
+//        &apos;react&apos;: &apos;React&apos;
+//    },
+ module: {
+     //加载器配置
+     //module.loaders 是最关键的一块配置。它告知 webpack 每一种文件都需要使用什么加载器来处理
+    loaders:[
+     {
+       //用于匹配加载器支持的文件格式的正则表达式
+        test: /\.css$/,
+        //多个加载器通过&quot;!&quot;连接,加载器是从右向左开始使用的
+        //loader指定了要使用的加载器类型
+        loader: &apos;style-loader!css-loader&apos;
+    },
+     {
+     //配置信息的参数“?limit=8192”表示将所有小于8kb的图片都转为base64形式 （其实应该说超过8kb的才使用 url-loader 来映射到文件，否则转为data url形式）
+          test: /\.(png|jpg)$/,
+          //加载器支持通过查询字符串的方式接收参数
+           loader: &apos;url-loader?limit=8192&apos;
+     },
+     {
+     //presets:指定哪些代码转换器将启用babel
+         test: /\.js$/, 
+         loader: &apos;babel-loader&apos;,
+//exclude:/node_modules/,排除node_modules这个文件夹中的代码
+ //include:/(admin|consumer)//表示只针对这两个文件夹中的代码进行打包
+//include/exclude:手动添加必须处理的文件（文件夹）或屏蔽不需要处理的文件（文件夹）
+         exclude:/node_modules/,
+         query:{
+         presets:[&apos;es2015&apos;,&apos;react&apos;]
+         }
+     },
+     {
+         test: /\.jsx$/, 
+         //?表示加载器支持通过查询字符串的方式接收参数
+        //!表示多个加载器之间通过&quot;!&quot;连接
+         loader: &apos;babel-loader!jsx-loader?harmony&apos;
+     }
+     ]
+ },
+</code></pre><p>//文件解析配置</p>
+<p>//会依次寻找不带后缀的文件，.js后缀文件以及.jsx后缀文件。先找到哪个是哪个</p>
+<pre><code>resolve: { 
+extensions: [&apos;&apos;, &apos;.js&apos;, &apos;.jsx&apos;],//当requrie的模块找不到时，添加这些后缀
+root:&apos;E:/myev/src&apos;,//绝对路径
+alias: {//别名配置
+
+    }
+ }
+}
+</code></pre><p> }</p>
+<p>这里对Webpack的打包行为做了配置，主要分为几个部分：</p>
+<pre><code>plugins 是插件项(是一个数组)：这里我们使用了一个 CommonsChunkPlugin 的插件，它用于提取多个入口文件的公共脚本部分，然后生成一个 common.js 来方便多页面之间进行复用。对于用到的插件，只需要将插件new出来放到数组中即可。
+entry：指定打包的入口文件，每有一个键值对，就是一个入口文件
+output：配置打包结果，path定义了输出的文件夹(即打包好的文件要放到哪里)，filename则定义了打包结果文件的名称，filename里面的[name]会由entry中的键（这里是index）替换。publicPath:如果要使用webpack-dev-server(webpack配置服务器，端口号是8080)就需要配置(标明我们要从哪个地方获取打包好的文件)
+externals：当我们想在项目中require一些其他的类库或者API，而又不想让这些类库的源码被构建到运行时文件中，这在实际开发中很有必要。此时我们就可以通过配置externals参数来解决这个问题。
+resolve：定义了解析模块路径时的配置，常用的就是extensions，可以用来指定模块的后缀，这样在引入模块时就不需要写后缀了，会自动补全。比如 Hello.jsx 这样的文件就可以直接用 require(./Hello) 引用。 resolve 配置，配置查找模块的路径和扩展名和别名（方便书写）。可以用 alias 指定从非npm引入的库，如
+</code></pre><p>jQuery:path.resolve(__dirname,’./bower_components/jquery/dist/jquery.js’) ，<br>这样在 import 时可以替换引用路径。</p>
+<ul>
+<li>module：定义了对模块的处理逻辑，这里可以用loaders定义了一系列的加载器，以及一些正则。当需要加载的文件匹配test的正则时，就会调用后面的loader对文件进行处理，这正是webpack强大的原因。比如这里定义了凡是.js结尾的文件都是用babel-loader做处理，而.jsx结尾的文件会先经过babel-loader处理，然后经过jsx-loader处理。当然这些loader也需要通过npm install安装，“-loader”其实是可以省略不写的，多个loader之间用“!”连接起来。</li>
+</ul>
+<p>Webpack还有很多其他的配置，具体可以参照它的配置文档<br>对应各种不同文件类型的资源, Webpack 有对应的模块 loader。比如 CoffeeScript 用的是 coffee-loader, 其他还有很多。请参考相关文档<br>在 Webpack 当中, 所有的资源都被当作是模块, js, css, 图片等等。因此, Webpack 当中 js 可以引用 css, css 中可以嵌入图片 dataUrl。</p>
+<p>Webpack的加载器支持参数，jsx-loader就可以添加?harmony参数使其支持ES6语法。为了让Webpack识别什么样的资源应该用什么加载器去载入，需要在配置文件进行配置：通过正则表达式对文件名进行匹配。</p>
+<p>加载器之间的级联是通过感叹号来连接，例如对于LESS资源，写法为style-loader!css-loader!less-loader。从右向左开始使用，less-&gt;转为css字符串-&gt;使用style将代码放到页面style标签中。<br>css-loader——将样式打包成字符串<br>style-load——将样式字符串添加到页面的style标签中<br>对于小型的图片资源，也可以将其进行统一打包，由url-loader实现，代码中url-loader?limit=8192含义就是对于所有小于8192字节的图片资源也进行打包。这在一定程度上可以替代Css Sprites方案，用于减少对于小图片资源的HTTP请求数量。<br>执行打包</p>
+<p>如果通过npm install -g webpack方式安装webpack的话，可以通过命令行直接执行打包命令，比如：<br>$ webpack –config webpack.config.js<br>这样就会读取当前目录下的webpack.config.js作为配置文件执行打包操作</p>
+<p>常用webpack命令：<br>在开发环境构建一次<br>webpack<br>构建并生成源代码映射文件<br>webpack -d<br>在生成环境构建，压缩、混淆代码，并移除无用代码<br>webpack -p<br>快速增量构建，可以和其他选项一起使用<br>webpack –watch<br>progress 显示打包过程中的进度，colors打包信息带有颜色显示<br>webpack –progress –colors<br>理解文件路径</p>
+<p>require(‘lodash’) // 从模块目录查找<br>require(‘./file’) // 按相对路径查找<br>CSS 及图片的引用</p>
+<p>require(‘./bootstrap.css’);<br>require(‘./myapp.less’);</p>
+<p>var img = document.createElement(‘img’);<br>img.src = require(‘./glyph.png’);</p>
+<p>一个模块需要用它的文件路径来加载，看一下下面的这个结构：</p>
+<p>–app<br>——modules<br>———–MyModule.js<br>——main.js (entry point，入口文件)<br>——utils.js</p>
+<p>打开 main.js 然后可以通过下面两种方式引入 app/modules/MyModule.js</p>
+<p>app/main.js</p>
+<p>// ES6<br>import MyModule from ‘./modules/MyModule.js’;</p>
+<p>// CommonJS<br>var MyModule = require(‘./modules/MyModule.js’);</p>
+<p>最开始的 ./ 是 “相对当前文件路径”<br>让我们打开 MyModule.js 然后引入 app/utils：</p>
+<p>app/modules/MyModule.js</p>
+<p>// ES6 相对路径<br>import utils from ‘./../utils.js’;</p>
+<p>// ES6 绝对路径<br>import utils from ‘/utils.js’;</p>
+<p>// CommonJS 相对路径<br>var utils = require(‘./../utils.js’);</p>
+<p>// CommonJS 绝对路径<br>var utils = require(‘/utils.js’);</p>
+<p>相对路径是相对当前目录。绝对路径是相对入口文件，这个案例中是 main.js。<br>CommonChunks插件</p>
+<p>Common Chunks 插件的作用：提取代码中的公共模块，然后将公共模块打包到一个独立的文件中去，以便在其它的入口和模块中使用。<br>我们在配置项中添加CommonChunksLoader的配置，使用它来提取公共模块。</p>
+<pre><code>var webpack = require(&apos;webpack&apos;);
+var config = {
+entry:{
+    main1:&apos;./main1&apos;,
+    main2:&apos;./main2&apos;
+},
+output:{
+    filename:&apos;bundle.[name].js&apos;
+},
+plugins: [
+    new  webpack.optimize.CommonsChunkPlugin(&apos;common.js&apos;, [&apos;main1&apos;, &apos;main2&apos;])
+]
+ };
+module.exports = config;
+</code></pre><p>在配置文件中添加了webpack的引用（同时也要在项目目录下安装webpack），然后添加了plugins选项，引用了webpack.optimize.CommonsChunkPlugin来提取公共模块，参数common.js表示公共模块的文件名，后面的数组元素与entry一一对应，表示要提取这些模块中的公共模块。<br>重新使用webpack打包后，看到生成的文件中多了一个common.js</p>
+<p>这个common.js正是公共部分a和b两个模块。而生成的bundle.main1.js中只包含了c模块，bundle.main2.js中则没有包含任何其它模块。</p>
+<p>最后要在HTML文件中引入公共部分common.js。</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+&lt;title&gt;CommonsChunkPlugin&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;common.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;bundle.main1.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>运行结果：<br>这里写图片描述<br>其他插件功能</p>
+<p>OccurenceOrderPlugin：给经常使用的模块分配最小长度的id，这样可以减少文件大小。</p>
+<p>HotModuleReplacementPlugin：是热替换，热替换和dev-server的hot有什么区别？不用刷新页面，可用于生产环境。</p>
+<p>NoErrorsPlugin：在打包时不会因为错误而中断</p>
+<p>ProvidePlugin: 定义一些在import时能自动引入的变量，如定义了 $: ‘jquery’ 后，可以在文件中直接使用$，webpack可以自动帮你加上 var $ = require(‘jquery’)。</p>
+<p>DllPlugin: 将一些模块预编译，类似windows里的dll，可以在项目中直接使用，无需再构建。注意要在output中指定 library ，并在DllPlugin中指定与其一致的 name ，在有多个入口时可以使用 [name] 和 [hash] 来区分，因为这个参数是要赋值到global上的，所以这里使用 [hash] 不容易出现变量名冲突的情况。</p>
+<p>DllReferencePlugin: 引用之前打包好的dll文件，注意下context参数，这个应该根据manifest.json文件中的引用情况来赋值，如果引用的都是npm安装的库，这里就填项目根目录就好了。</p>
+<p>DefinePlugin: 可以定义编译时的全局变量，有很多库（React, Vue等）会根据 NODE_ENV 这个变量来判断当前环境。为了尽可能减少包大小，在生产环境中要定义其为 JSON.stringify(“production”)</p>
+<p>optimize.UglifyJsPlugin: 配置压缩代码。</p>
+<p>optimize.DedupePlugin: 可以减少重复文件数。</p>
+<p>ExtractTextPlugin: 可以将所有css文件打包到一个css文件中。</p>
+<p>Webpack-dev-server</p>
+<p>Webpack有一个非常好用的功能叫做热替换（Hot-replace），尤其是结合React Hot Loader插件，开发过程中都不需要刷新浏览器，任何前端代码的更改都会实时的在浏览器中表现出来。<br>需要安装Webpack-dev-server,一个轻量的node.js express服务器。</p>
+<pre><code>npm install webpack-dev-server --save-dev
+</code></pre><p>webpack-dev-server有两种模式支持自动刷新——iframe模式和inline模式。<br>注意：<br>iframe模式下：页面是嵌套在一个iframe下的**，在代码发生改变的时候，这个iframe会重新加载；<br>使用iframe模式无需额外的配置，只需在浏览器输入<br>    <a href="http://localhost:8080/webpack-dev-server/index.html" target="_blank" rel="external">http://localhost:8080/webpack-dev-server/index.html</a><br>在inline模式下：一个小型的webpack-dev-server客户端会作为入口文件打包，这个客户端会在后端代码改变的时候刷新页面。<br>使用inline模式有两种方式：命令行方式和Node.js API。<br>命令行方式比较简单，只需加入–line选项即可。例如：</p>
+<pre><code>webpack-dev-server --inline
+</code></pre><p>使用–inline选项会自动把webpack-dev-server客户端加到webpack的入口文件配置中。<br>其他相关参数介绍：</p>
+<pre><code>webpack-dev-server --progress --colors --hot --inline -p -d;
+</code></pre><p>–progress 显示打包进度</p>
+<p>–colors配置打包输出颜色显示</p>
+<p>–hot热加载，代码修改完后自动刷新</p>
+<p>–inline 是刷新后的代码自动注入到打包后的文件中(当源文件改变时会自动刷新页面)</p>
+<p>-d 是debug模式，输入一个source-map，并且可以看到每一个打包的文件</p>
+<p>-p 是对代码进行压缩</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端工具/">前端工具</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-js设计模式" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/05/08/js设计模式/" class="article-date">
+  	<time datetime="2016-05-08T13:53:43.000Z" itemprop="datePublished">2016-05-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/08/js设计模式/">js中的设计模式</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>之前在学习jQuery插件编写时用到了单例模式。于是乎想着把常用的设计模式做下总结，深化下自己的理解。</p>
+<h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><p>确保类只能被实例化一次。<br>在该实例不存在的情况下，可以通过一个方法创建一个类来实现创建类的新实例；如果实例已经存在，它直接返回该对象的引用。<br>在JavaScript里，实现单例的方式有很多种，其中最简单的一个方式是使用对象字面量的方法，其字面量里可以包含大量的属性和方法：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+var mySingleton = {
+name:&quot;lisi&quot;,
+age:23,
+sayName:function(){
+    console.log(&quot;Hello lisi&quot;);
+}
+};
+&lt;/script&gt;
+</code></pre><p>如果以后要扩展该对象，你可以添加自己的私有成员和方法，然后使用闭包在其内部封装这些变量和函数声明。只暴露你想暴露的public成员和方法，样例代码如下：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+var mySingleton = function(){
+//声明私有变量和方法
+var name = &quot;lisi&quot;;
+function showName(){
+    console.log(name);
+}
+//公有变量和方法(可以访问私有变量和方法)
+return {
+    publicMethod:function(){
+        showName();
+    },
+    publicVar:&quot;我是公有变量&quot;
+};
+};
+var single = mySingleton();
+single.publicMethod();//lisi
+console.log(single.publicVar);//我是公有变量
+&lt;/script&gt;
+&lt;   script type=&quot;text/javascript&quot;&gt;
+var mySingleton = (function(){
+var instance;//保存实例的引用
+function init(){
+    //私有变量和函数
+    var privateVar = &quot;lisi&quot;;
+    function privateMethod(){
+        console.log(privateVar);
+    }
+    return {
+        //公有变量和函数
+        publicMethod :function(){
+            privateMethod();
+        },
+        publicVar:&quot;我是公有变量&quot;
+    };
+}
+return {
+    getInstance:function(){
+        if(!instance){
+            //只有在用到的时候才进行初始化
+            instance = init();
+        }
+        //如果存在则直接返回，不存在则新初始化一个实例
+        return instance;
+    }
+};
+})();
+mySingleton.getInstance().publicMethod();//lisi
+console.log(mySingleton.getInstance().publicVar);//我是公有变量
+&lt;/script&gt;
+</code></pre><h2 id="模块模式"><a href="#模块模式" class="headerlink" title="模块模式"></a>模块模式</h2><p>该模式使用闭包封装私有状态和组织。它提供了一种包装混合公有/私有方法和变量的方式，防止其泄漏至全局作用域，并与别的开发人员的接口发生冲突。通过该模式，只需返回一个公有API，其他的一切则都维持在私有闭包里。<br>jQuery等类库封装就采用了模块模式。<br>Demo:</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+var myModule = (function(){
+    //私有变量
+    var myPrivateVar = 12;
+    //私有函数
+    var myPrivateMethod = function(foo){
+        console.log(foo);
+    };
+    return {
+        //公有变量
+        myPublicVar:&quot;foo&quot;,
+        //调用私有变量和方法的公有函数
+        myPublicMethod:function(bar){
+            //增加私有变量计数器值
+            myPrivateVar++;
+            myPrivateMethod(bar);
+        }
+    };
+})();
+console.log(myModule.myPublicVar);//foo
+myModule.myPublicMethod(&quot;hello world&quot;);//hello world
+&lt;/script&gt;
+</code></pre><h2 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h2><p>观察者模式又叫发布订阅模式（Publish/Subscribe），它定义了一种一对多的关系，让多个观察者对象同时监听某一个主题对象，这个主题对象的状态发生变化时就会通知所有的观察者对象，使得它们能够自动更新自己。<br>使用观察者模式的好处：</p>
+<p>   支持简单的广播通信，自动通知所有已经订阅过的对象。</p>
+<p>   页面载入后目标对象很容易与观察者存在一种动态关联，增加了灵活性。</p>
+<p>   发布者与订阅者耦合性降低，发布者只管发布一条消息出去，它不关心这条消息如何被订阅者使用，同时，订阅者只监听发布者的事件名，只要发布者的事件名不变，它不管发布者如何改变。</p>
+<p>   JS里对观察者模式的实现是通过回调来实现的</p>
+<pre><code>Demo：
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+function Observer() {
+    this.fns = [];//存放回调的数组
+}
+Observer.prototype = {
+    //增加一个订阅
+    subscribe: function (fn) {
+        this.fns.push(fn);
+    },
+    //删除一个订阅
+    unsubscribe: function (fn) {
+        //过滤退订的函数
+        this.fns = this.fns.filter(function (el) {
+                            if (el !== fn) {
+                                return el;
+                            }
+                        }
+                    );
+    },
+    //发布
+    public: function (args, thisObj) {
+        var scope = thisObj || window;
+        // console.log(scope);//window
+        this.fns.forEach(function (el) {
+                            el.call(scope, args);
+                        }
+                    );
+    }
+};
+//创建一个pubsub对象
+//该对象原型上有发布、订阅、退订三个方法
+var o = new Observer();
+var f1 = function (data) {
+    console.log(&apos;王五: &apos; + data + &apos;, 赶紧干活了！&apos;);
+};
+var f2 = function (data) {
+    console.log(&apos;李四: &apos; + data + &apos;, 找他加点工资去！&apos;);
+};
+//订阅
+o.subscribe(f1);
+o.subscribe(f2);
+//发布
+o.public(&quot;老板回来了！&quot;);
+//王五退订
+o.unsubscribe(f1);
+//再次发布，只会触发李四对应的回调
+o.public(&quot;老板回来了！&quot;);
+&lt;/script&gt;
+</code></pre><h2 id="构造函数模式"><a href="#构造函数模式" class="headerlink" title="构造函数模式"></a>构造函数模式</h2><p>对于构造函数大家都不陌生，构造函数用于创建特定类型的对象——不仅声明了使用的对象，构造函数还可以接受参数以便第一次创建对象的时候设置对象的成员值。我们可以自定义自己的构造函数，然后在里面声明自定义类型对象的属性或方法。</p>
+<pre><code>Demo:
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+function Person(name,age){
+    this.name = name;
+    this.age = age;
+    this.sayInfo = function(){
+        console.log(this.name + &quot;---&quot; + this.age);
+    }
+}
+var person1 = new Person(&quot;lisi&quot;,23);
+var person2 = new Person(&quot;wangwu&quot;,24);
+person1.sayInfo();//lisi---23
+person2.sayInfo();//wangwu---24
+//这样貌似看上去很完美，但是sayInfo()在每次创建对象的时候都重新定义了(下面代码返回false表明，两个实例的sayInfo不是同一个)，最好的方法是让所有Person类型的实例都共享这个sayInfo()方法，这样如果有大批量的实例的话，就会节约很多内存。
+console.log(person1.sayInfo == person2.sayInfo);//false
+&lt;/script&gt;
+</code></pre><h2 id="原型-构造函数"><a href="#原型-构造函数" class="headerlink" title="原型+构造函数"></a>原型+构造函数</h2><pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+function Person(name,age){
+    this.name = name;
+    this.age = age;
+}
+//这样一来，所有实例都共享sayInfo方法
+Person.prototype.sayInfo = function(){
+    console.log(this.name + &quot;---&quot; + this.age);
+}
+var person1 = new Person(&quot;lisi&quot;,23);
+var person2 = new Person(&quot;wangwu&quot;,24);
+person1.sayInfo();//lisi---23
+person2.sayInfo();//wangwu---24
+console.log(person1.sayInfo == person2.sayInfo);//true
+&lt;/script&gt;
+</code></pre><h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><p>工厂模式就好比现实生活中的工厂可以产生大量相似的产品，工厂模式适用于：做同样的事情，实现相同的效果。其解决了创建多个相似对象的问题。</p>
+<pre><code>Demo:
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+function createPerson(name,age,job){
+    var obj = new Object();
+    obj.name = name;
+    obj.age = age;
+    obj.job = job;
+    obj.sayInfo = function(){
+        console.log(this.name+&quot;--&quot;+this.age+&quot;--&quot;+this.job);
+    };
+    return obj;
+}
+var person1 = createPerson(&quot;lisi&quot;,23,&quot;student&quot;);
+var person2 = createPerson(&quot;wangwu&quot;,34,&quot;worker&quot;);
+person1.sayInfo();//lisi--23--student
+person2.sayInfo();//lisi--23--student
+//返回都是object 无法识别对象的类型 不知道他们是哪个对象的实列
+console.log(typeof person1);//object
+console.log(typeof person2);//object
+&lt;/script&gt;
+</code></pre><p>函数createPerson能接受三个参数name,age,job等参数，可以无数次调用这个函数，每次返回都会包含三个属性和一个方法的对象。<br>工厂模式是为了解决多个类似对象声明的问题;也就是为了解决实列化对象产生重复的问题(避免了产生大量的重复代码)。<br>优点：解决了创建多个相似对象的问题<br>缺点：没有解决对象识别的问题(即怎样确定一个对象的类型)</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-js执行环境与上下文" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/04/16/js执行环境与上下文/" class="article-date">
+  	<time datetime="2016-04-16T07:24:44.000Z" itemprop="datePublished">2016-04-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/04/16/js执行环境与上下文/">js执行环境与上下文</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>首先，我们要知道执行环境和作用域是两个完全不同的概念。</p>
+<p>函数的每次调用都有与之紧密相关的作用域和执行环境。从根本上来说，作用域是基于函数的，而执行环境是基于对象的(例如：全局执行环境即window对象)。<br>换句话说，作用域涉及到所被调用函数中的变量访问，并且不同的调用场景是不一样的。执行环境始终是this关键字的值，它是拥有当前所执行代码的对象的引用。每个执行环境都有一个与之关联的变量对象，环境中定义的所有变量和函数都保存在这个对象中。虽然我们编写的代码无法访问这个对象，但解析器在处理数据时会在后台使用它。<br>执行环境（也称执行上下文–execution context）</p>
+<p>当JavaScript解释器初始化执行代码时，它首先默认进入全局执行环境，从此刻开始，函数的每次调用都会创建一个新的执行环境。<br>每个函数都有自己的执行环境。当执行流进入一个函数时，函数的环境就会被推入一个环境栈中（execution stack）。在函数执行完后，栈将其环境弹出，把控制权返回给之前的执行环境。ECMAScript程序中的执行流正是由这个便利的机制控制着。<br>执行环境可以分为创建和执行两个阶段。在创建阶段，解析器首先会创建一个变量对象（variable object，也称为活动对象 activation object），它由定义在执行环境中的变量、函数声明、和参数组成。在这个阶段，作用域链会被初始化，this的值也会被最终确定。在执行阶段，代码被解释执行。<br>Demo：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+function Fn1(){
+    function Fn2(){
+        alert(document.body.tagName);//BODY
+        //other code...
+    }
+    Fn2();
+}
+Fn1();
+&lt;/script&gt;
+</code></pre><p>小结</p>
+<p>当javascript代码被浏览器载入后，默认最先进入的是一个全局执行环境。当在全局执行环境中调用执行一个函数时，程序流就进入该被调用函数内，此时JS引擎就会为该函数创建一个新的执行环境，并且将其压入到执行环境堆栈的顶部。浏览器总是执行当前在堆栈顶部的执行环境，一旦执行完毕，该执行环境就会从堆栈顶部被弹出，然后，进入其下的执行环境执行代码。这样，堆栈中的执行环境就会被依次执行并且弹出堆栈，直到回到全局执行环境。<br>此外还要注意一下几点：</p>
+<pre><code>单线程
+同步执行
+唯一的全局执行环境
+局部执行环境的个数没有限制
+每次某个函数被调用，就会有个新的局部执行环境为其创建，即使是多次调用的自身函数(即一个函数被调用多次，也会创建多个不同的局部执行环境)。
+</code></pre><p>作用域</p>
+<p>当代码在一个环境中执行时，会创建变量对象的一个作用域链（scope chain）。作用域链的用途是保证对执行环境有权访问的所有变量和函数的有序访问。<br>作用域链包含了执行环境栈中的每个执行环境对应的变量对象。通过作用域链，可以决定变量的访问和标识符的解析。<br>注意：全局执行环境的变量对象始终都是作用域链的最后一个对象。</p>
+<p>在访问变量时，就必须存在一个可见性的问题(内层环境可以访问外层中的变量和函数，而外层环境不能访问内层的变量和函数)。更深入的说，当访问一个变量或调用一个函数时，JavaScript引擎将不同执行环境中的变量对象按照规则构建一个链表，在访问一个变量时，先在链表的第一个变量对象上查找，如果没有找到则继续在第二个变量对象上查找，直到搜索到全局执行环境的变量对象即window对象。这也就形成了Scope Chain的概念。<br>这里写图片描述<br>特别说明：图片来自于笨蛋的座右铭博客<br>作用域链图，清楚的表达了执行环境与作用域的关系(一一对应的关系)，作用域与作用域之间的关系(链表结构，由上至下的关系)。</p>
+<p>Demo:</p>
+<pre><code>var color = &quot;blue&quot;;
+function changeColor(){
+var anotherColor = &quot;red&quot;;
+function swapColors(){
+var tempColor = anotherColor;
+anotherColor = color;
+color = tempColor;
+// 这里可以访问color, anotherColor, 和 tempColor
+}
+ // 这里可以访问color 和 anotherColor，但是不能访问 tempColor
+ swapColors();
+}
+changeColor();
+// 这里只能访问color
+console.log(&quot;Color is now &quot; + color);
+</code></pre><p>上述代码一共包括三个执行环境：全局执行环境、changeColor()的局部执行环境、swapColors()的局部执行环境。</p>
+<pre><code>全局环境有一个变量color和一个函数changecolor();
+changecolor()函数的局部环境中具有一个anothercolor属性和一个swapcolors函数，当然，changecolor函数中可以访问自身以及它外围（即全局环境）中的变量;
+swapcolor()函数的局部环境中具有一个变量tempcolor。在该函数内部可以访问上面的两个环境（changecolor和window）中的所有变量，因为那两个环境都是它的父执行环境。
+上述代码的作用域链如下图所示：
+
+从上图发现。内部环境可以通过作用域链访问所有的外部环境，但是外部环境不能访问内部环境中的任何变量和函数。
+标识符解析（变量名或函数名搜索）是沿着作用域链一级一级地搜索标识符的过程。搜索过程始终从作用域链的前端开始，然后逐级地向后（全局执行环境）回溯，直到找到标识符为止。
+</code></pre><p>执行环境与作用域的区别与联系</p>
+<p>执行环境为全局执行环境和局部执行环境，局部执行环境是函数执行过程中创建的。<br>作用域链是基于执行环境的变量对象的，由所有执行环境的变量对象(对于函数而言是活动对象，因为在函数执行环境中，变量对象是不能直接访问的，此时由活动对象(activation object,缩写为AO)扮演VO(变量对象)的角色。)共同组成。<br>当代码在一个环境中执行时，会创建变量对象的一个作用域链。作用域链的用途：是保证对执行环境有权访问的所有变量和函数的有序访问。作用域链的前端，始终都是当前执行的代码所在环境的变量对象。<br>小练习</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+(function(){
+a= 5;
+console.log(window.a);//undefined
+var a = 1;//这里会发生变量声明提升
+console.log(a);//1
+})();
+&lt;/script&gt;
+</code></pre><p>window.a之所以是undefined，是因为var a = 1;发生了变量声明提升。相当于如下代码：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+(function(){
+var a;//a是局部变量
+a = 5;//这里局部环境中有a，就不会找全局中的
+console.log(window.a);//undefined
+a = 1;//这里会发生变量声明提升
+console.log(a);//1
+})();
+&lt;/script&gt;
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-js继承学习" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -2556,6 +3191,10 @@ console.log(Parent.friends);//[&quot;wangwu&quot;, &quot;zhaoliu&quot;]
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+	</div>
+
       
 
       
@@ -2668,86 +3307,10 @@ console.log(Parent.friends);//[&quot;wangwu&quot;, &quot;zhaoliu&quot;]
     <div class="article-info article-info-index">
       
       
-      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css布局/">css布局</a></li></ul>
+	</div>
 
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-js中的this" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/03/08/js中的this/" class="article-date">
-  	<time datetime="2016-03-08T13:53:43.000Z" itemprop="datePublished">2016-03-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/08/js中的this/">js中的this</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>javascript中的this指向总是让人头昏脑涨，经过几天的梳理，我对this的认识有了一个较为深入一点的认识，虽然可能还不够全面。我认为确定this指向最关键的一定要认识到：this的指向在函数定义的时候是确定不了的，只有函数执行的时候才能确定this到底指向谁，实际上this的最终指向的是那个调用它的对象。我们从几个栗子来理解：<br>eg1：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">       <span class="keyword">var</span> user = <span class="string">"chanda"</span>;</span><br><span class="line">       <span class="built_in">console</span>.log(<span class="keyword">this</span>.user); <span class="comment">//undefined</span></span><br><span class="line">       <span class="built_in">console</span>.log(<span class="keyword">this</span>); <span class="comment">//Window</span></span><br><span class="line">   &#125;</span><br><span class="line">   a();</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      <span class="keyword">var</span> user = <span class="string">"chanda"</span>;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="keyword">this</span>.user); <span class="comment">//undefined</span></span><br><span class="line">      <span class="built_in">console</span>.log(<span class="keyword">this</span>); <span class="comment">//Window</span></span><br><span class="line">  &#125;</span><br><span class="line">  a();</span><br></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">       <span class="keyword">var</span> user = <span class="string">"chanda"</span>;</span><br><span class="line">       <span class="built_in">console</span>.log(<span class="keyword">this</span>.user); <span class="comment">//undefined</span></span><br><span class="line">       <span class="built_in">console</span>.log(<span class="keyword">this</span>); <span class="comment">//Window</span></span><br><span class="line">   &#125;</span><br><span class="line">   a();</span><br></pre></td></tr></table></figure>
-<p>按照我们上面说的this最终指向的是调用它的对象，这里的函数a实际是被Window对象调用的，<br>证明如下;<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> user = <span class="string">"chanda"</span>;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.user); <span class="comment">//undefined</span></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>);　　<span class="comment">//Window</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">window</span>.a();</span><br></pre></td></tr></table></figure></p>
-<p>再举个栗子<br>eg2:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = &#123;</span><br><span class="line">        user:<span class="string">"chanda"</span>,</span><br><span class="line">        fn:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.user);  <span class="comment">//chanda</span></span><br><span class="line">        &#125;</span><br><span class="line">            &#125;</span><br><span class="line">    o.fn();</span><br></pre></td></tr></table></figure></p>
-<p> 这里的this指向的是对象o，因为你调用这个fn是通过o.fn()执行的，那自然指向就是对象o，这个结论与开头一样：this的指向在函数创建的时候是决定不了的，在调用的时候才能决定，谁调用的就指向谁。<br> 再看栗子3<br>   eg3:  </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = &#123;</span><br><span class="line">        user:<span class="string">"chanda"</span>,</span><br><span class="line">        fn:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.user); <span class="comment">//chanda</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">window</span>.o.fn();</span><br></pre></td></tr></table></figure>
-<p>这段代码和上面的那段代码几乎是一样的，但是这里的this为什么不是指向window，如果按照上面的理论，最终this指向的是调用它的对象，这里先说个而外话，window是js中的全局对象，我们创建的变量实际上是给window添加属性，所以这里可以用window点o对象。这里先不解释为什么上面的那段代码this为什么没有指向window，我们再来看一段代码。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = &#123;</span><br><span class="line">        a:<span class="number">10</span>,</span><br><span class="line">        b:&#123;</span><br><span class="line">            a:<span class="number">12</span>,</span><br><span class="line">            fn:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="keyword">this</span>.a); <span class="comment">//12</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    o.b.fn();</span><br></pre></td></tr></table></figure>
-<p>这里同样也是对象o点出来的，但是同样this并没有执行它，那你肯定会说我一开始说的那些不就都是错误的吗？其实也不是，只是一开始说的不准确，接下来我将补充一句话，我相信你就可以彻底的理解this的指向的问题。</p>
-<ul>
-<li>情况1：如果一个函数中有this，但是它没有被上一级的对象所调用，那么this指向的就是window，这里需要说明的是在js的严格版中this指向的不是window，但是我们这里不探讨严格版的问题，你想了解可以自行上网查找。</li>
-<li>情况2：如果一个函数中有this，这个函数有被上一级的对象所调用，那么this指向的就是上一级的对象。<br>情况3：如果一个函数中有this，这个函数中包含多个对象，尽管这个函数是被最外层的对象所调用，this指向的也只是它上一级的对象，例子3可以证明</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = &#123;</span><br><span class="line">       a:<span class="number">10</span>,</span><br><span class="line">       b:&#123;</span><br><span class="line">          <span class="comment">// a:12,</span></span><br><span class="line">           fn:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">               <span class="built_in">console</span>.log(<span class="keyword">this</span>.a); <span class="comment">//undefined</span></span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   o.b.fn();</span><br></pre></td></tr></table></figure>
-<p>尽管对象b中没有属性a，这个this指向的也是对象b，因为this只会指向它的上一级对象，不管这个对象中有没有this要的东西。<br>   还有一种比较特殊的情况，栗子4：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = &#123;</span><br><span class="line">       a:<span class="number">10</span>,</span><br><span class="line">       b:&#123;</span><br><span class="line">           a:<span class="number">12</span>,</span><br><span class="line">           fn:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">               <span class="built_in">console</span>.log(<span class="keyword">this</span>.a); <span class="comment">//undefined</span></span><br><span class="line">               <span class="built_in">console</span>.log(<span class="keyword">this</span>); <span class="comment">//window</span></span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">var</span> j = o.b.fn;</span><br><span class="line">   j();</span><br></pre></td></tr></table></figure></p>
-<p>   这里this指向的是window，是不是有些蒙了？其实是因为你没有理解一句话，这句话同样至关重要。this永远指向的是最后调用它的对象，也就是看它执行的时候是谁调用的，例子4中虽然函数fn是被对象b所引用，但是在将fn赋值给变量j的时候并没有执行所以最终指向的是window，这和例子3是不一样的，例子3是直接执行了fn。<br><code>构造函数版this</code>：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.user = <span class="string">"chanda"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="keyword">new</span> Fn();</span><br><span class="line">    <span class="built_in">console</span>.log(a.user); <span class="comment">//chanda</span></span><br></pre></td></tr></table></figure>
-<p> 这里之所以对象a可以点出函数Fn里面的user是因为new关键字可以改变this的指向，将这个this指向对象a，为什么我说a是对象，因为用了new关键字就是创建一个对象实例，理解这句话可以想想我们的例子3，我们这里用变量a创建了一个Fn的实例（相当于复制了一份Fn到对象a里面），此时仅仅只是创建，并没有执行，而调用这个函数Fn的是对象a，那么this指向的自然是对象a，那么为什么对象Fn中会有user，因为你已经复制了一份Fn函数到对象a中，用了new关键字就等同于复制了一份。<br><code>当this碰到return时</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)  </span><br><span class="line">    </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.user = <span class="string">'chanda'</span>;  </span><br><span class="line">        <span class="keyword">return</span> &#123;&#125;;  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="keyword">new</span> fn;  </span><br><span class="line">    <span class="built_in">console</span>.log(a.user); <span class="comment">//undefined</span></span><br></pre></td></tr></table></figure></p>
-<p>  再举个栗子   </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)  </span><br><span class="line">    </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.user = <span class="string">'chanda'</span>;  </span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="keyword">new</span> fn;  </span><br><span class="line">    <span class="built_in">console</span>.log(a.user); <span class="comment">//undefined</span></span><br><span class="line">    </span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)  </span><br><span class="line">    </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.user = <span class="string">'chanda'</span>;  </span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="keyword">new</span> fn;  </span><br><span class="line">    <span class="built_in">console</span>.log(a.user); <span class="comment">//chanda</span></span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)  </span><br><span class="line">    </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.user = <span class="string">'chanda'</span>;  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">undefined</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="keyword">new</span> fn;  </span><br><span class="line">    <span class="built_in">console</span>.log(a.user); <span class="comment">//chanda</span></span><br></pre></td></tr></table></figure>
-<p>什么意思呢？如果返回值是一个对象，那么this指向的就是那个返回的对象，如果返回值不是一个对象那么this还是指向函数的实例。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span><br><span class="line">       </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.user = <span class="string">'chanda'</span>;  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">undefined</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="keyword">new</span> fn;  </span><br><span class="line">    <span class="built_in">console</span>.log(a); <span class="comment">//fn &#123;user: "chanda"&#125;</span></span><br></pre></td></tr></table></figure>
-<p>还有一点就是虽然null也是对象，但是在这里this还是指向那个函数的实例，因为null比较特殊。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)   </span>&#123;  </span><br><span class="line">       <span class="keyword">this</span>.user = <span class="string">'chanda'</span>;  </span><br><span class="line">       <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">var</span> a = <span class="keyword">new</span> fn;  </span><br><span class="line">   <span class="built_in">console</span>.log(a.user); <span class="comment">//chanda</span></span><br></pre></td></tr></table></figure>
-<p>  知识点：1.在严格版中的默认的this不再是window，而是undefined。<br> 2.new操作符会改变函数this的指向问题</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">       <span class="keyword">this</span>.num = <span class="number">1</span>;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">var</span> a = <span class="keyword">new</span> fn();</span><br><span class="line">   <span class="built_in">console</span>.log(a.num); <span class="comment">//1</span></span><br></pre></td></tr></table></figure>
-<p>为什么this会指向a？首先new关键字会创建一个空的对象，然后会自动调用一个函数apply方法，将this指向这个空对象，这样的话函数内部的this就会被这个空的对象替代。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
       
 
       
@@ -2767,130 +3330,10 @@ console.log(Parent.friends);//[&quot;wangwu&quot;, &quot;zhaoliu&quot;]
 
 
   
-    <article id="post-作用域" class="article article-type-post" itemscope itemprop="blogPost">
   
-    <div class="article-meta">
-      <a href="/2016/03/07/作用域/" class="article-date">
-  	<time datetime="2016-03-07T08:33:50.000Z" itemprop="datePublished">2016-03-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/07/作用域/">作用域</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p> javascript的函数与其他语言不同，其作用域也有自己的特征，为了更好的理解js语言的特征，对其作用域做一个整理。</p>
-<h3 id="1-全局作用域"><a href="#1-全局作用域" class="headerlink" title="1.全局作用域"></a>1.全局作用域</h3><p> 所有浏览器都支持 window 对象，它表示浏览器窗口，JavaScript 全局对象、函数以及变量均自动成为 window 对象的成员。所以，全局变量是 window 对象的属性，全局函数是 window 对象的方法，甚至 HTML DOM 的 document 也是 window 对象的属性之一。<br>  全局变量是JavaScript里生命周期（一个变量多长时间内保持一定的值）最长的变量，其将跨越整个程序，可以被程序中的任何函数方法访问。<br>   在全局下声明的变量都会在window对象下，都在全局作用域中，我们可以通过window对象访问，也可以直接访问。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">"jeri"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.name); <span class="comment">// 输出:jeri</span></span><br><span class="line"><span class="built_in">console</span>.log(name); <span class="comment">// 输出:jeri</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fun</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">name = <span class="string">"jeri"</span>;</span><br><span class="line">alert(name);</span><br><span class="line">&#125;            </span><br><span class="line"><span class="built_in">console</span>.log(name); <span class="comment">// 输出:jeri</span></span><br></pre></td></tr></table></figure></p>
-<p>全局变量存在于整个函数的生命周期中，然而其在全局范围内很容易被篡改，我们在使 用全局变量时一定要小心，尽量不要使用全局变量。在函数内部声明变量没有使用var也会产生全局变量，会为我们造成一些混乱，比如变量覆盖等。所以，我们 在声明变量的任何时候最好都要带上var。<br>全局变量存在于程序的整个生命周期，但并不是通过其引用我们一定可以访问到全局变量。</p>
-<h3 id="2-词法作用域"><a href="#2-词法作用域" class="headerlink" title="2.词法作用域"></a>2.词法作用域</h3><p>词法作用域：函数在定义它们的作用域里运行，而不是在执行它们的作用域里运行。也就是说词法作用域取决于源码，通过静态分析就能确定，因此词法作用域也叫做静态作用域。with和eval除外，所以只能说JS的作用域机制非常接近词法作用域（Lexicalscope）。词法作用域也可以理解为一个变量的可见性，及其文本表述的模拟值。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">"global"</span>; </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fun</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> name = <span class="string">"jeri"</span>;</span><br><span class="line">  <span class="keyword">return</span> name;</span><br><span class="line">   &#125;</span><br><span class="line"><span class="built_in">console</span>.log(fun()); <span class="comment">// 输出:jeri</span></span><br><span class="line"><span class="built_in">console</span>.log(name); <span class="comment">// 输出:global</span></span><br></pre></td></tr></table></figure>
-<p> 在通常情况下，变量的查询从最近接的绑定上下文开始，向外部逐渐扩展，直到查询到第一个绑定，一旦完成查找就结束搜索。就像上例，先查找离它最近的name=”jeri”，查询完成后就结束了，将第一个获取的值作为变量的值。</p>
-<h3 id="3-动态作用域"><a href="#3-动态作用域" class="headerlink" title="3.动态作用域"></a>3.动态作用域</h3><p>在编程实践中，最容易低估和过度滥用的概念就是动态作用域，因为很少有语言支持这种方式为绑定解析方案。<br>动态作用域与词法作用域相对而言的，不同于词法作用域在定义时确定，动态作用域在执行时确定，其生存周期到代码片段执行为止。动态变量存在于动态作用域中，任何给定的绑定的值，在确定调用其函数之前，都是不可知的。<br>在代码执行时，对应的作用域链常常是保持静态的。然而当遇到with语句、 call方法、apply方法和try-catch中的catch时，会改变作用域链的。以with为例，在遇到with语句时，会将传入的对象属性作为 局部变量来显示，使其便于访问，也就是说把一个新的对象添加到了作用域链的顶端，这样必然影响对局部标志符的解析。当with语句执行完毕后，会把作用域链恢复到原始状态。<br>实例如下<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">"global"</span>;</span><br><span class="line"> <span class="comment">// 使用with之前</span></span><br><span class="line"><span class="built_in">console</span>.log(name); <span class="comment">// 输出:global </span></span><br><span class="line"><span class="keyword">with</span>(&#123;name:<span class="string">"jeri"</span>&#125;)&#123;</span><br><span class="line"><span class="built_in">console</span>.log(name); <span class="comment">// 输出:jeri</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 使用with之后，作用域链恢复</span></span><br><span class="line"><span class="built_in">console</span>.log(name); <span class="comment">// 输出:global</span></span><br></pre></td></tr></table></figure></p>
-<p>  在作用域链中有动态作用域时，this引用也会变得更加复杂，不再指向第一次创建时的上下文，而是由调用者确定。比如在使用apply或call方法时，传入它们的第一个参数就是被引用的对象。实例如下：<br> <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">globalThis</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span>);</span><br><span class="line">&#125;             </span><br><span class="line">globalThis(); <span class="comment">// 输出:Window &#123;document: document,external: Object…&#125;</span></span><br><span class="line">globalThis.call(&#123;name:<span class="string">"jeri"</span>&#125;); <span class="comment">// 输出:Object &#123;name: "jeri"&#125;</span></span><br><span class="line">globalThis.apply(&#123;name:<span class="string">"jeri"</span>&#125;,[]); <span class="comment">// 输出:Object &#123;name: "jeri"&#125;</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="4-函数作用域"><a href="#4-函数作用域" class="headerlink" title="4.函数作用域"></a>4.函数作用域</h3><p>函数作用域，顾名思义就是在定义函数时候产生的作用域，这个作用域也可以称为局部作用域。和全局作用域相反，函数作用域一般只在函数的代码片段内可访问到，外部不能进行变量访问。在函数内部定义的变量存在于函数作用域中，其生命周期随着函数的执行结束而结束。实例如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">"global"</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fun</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="keyword">var</span> name = <span class="string">"jeri"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(name); <span class="comment">// 输出:jeri</span></span><br><span class="line"><span class="keyword">with</span> (&#123;name:<span class="string">"with"</span>&#125;) &#123;</span><br><span class="line"><span class="built_in">console</span>.log(name); <span class="comment">// 输出:with</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(name); <span class="comment">// 输出:jeri</span></span><br><span class="line">&#125;</span><br><span class="line">fun();</span><br><span class="line"><span class="comment">// 不能访问函数作用域</span></span><br><span class="line"><span class="built_in">console</span>.log(name); <span class="comment">// 输出:global</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="5-没有块级作用域"><a href="#5-没有块级作用域" class="headerlink" title="5.没有块级作用域"></a>5.没有块级作用域</h3><p>不同于其他编程语言，在JavaScript里并没有块级作用域，也就是说在for、if、while等语句内部的声明的变量与在外部声明是一样的，在这些语句外部也可以访问和修改这些变量的值。实例如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fun</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="keyword">if</span>(<span class="number">0</span> &lt; <span class="number">2</span>) &#123;</span><br><span class="line"><span class="keyword">var</span> name = <span class="string">"jeri"</span>;</span><br><span class="line">&#125;    </span><br><span class="line"><span class="built_in">console</span>.log(name); <span class="comment">// 输出:jeri</span></span><br><span class="line">name = <span class="string">"change"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(name); <span class="comment">// 输出:change</span></span><br><span class="line">&#125;</span><br><span class="line">fun();</span><br></pre></td></tr></table></figure></p>
-<h3 id="6-作用域链"><a href="#6-作用域链" class="headerlink" title="6.作用域链"></a>6.作用域链</h3><p>JavaScript里一切皆为对象，包括函数。函数对象和其它对象一样，拥有可以通过代码访问的属性和一系列仅供JavaScript引擎访问的内部属性。其中一个内部属性是作用域，包含了函数被创建的作用域中对象的集合，称为函数的作用域链，它用来保证对执行环境有权访问的变量和函数的有序访问。<br> 当一个函数创建后，它的作用域链会被创建此函数的作用域中可访问的数据对象填充。在全局作用域中创建的函数，其作用域链会自动成为全局作用域中的一员。而当函数执行时，其活动对象就会成为作用域链中的第一个对象（活 动对象：对象包含了函数的所有局部变量、命名参数、参数集合以及this）。在程序执行时，Javascript引擎会通过搜索上下文的作用域链来解析诸 如变量和函数名这样的标识符。其会从作用域链的最里面开始检索，按照由内到外的顺序，直到完成查找，一旦完成查找就结束搜索。如果没有查询到标识符声明，则报错。当函数执行结束，运行期上下文被销毁，活动对象也随之销毁。实例如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'global'</span>;  </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fun</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(name); <span class="comment">// output:global</span></span><br><span class="line">name = <span class="string">"change"</span>;</span><br><span class="line"><span class="comment">// 函数内部可以修改全局变量</span></span><br><span class="line"><span class="built_in">console</span>.log(name); <span class="comment">// output:change</span></span><br><span class="line"><span class="comment">// 先查询活动对象</span></span><br><span class="line"><span class="keyword">var</span> age = <span class="string">"18"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(age); <span class="comment">// output:18</span></span><br><span class="line">&#125;</span><br><span class="line">fun();</span><br><span class="line"><span class="comment">// 函数执行完毕，执行环境销毁</span></span><br><span class="line"><span class="built_in">console</span>.log(age); <span class="comment">// output:Uncaught ReferenceError: age is not defined</span></span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/02/27/hello-world/" class="article-date">
-  	<time datetime="2016-02-27T05:20:35.023Z" itemprop="datePublished">2016-02-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/27/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 </div>
       <footer id="footer">
